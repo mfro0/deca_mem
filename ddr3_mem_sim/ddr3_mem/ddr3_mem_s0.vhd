@@ -27,22 +27,22 @@ entity ddr3_mem_s0 is
 		phy_read_latency_counter    : out std_logic_vector(4 downto 0);                     --                 .phy_read_latency_counter
 		phy_afi_wlat                : out std_logic_vector(5 downto 0);                     --                 .phy_afi_wlat
 		phy_afi_rlat                : out std_logic_vector(5 downto 0);                     --                 .phy_afi_rlat
-		phy_read_increment_vfifo_fr : out std_logic_vector(0 downto 0);                     --                 .phy_read_increment_vfifo_fr
-		phy_read_increment_vfifo_hr : out std_logic_vector(0 downto 0);                     --                 .phy_read_increment_vfifo_hr
-		phy_read_increment_vfifo_qr : out std_logic_vector(0 downto 0);                     --                 .phy_read_increment_vfifo_qr
+		phy_read_increment_vfifo_fr : out std_logic_vector(1 downto 0);                     --                 .phy_read_increment_vfifo_fr
+		phy_read_increment_vfifo_hr : out std_logic_vector(1 downto 0);                     --                 .phy_read_increment_vfifo_hr
+		phy_read_increment_vfifo_qr : out std_logic_vector(1 downto 0);                     --                 .phy_read_increment_vfifo_qr
 		phy_reset_mem_stable        : out std_logic;                                        --                 .phy_reset_mem_stable
 		phy_cal_success             : out std_logic;                                        --                 .phy_cal_success
 		phy_cal_fail                : out std_logic;                                        --                 .phy_cal_fail
 		phy_cal_debug_info          : out std_logic_vector(31 downto 0);                    --                 .phy_cal_debug_info
-		phy_read_fifo_reset         : out std_logic_vector(0 downto 0);                     --                 .phy_read_fifo_reset
-		phy_vfifo_rd_en_override    : out std_logic_vector(0 downto 0);                     --                 .phy_vfifo_rd_en_override
-		phy_read_fifo_q             : in  std_logic_vector(31 downto 0) := (others => '0'); --                 .phy_read_fifo_q
-		phy_write_fr_cycle_shifts   : out std_logic_vector(1 downto 0);                     --                 .phy_write_fr_cycle_shifts
+		phy_read_fifo_reset         : out std_logic_vector(1 downto 0);                     --                 .phy_read_fifo_reset
+		phy_vfifo_rd_en_override    : out std_logic_vector(1 downto 0);                     --                 .phy_vfifo_rd_en_override
+		phy_read_fifo_q             : in  std_logic_vector(63 downto 0) := (others => '0'); --                 .phy_read_fifo_q
+		phy_write_fr_cycle_shifts   : out std_logic_vector(3 downto 0);                     --                 .phy_write_fr_cycle_shifts
 		phy_mux_sel                 : out std_logic;                                        --          mux_sel.mux_sel
 		calib_skip_steps            : in  std_logic_vector(7 downto 0)  := (others => '0'); --            calib.calib_skip_steps
 		afi_clk                     : in  std_logic                     := '0';             --          afi_clk.clk
 		afi_reset_n                 : in  std_logic                     := '0';             --        afi_reset.reset_n
-		afi_addr                    : out std_logic_vector(25 downto 0);                    --              afi.afi_addr
+		afi_addr                    : out std_logic_vector(29 downto 0);                    --              afi.afi_addr
 		afi_ba                      : out std_logic_vector(5 downto 0);                     --                 .afi_ba
 		afi_cs_n                    : out std_logic_vector(1 downto 0);                     --                 .afi_cs_n
 		afi_cke                     : out std_logic_vector(1 downto 0);                     --                 .afi_cke
@@ -50,14 +50,14 @@ entity ddr3_mem_s0 is
 		afi_ras_n                   : out std_logic_vector(1 downto 0);                     --                 .afi_ras_n
 		afi_cas_n                   : out std_logic_vector(1 downto 0);                     --                 .afi_cas_n
 		afi_we_n                    : out std_logic_vector(1 downto 0);                     --                 .afi_we_n
-		afi_dqs_burst               : out std_logic_vector(1 downto 0);                     --                 .afi_dqs_burst
+		afi_dqs_burst               : out std_logic_vector(3 downto 0);                     --                 .afi_dqs_burst
 		afi_rst_n                   : out std_logic_vector(1 downto 0);                     --                 .afi_rst_n
-		afi_wdata                   : out std_logic_vector(31 downto 0);                    --                 .afi_wdata
-		afi_wdata_valid             : out std_logic_vector(1 downto 0);                     --                 .afi_wdata_valid
-		afi_dm                      : out std_logic_vector(3 downto 0);                     --                 .afi_dm
+		afi_wdata                   : out std_logic_vector(63 downto 0);                    --                 .afi_wdata
+		afi_wdata_valid             : out std_logic_vector(3 downto 0);                     --                 .afi_wdata_valid
+		afi_dm                      : out std_logic_vector(7 downto 0);                     --                 .afi_dm
 		afi_rdata_en                : out std_logic_vector(1 downto 0);                     --                 .afi_rdata_en
 		afi_rdata_en_full           : out std_logic_vector(1 downto 0);                     --                 .afi_rdata_en_full
-		afi_rdata                   : in  std_logic_vector(31 downto 0) := (others => '0'); --                 .afi_rdata
+		afi_rdata                   : in  std_logic_vector(63 downto 0) := (others => '0'); --                 .afi_rdata
 		afi_rdata_valid             : in  std_logic_vector(1 downto 0)  := (others => '0'); --                 .afi_rdata_valid
 		afi_init_req                : in  std_logic                     := '0';             -- afi_init_cal_req.afi_init_req
 		afi_cal_req                 : in  std_logic                     := '0'              --                 .afi_cal_req
@@ -165,17 +165,17 @@ architecture rtl of ddr3_mem_s0 is
 			phy_read_latency_counter    : out std_logic_vector(4 downto 0);                     -- phy_read_latency_counter
 			phy_afi_wlat                : out std_logic_vector(5 downto 0);                     -- phy_afi_wlat
 			phy_afi_rlat                : out std_logic_vector(5 downto 0);                     -- phy_afi_rlat
-			phy_read_increment_vfifo_fr : out std_logic_vector(0 downto 0);                     -- phy_read_increment_vfifo_fr
-			phy_read_increment_vfifo_hr : out std_logic_vector(0 downto 0);                     -- phy_read_increment_vfifo_hr
-			phy_read_increment_vfifo_qr : out std_logic_vector(0 downto 0);                     -- phy_read_increment_vfifo_qr
+			phy_read_increment_vfifo_fr : out std_logic_vector(1 downto 0);                     -- phy_read_increment_vfifo_fr
+			phy_read_increment_vfifo_hr : out std_logic_vector(1 downto 0);                     -- phy_read_increment_vfifo_hr
+			phy_read_increment_vfifo_qr : out std_logic_vector(1 downto 0);                     -- phy_read_increment_vfifo_qr
 			phy_reset_mem_stable        : out std_logic;                                        -- phy_reset_mem_stable
 			phy_cal_success             : out std_logic;                                        -- phy_cal_success
 			phy_cal_fail                : out std_logic;                                        -- phy_cal_fail
 			phy_cal_debug_info          : out std_logic_vector(31 downto 0);                    -- phy_cal_debug_info
-			phy_read_fifo_reset         : out std_logic_vector(0 downto 0);                     -- phy_read_fifo_reset
-			phy_vfifo_rd_en_override    : out std_logic_vector(0 downto 0);                     -- phy_vfifo_rd_en_override
-			phy_read_fifo_q             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- phy_read_fifo_q
-			phy_write_fr_cycle_shifts   : out std_logic_vector(1 downto 0);                     -- phy_write_fr_cycle_shifts
+			phy_read_fifo_reset         : out std_logic_vector(1 downto 0);                     -- phy_read_fifo_reset
+			phy_vfifo_rd_en_override    : out std_logic_vector(1 downto 0);                     -- phy_vfifo_rd_en_override
+			phy_read_fifo_q             : in  std_logic_vector(63 downto 0) := (others => 'X'); -- phy_read_fifo_q
+			phy_write_fr_cycle_shifts   : out std_logic_vector(3 downto 0);                     -- phy_write_fr_cycle_shifts
 			calib_skip_steps            : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- calib_skip_steps
 			phy_mux_sel                 : out std_logic                                         -- mux_sel
 		);
@@ -225,7 +225,7 @@ architecture rtl of ddr3_mem_s0 is
 			avl_waitrequest   : out std_logic;                                        -- waitrequest
 			afi_clk           : in  std_logic                     := 'X';             -- clk
 			afi_reset_n       : in  std_logic                     := 'X';             -- reset_n
-			afi_addr          : out std_logic_vector(25 downto 0);                    -- afi_addr
+			afi_addr          : out std_logic_vector(29 downto 0);                    -- afi_addr
 			afi_ba            : out std_logic_vector(5 downto 0);                     -- afi_ba
 			afi_cs_n          : out std_logic_vector(1 downto 0);                     -- afi_cs_n
 			afi_cke           : out std_logic_vector(1 downto 0);                     -- afi_cke
@@ -233,21 +233,21 @@ architecture rtl of ddr3_mem_s0 is
 			afi_ras_n         : out std_logic_vector(1 downto 0);                     -- afi_ras_n
 			afi_cas_n         : out std_logic_vector(1 downto 0);                     -- afi_cas_n
 			afi_we_n          : out std_logic_vector(1 downto 0);                     -- afi_we_n
-			afi_dqs_burst     : out std_logic_vector(1 downto 0);                     -- afi_dqs_burst
+			afi_dqs_burst     : out std_logic_vector(3 downto 0);                     -- afi_dqs_burst
 			afi_rst_n         : out std_logic_vector(1 downto 0);                     -- afi_rst_n
-			afi_wdata         : out std_logic_vector(31 downto 0);                    -- afi_wdata
-			afi_wdata_valid   : out std_logic_vector(1 downto 0);                     -- afi_wdata_valid
-			afi_dm            : out std_logic_vector(3 downto 0);                     -- afi_dm
+			afi_wdata         : out std_logic_vector(63 downto 0);                    -- afi_wdata
+			afi_wdata_valid   : out std_logic_vector(3 downto 0);                     -- afi_wdata_valid
+			afi_dm            : out std_logic_vector(7 downto 0);                     -- afi_dm
 			afi_rdata_en      : out std_logic_vector(1 downto 0);                     -- afi_rdata_en
 			afi_rdata_en_full : out std_logic_vector(1 downto 0);                     -- afi_rdata_en_full
-			afi_rdata         : in  std_logic_vector(31 downto 0) := (others => 'X'); -- afi_rdata
+			afi_rdata         : in  std_logic_vector(63 downto 0) := (others => 'X'); -- afi_rdata
 			afi_rdata_valid   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rdata_valid
 			csr_clk           : in  std_logic                     := 'X';             -- csr_clk
 			csr_ena           : in  std_logic                     := 'X';             -- csr_ena
 			csr_dout_phy      : in  std_logic                     := 'X';             -- csr_dout_phy
 			csr_dout          : out std_logic;                                        -- csr_dout
-			afi_rrank         : out std_logic_vector(1 downto 0);                     -- afi_rrank
-			afi_wrank         : out std_logic_vector(1 downto 0)                      -- afi_wrank
+			afi_rrank         : out std_logic_vector(3 downto 0);                     -- afi_rrank
+			afi_wrank         : out std_logic_vector(3 downto 0)                      -- afi_wrank
 		);
 	end component rw_manager_ddr3;
 
@@ -333,7 +333,7 @@ begin
 			PHY_MGR_BASE         => 294912,
 			RW_MGR_BASE          => 327680,
 			PLL_MGR_BASE         => 360448,
-			MEM_DQ_WIDTH         => 8
+			MEM_DQ_WIDTH         => 16
 		)
 		port map (
 			clk         => avl_clk,                                 --            clk.clk
@@ -378,9 +378,9 @@ begin
 			AVL_DATA_WIDTH                    => 32,
 			AVL_ADDR_WIDTH                    => 13,
 			MAX_LATENCY_COUNT_WIDTH           => 5,
-			MEM_IF_READ_DQS_WIDTH             => 1,
-			MEM_IF_WRITE_DQS_WIDTH            => 1,
-			AFI_DQ_WIDTH                      => 32,
+			MEM_IF_READ_DQS_WIDTH             => 2,
+			MEM_IF_WRITE_DQS_WIDTH            => 2,
+			AFI_DQ_WIDTH                      => 64,
 			AFI_DEBUG_INFO_WIDTH              => 32,
 			AFI_MAX_WRITE_LATENCY_COUNT_WIDTH => 6,
 			AFI_MAX_READ_LATENCY_COUNT_WIDTH  => 6,
@@ -429,17 +429,17 @@ begin
 			RATE                                 => "Half",
 			AVL_DATA_WIDTH                       => 32,
 			AVL_ADDR_WIDTH                       => 13,
-			MEM_ADDRESS_WIDTH                    => 13,
+			MEM_ADDRESS_WIDTH                    => 15,
 			MEM_CONTROL_WIDTH                    => 1,
-			MEM_DQ_WIDTH                         => 8,
-			MEM_DM_WIDTH                         => 1,
+			MEM_DQ_WIDTH                         => 16,
+			MEM_DM_WIDTH                         => 2,
 			MEM_NUMBER_OF_RANKS                  => 1,
 			MEM_CLK_EN_WIDTH                     => 1,
 			MEM_BANK_WIDTH                       => 3,
 			MEM_ODT_WIDTH                        => 1,
 			MEM_CHIP_SELECT_WIDTH                => 1,
-			MEM_READ_DQS_WIDTH                   => 1,
-			MEM_WRITE_DQS_WIDTH                  => 1,
+			MEM_READ_DQS_WIDTH                   => 2,
+			MEM_WRITE_DQS_WIDTH                  => 2,
 			AFI_RATIO                            => 2,
 			AC_BUS_WIDTH                         => 27,
 			HCX_COMPAT_MODE                      => false,

@@ -18,28 +18,28 @@ entity ddr3_mem_0002 is
 		afi_half_clk       : out   std_logic;                                        --     afi_half_clk.clk
 		afi_reset_n        : out   std_logic;                                        --        afi_reset.reset_n
 		afi_reset_export_n : out   std_logic;                                        -- afi_reset_export.reset_n
-		mem_a              : out   std_logic_vector(12 downto 0);                    --           memory.mem_a
+		mem_a              : out   std_logic_vector(14 downto 0);                    --           memory.mem_a
 		mem_ba             : out   std_logic_vector(2 downto 0);                     --                 .mem_ba
 		mem_ck             : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_ck
 		mem_ck_n           : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_ck_n
 		mem_cke            : out   std_logic_vector(0 downto 0);                     --                 .mem_cke
 		mem_cs_n           : out   std_logic_vector(0 downto 0);                     --                 .mem_cs_n
-		mem_dm             : out   std_logic_vector(0 downto 0);                     --                 .mem_dm
+		mem_dm             : out   std_logic_vector(1 downto 0);                     --                 .mem_dm
 		mem_ras_n          : out   std_logic_vector(0 downto 0);                     --                 .mem_ras_n
 		mem_cas_n          : out   std_logic_vector(0 downto 0);                     --                 .mem_cas_n
 		mem_we_n           : out   std_logic_vector(0 downto 0);                     --                 .mem_we_n
 		mem_reset_n        : out   std_logic;                                        --                 .mem_reset_n
-		mem_dq             : inout std_logic_vector(7 downto 0)  := (others => '0'); --                 .mem_dq
-		mem_dqs            : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_dqs
-		mem_dqs_n          : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_dqs_n
+		mem_dq             : inout std_logic_vector(15 downto 0) := (others => '0'); --                 .mem_dq
+		mem_dqs            : inout std_logic_vector(1 downto 0)  := (others => '0'); --                 .mem_dqs
+		mem_dqs_n          : inout std_logic_vector(1 downto 0)  := (others => '0'); --                 .mem_dqs_n
 		mem_odt            : out   std_logic_vector(0 downto 0);                     --                 .mem_odt
 		avl_ready          : out   std_logic;                                        --              avl.waitrequest_n
 		avl_burstbegin     : in    std_logic                     := '0';             --                 .beginbursttransfer
-		avl_addr           : in    std_logic_vector(20 downto 0) := (others => '0'); --                 .address
+		avl_addr           : in    std_logic_vector(25 downto 0) := (others => '0'); --                 .address
 		avl_rdata_valid    : out   std_logic;                                        --                 .readdatavalid
-		avl_rdata          : out   std_logic_vector(31 downto 0);                    --                 .readdata
-		avl_wdata          : in    std_logic_vector(31 downto 0) := (others => '0'); --                 .writedata
-		avl_be             : in    std_logic_vector(3 downto 0)  := (others => '0'); --                 .byteenable
+		avl_rdata          : out   std_logic_vector(63 downto 0);                    --                 .readdata
+		avl_wdata          : in    std_logic_vector(63 downto 0) := (others => '0'); --                 .writedata
+		avl_be             : in    std_logic_vector(7 downto 0)  := (others => '0'); --                 .byteenable
 		avl_read_req       : in    std_logic                     := '0';             --                 .read
 		avl_write_req      : in    std_logic                     := '0';             --                 .write
 		avl_size           : in    std_logic_vector(2 downto 0)  := (others => '0'); --                 .burstcount
@@ -84,7 +84,7 @@ architecture rtl of ddr3_mem_0002 is
 			afi_half_clk                : in    std_logic                     := 'X';             -- clk
 			avl_clk                     : out   std_logic;                                        -- clk
 			avl_reset_n                 : out   std_logic;                                        -- reset_n
-			afi_addr                    : in    std_logic_vector(25 downto 0) := (others => 'X'); -- afi_addr
+			afi_addr                    : in    std_logic_vector(29 downto 0) := (others => 'X'); -- afi_addr
 			afi_ba                      : in    std_logic_vector(5 downto 0)  := (others => 'X'); -- afi_ba
 			afi_ras_n                   : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_ras_n
 			afi_we_n                    : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_we_n
@@ -92,11 +92,11 @@ architecture rtl of ddr3_mem_0002 is
 			afi_odt                     : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_odt
 			afi_cke                     : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_cke
 			afi_cs_n                    : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_cs_n
-			afi_dqs_burst               : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_dqs_burst
-			afi_wdata_valid             : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_wdata_valid
-			afi_wdata                   : in    std_logic_vector(31 downto 0) := (others => 'X'); -- afi_wdata
-			afi_dm                      : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_dm
-			afi_rdata                   : out   std_logic_vector(31 downto 0);                    -- afi_rdata
+			afi_dqs_burst               : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_dqs_burst
+			afi_wdata_valid             : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_wdata_valid
+			afi_wdata                   : in    std_logic_vector(63 downto 0) := (others => 'X'); -- afi_wdata
+			afi_dm                      : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- afi_dm
+			afi_rdata                   : out   std_logic_vector(63 downto 0);                    -- afi_rdata
 			afi_rst_n                   : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rst_n
 			afi_rdata_en                : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rdata_en
 			afi_rdata_en_full           : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rdata_en_full
@@ -110,17 +110,17 @@ architecture rtl of ddr3_mem_0002 is
 			phy_read_latency_counter    : in    std_logic_vector(4 downto 0)  := (others => 'X'); -- phy_read_latency_counter
 			phy_afi_wlat                : in    std_logic_vector(5 downto 0)  := (others => 'X'); -- phy_afi_wlat
 			phy_afi_rlat                : in    std_logic_vector(5 downto 0)  := (others => 'X'); -- phy_afi_rlat
-			phy_read_increment_vfifo_fr : in    std_logic_vector(0 downto 0)  := (others => 'X'); -- phy_read_increment_vfifo_fr
-			phy_read_increment_vfifo_hr : in    std_logic_vector(0 downto 0)  := (others => 'X'); -- phy_read_increment_vfifo_hr
-			phy_read_increment_vfifo_qr : in    std_logic_vector(0 downto 0)  := (others => 'X'); -- phy_read_increment_vfifo_qr
+			phy_read_increment_vfifo_fr : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- phy_read_increment_vfifo_fr
+			phy_read_increment_vfifo_hr : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- phy_read_increment_vfifo_hr
+			phy_read_increment_vfifo_qr : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- phy_read_increment_vfifo_qr
 			phy_reset_mem_stable        : in    std_logic                     := 'X';             -- phy_reset_mem_stable
 			phy_cal_success             : in    std_logic                     := 'X';             -- phy_cal_success
 			phy_cal_fail                : in    std_logic                     := 'X';             -- phy_cal_fail
 			phy_cal_debug_info          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- phy_cal_debug_info
-			phy_read_fifo_reset         : in    std_logic_vector(0 downto 0)  := (others => 'X'); -- phy_read_fifo_reset
-			phy_vfifo_rd_en_override    : in    std_logic_vector(0 downto 0)  := (others => 'X'); -- phy_vfifo_rd_en_override
-			phy_read_fifo_q             : out   std_logic_vector(31 downto 0);                    -- phy_read_fifo_q
-			phy_write_fr_cycle_shifts   : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- phy_write_fr_cycle_shifts
+			phy_read_fifo_reset         : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- phy_read_fifo_reset
+			phy_vfifo_rd_en_override    : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- phy_vfifo_rd_en_override
+			phy_read_fifo_q             : out   std_logic_vector(63 downto 0);                    -- phy_read_fifo_q
+			phy_write_fr_cycle_shifts   : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- phy_write_fr_cycle_shifts
 			calib_skip_steps            : out   std_logic_vector(7 downto 0);                     -- calib_skip_steps
 			pd_reset_n                  : in    std_logic                     := 'X';             -- pd_reset_n
 			pd_ack                      : in    std_logic                     := 'X';             -- pd_ack
@@ -132,20 +132,20 @@ architecture rtl of ddr3_mem_0002 is
 			pll_locked                  : in    std_logic                     := 'X';             -- pll_locked
 			pll_capture0_clk            : in    std_logic                     := 'X';             -- pll_capture0_clk
 			pll_capture1_clk            : in    std_logic                     := 'X';             -- pll_capture1_clk
-			mem_a                       : out   std_logic_vector(12 downto 0);                    -- mem_a
+			mem_a                       : out   std_logic_vector(14 downto 0);                    -- mem_a
 			mem_ba                      : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			mem_ck                      : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_ck
 			mem_ck_n                    : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_ck_n
 			mem_cke                     : out   std_logic_vector(0 downto 0);                     -- mem_cke
 			mem_cs_n                    : out   std_logic_vector(0 downto 0);                     -- mem_cs_n
-			mem_dm                      : out   std_logic_vector(0 downto 0);                     -- mem_dm
+			mem_dm                      : out   std_logic_vector(1 downto 0);                     -- mem_dm
 			mem_ras_n                   : out   std_logic_vector(0 downto 0);                     -- mem_ras_n
 			mem_cas_n                   : out   std_logic_vector(0 downto 0);                     -- mem_cas_n
 			mem_we_n                    : out   std_logic_vector(0 downto 0);                     -- mem_we_n
 			mem_reset_n                 : out   std_logic;                                        -- mem_reset_n
-			mem_dq                      : inout std_logic_vector(7 downto 0)  := (others => 'X'); -- mem_dq
-			mem_dqs                     : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_dqs
-			mem_dqs_n                   : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_dqs_n
+			mem_dq                      : inout std_logic_vector(15 downto 0) := (others => 'X'); -- mem_dq
+			mem_dqs                     : inout std_logic_vector(1 downto 0)  := (others => 'X'); -- mem_dqs
+			mem_dqs_n                   : inout std_logic_vector(1 downto 0)  := (others => 'X'); -- mem_dqs_n
 			mem_odt                     : out   std_logic_vector(0 downto 0);                     -- mem_odt
 			csr_soft_reset_req          : in    std_logic                     := 'X'              -- reset
 		);
@@ -171,7 +171,7 @@ architecture rtl of ddr3_mem_0002 is
 		);
 		port (
 			clk                   : in  std_logic                     := 'X';             -- clk
-			afi_addr              : in  std_logic_vector(25 downto 0) := (others => 'X'); -- afi_addr
+			afi_addr              : in  std_logic_vector(29 downto 0) := (others => 'X'); -- afi_addr
 			afi_ba                : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- afi_ba
 			afi_ras_n             : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_ras_n
 			afi_we_n              : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_we_n
@@ -179,11 +179,11 @@ architecture rtl of ddr3_mem_0002 is
 			afi_odt               : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_odt
 			afi_cke               : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_cke
 			afi_cs_n              : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_cs_n
-			afi_dqs_burst         : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_dqs_burst
-			afi_wdata_valid       : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_wdata_valid
-			afi_wdata             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- afi_wdata
-			afi_dm                : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_dm
-			afi_rdata             : out std_logic_vector(31 downto 0);                    -- afi_rdata
+			afi_dqs_burst         : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_dqs_burst
+			afi_wdata_valid       : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_wdata_valid
+			afi_wdata             : in  std_logic_vector(63 downto 0) := (others => 'X'); -- afi_wdata
+			afi_dm                : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- afi_dm
+			afi_rdata             : out std_logic_vector(63 downto 0);                    -- afi_rdata
 			afi_rst_n             : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rst_n
 			afi_rdata_en          : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rdata_en
 			afi_rdata_en_full     : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rdata_en_full
@@ -192,7 +192,7 @@ architecture rtl of ddr3_mem_0002 is
 			afi_cal_fail          : out std_logic;                                        -- afi_cal_fail
 			afi_wlat              : out std_logic_vector(5 downto 0);                     -- afi_wlat
 			afi_rlat              : out std_logic_vector(5 downto 0);                     -- afi_rlat
-			phy_mux_addr          : out std_logic_vector(25 downto 0);                    -- afi_addr
+			phy_mux_addr          : out std_logic_vector(29 downto 0);                    -- afi_addr
 			phy_mux_ba            : out std_logic_vector(5 downto 0);                     -- afi_ba
 			phy_mux_ras_n         : out std_logic_vector(1 downto 0);                     -- afi_ras_n
 			phy_mux_we_n          : out std_logic_vector(1 downto 0);                     -- afi_we_n
@@ -200,11 +200,11 @@ architecture rtl of ddr3_mem_0002 is
 			phy_mux_odt           : out std_logic_vector(1 downto 0);                     -- afi_odt
 			phy_mux_cke           : out std_logic_vector(1 downto 0);                     -- afi_cke
 			phy_mux_cs_n          : out std_logic_vector(1 downto 0);                     -- afi_cs_n
-			phy_mux_dqs_burst     : out std_logic_vector(1 downto 0);                     -- afi_dqs_burst
-			phy_mux_wdata_valid   : out std_logic_vector(1 downto 0);                     -- afi_wdata_valid
-			phy_mux_wdata         : out std_logic_vector(31 downto 0);                    -- afi_wdata
-			phy_mux_dm            : out std_logic_vector(3 downto 0);                     -- afi_dm
-			phy_mux_rdata         : in  std_logic_vector(31 downto 0) := (others => 'X'); -- afi_rdata
+			phy_mux_dqs_burst     : out std_logic_vector(3 downto 0);                     -- afi_dqs_burst
+			phy_mux_wdata_valid   : out std_logic_vector(3 downto 0);                     -- afi_wdata_valid
+			phy_mux_wdata         : out std_logic_vector(63 downto 0);                    -- afi_wdata
+			phy_mux_dm            : out std_logic_vector(7 downto 0);                     -- afi_dm
+			phy_mux_rdata         : in  std_logic_vector(63 downto 0) := (others => 'X'); -- afi_rdata
 			phy_mux_rst_n         : out std_logic_vector(1 downto 0);                     -- afi_rst_n
 			phy_mux_rdata_en      : out std_logic_vector(1 downto 0);                     -- afi_rdata_en
 			phy_mux_rdata_en_full : out std_logic_vector(1 downto 0);                     -- afi_rdata_en_full
@@ -213,7 +213,7 @@ architecture rtl of ddr3_mem_0002 is
 			phy_mux_cal_fail      : in  std_logic                     := 'X';             -- afi_cal_fail
 			phy_mux_wlat          : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- afi_wlat
 			phy_mux_rlat          : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- afi_rlat
-			seq_mux_addr          : in  std_logic_vector(25 downto 0) := (others => 'X'); -- afi_addr
+			seq_mux_addr          : in  std_logic_vector(29 downto 0) := (others => 'X'); -- afi_addr
 			seq_mux_ba            : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- afi_ba
 			seq_mux_ras_n         : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_ras_n
 			seq_mux_we_n          : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_we_n
@@ -221,11 +221,11 @@ architecture rtl of ddr3_mem_0002 is
 			seq_mux_odt           : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_odt
 			seq_mux_cke           : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_cke
 			seq_mux_cs_n          : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_cs_n
-			seq_mux_dqs_burst     : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_dqs_burst
-			seq_mux_wdata_valid   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_wdata_valid
-			seq_mux_wdata         : in  std_logic_vector(31 downto 0) := (others => 'X'); -- afi_wdata
-			seq_mux_dm            : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_dm
-			seq_mux_rdata         : out std_logic_vector(31 downto 0);                    -- afi_rdata
+			seq_mux_dqs_burst     : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_dqs_burst
+			seq_mux_wdata_valid   : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- afi_wdata_valid
+			seq_mux_wdata         : in  std_logic_vector(63 downto 0) := (others => 'X'); -- afi_wdata
+			seq_mux_dm            : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- afi_dm
+			seq_mux_rdata         : out std_logic_vector(63 downto 0);                    -- afi_rdata
 			seq_mux_rst_n         : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rst_n
 			seq_mux_rdata_en      : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rdata_en
 			seq_mux_rdata_en_full : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- afi_rdata_en_full
@@ -254,22 +254,22 @@ architecture rtl of ddr3_mem_0002 is
 			phy_read_latency_counter    : out std_logic_vector(4 downto 0);                     -- phy_read_latency_counter
 			phy_afi_wlat                : out std_logic_vector(5 downto 0);                     -- phy_afi_wlat
 			phy_afi_rlat                : out std_logic_vector(5 downto 0);                     -- phy_afi_rlat
-			phy_read_increment_vfifo_fr : out std_logic_vector(0 downto 0);                     -- phy_read_increment_vfifo_fr
-			phy_read_increment_vfifo_hr : out std_logic_vector(0 downto 0);                     -- phy_read_increment_vfifo_hr
-			phy_read_increment_vfifo_qr : out std_logic_vector(0 downto 0);                     -- phy_read_increment_vfifo_qr
+			phy_read_increment_vfifo_fr : out std_logic_vector(1 downto 0);                     -- phy_read_increment_vfifo_fr
+			phy_read_increment_vfifo_hr : out std_logic_vector(1 downto 0);                     -- phy_read_increment_vfifo_hr
+			phy_read_increment_vfifo_qr : out std_logic_vector(1 downto 0);                     -- phy_read_increment_vfifo_qr
 			phy_reset_mem_stable        : out std_logic;                                        -- phy_reset_mem_stable
 			phy_cal_success             : out std_logic;                                        -- phy_cal_success
 			phy_cal_fail                : out std_logic;                                        -- phy_cal_fail
 			phy_cal_debug_info          : out std_logic_vector(31 downto 0);                    -- phy_cal_debug_info
-			phy_read_fifo_reset         : out std_logic_vector(0 downto 0);                     -- phy_read_fifo_reset
-			phy_vfifo_rd_en_override    : out std_logic_vector(0 downto 0);                     -- phy_vfifo_rd_en_override
-			phy_read_fifo_q             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- phy_read_fifo_q
-			phy_write_fr_cycle_shifts   : out std_logic_vector(1 downto 0);                     -- phy_write_fr_cycle_shifts
+			phy_read_fifo_reset         : out std_logic_vector(1 downto 0);                     -- phy_read_fifo_reset
+			phy_vfifo_rd_en_override    : out std_logic_vector(1 downto 0);                     -- phy_vfifo_rd_en_override
+			phy_read_fifo_q             : in  std_logic_vector(63 downto 0) := (others => 'X'); -- phy_read_fifo_q
+			phy_write_fr_cycle_shifts   : out std_logic_vector(3 downto 0);                     -- phy_write_fr_cycle_shifts
 			calib_skip_steps            : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- calib_skip_steps
 			phy_mux_sel                 : out std_logic;                                        -- mux_sel
 			afi_clk                     : in  std_logic                     := 'X';             -- clk
 			afi_reset_n                 : in  std_logic                     := 'X';             -- reset_n
-			afi_addr                    : out std_logic_vector(25 downto 0);                    -- afi_addr
+			afi_addr                    : out std_logic_vector(29 downto 0);                    -- afi_addr
 			afi_ba                      : out std_logic_vector(5 downto 0);                     -- afi_ba
 			afi_ras_n                   : out std_logic_vector(1 downto 0);                     -- afi_ras_n
 			afi_we_n                    : out std_logic_vector(1 downto 0);                     -- afi_we_n
@@ -277,11 +277,11 @@ architecture rtl of ddr3_mem_0002 is
 			afi_odt                     : out std_logic_vector(1 downto 0);                     -- afi_odt
 			afi_cke                     : out std_logic_vector(1 downto 0);                     -- afi_cke
 			afi_cs_n                    : out std_logic_vector(1 downto 0);                     -- afi_cs_n
-			afi_dqs_burst               : out std_logic_vector(1 downto 0);                     -- afi_dqs_burst
-			afi_wdata_valid             : out std_logic_vector(1 downto 0);                     -- afi_wdata_valid
-			afi_wdata                   : out std_logic_vector(31 downto 0);                    -- afi_wdata
-			afi_dm                      : out std_logic_vector(3 downto 0);                     -- afi_dm
-			afi_rdata                   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- afi_rdata
+			afi_dqs_burst               : out std_logic_vector(3 downto 0);                     -- afi_dqs_burst
+			afi_wdata_valid             : out std_logic_vector(3 downto 0);                     -- afi_wdata_valid
+			afi_wdata                   : out std_logic_vector(63 downto 0);                    -- afi_wdata
+			afi_dm                      : out std_logic_vector(7 downto 0);                     -- afi_dm
+			afi_rdata                   : in  std_logic_vector(63 downto 0) := (others => 'X'); -- afi_rdata
 			afi_rst_n                   : out std_logic_vector(1 downto 0);                     -- afi_rst_n
 			afi_rdata_en                : out std_logic_vector(1 downto 0);                     -- afi_rdata_en
 			afi_rdata_en_full           : out std_logic_vector(1 downto 0);                     -- afi_rdata_en_full
@@ -297,7 +297,7 @@ architecture rtl of ddr3_mem_0002 is
 			local_init_done     : out std_logic;                                        -- local_init_done
 			local_cal_success   : out std_logic;                                        -- local_cal_success
 			local_cal_fail      : out std_logic;                                        -- local_cal_fail
-			afi_addr            : out std_logic_vector(25 downto 0);                    -- afi_addr
+			afi_addr            : out std_logic_vector(29 downto 0);                    -- afi_addr
 			afi_ba              : out std_logic_vector(5 downto 0);                     -- afi_ba
 			afi_ras_n           : out std_logic_vector(1 downto 0);                     -- afi_ras_n
 			afi_we_n            : out std_logic_vector(1 downto 0);                     -- afi_we_n
@@ -305,11 +305,11 @@ architecture rtl of ddr3_mem_0002 is
 			afi_odt             : out std_logic_vector(1 downto 0);                     -- afi_odt
 			afi_cke             : out std_logic_vector(1 downto 0);                     -- afi_cke
 			afi_cs_n            : out std_logic_vector(1 downto 0);                     -- afi_cs_n
-			afi_dqs_burst       : out std_logic_vector(1 downto 0);                     -- afi_dqs_burst
-			afi_wdata_valid     : out std_logic_vector(1 downto 0);                     -- afi_wdata_valid
-			afi_wdata           : out std_logic_vector(31 downto 0);                    -- afi_wdata
-			afi_dm              : out std_logic_vector(3 downto 0);                     -- afi_dm
-			afi_rdata           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- afi_rdata
+			afi_dqs_burst       : out std_logic_vector(3 downto 0);                     -- afi_dqs_burst
+			afi_wdata_valid     : out std_logic_vector(3 downto 0);                     -- afi_wdata_valid
+			afi_wdata           : out std_logic_vector(63 downto 0);                    -- afi_wdata
+			afi_dm              : out std_logic_vector(7 downto 0);                     -- afi_dm
+			afi_rdata           : in  std_logic_vector(63 downto 0) := (others => 'X'); -- afi_rdata
 			afi_rst_n           : out std_logic_vector(1 downto 0);                     -- afi_rst_n
 			afi_mem_clk_disable : out std_logic_vector(0 downto 0);                     -- afi_mem_clk_disable
 			afi_init_req        : out std_logic;                                        -- afi_init_req
@@ -323,11 +323,11 @@ architecture rtl of ddr3_mem_0002 is
 			afi_rlat            : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- afi_rlat
 			avl_ready           : out std_logic;                                        -- waitrequest_n
 			avl_burstbegin      : in  std_logic                     := 'X';             -- beginbursttransfer
-			avl_addr            : in  std_logic_vector(20 downto 0) := (others => 'X'); -- address
+			avl_addr            : in  std_logic_vector(25 downto 0) := (others => 'X'); -- address
 			avl_rdata_valid     : out std_logic;                                        -- readdatavalid
-			avl_rdata           : out std_logic_vector(31 downto 0);                    -- readdata
-			avl_wdata           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			avl_be              : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			avl_rdata           : out std_logic_vector(63 downto 0);                    -- readdata
+			avl_wdata           : in  std_logic_vector(63 downto 0) := (others => 'X'); -- writedata
+			avl_be              : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- byteenable
 			avl_read_req        : in  std_logic                     := 'X';             -- read
 			avl_write_req       : in  std_logic                     := 'X';             -- write
 			avl_size            : in  std_logic_vector(2 downto 0)  := (others => 'X')  -- burstcount
@@ -340,15 +340,15 @@ architecture rtl of ddr3_mem_0002 is
 	signal m0_phy_mux_afi_rdata_en_full       : std_logic_vector(1 downto 0);  -- m0:phy_mux_rdata_en_full -> p0:afi_rdata_en_full
 	signal p0_afi_afi_rlat                    : std_logic_vector(5 downto 0);  -- p0:afi_rlat -> m0:phy_mux_rlat
 	signal p0_afi_afi_cal_success             : std_logic;                     -- p0:afi_cal_success -> m0:phy_mux_cal_success
-	signal m0_phy_mux_afi_wdata_valid         : std_logic_vector(1 downto 0);  -- m0:phy_mux_wdata_valid -> p0:afi_wdata_valid
-	signal p0_afi_afi_rdata                   : std_logic_vector(31 downto 0); -- p0:afi_rdata -> m0:phy_mux_rdata
-	signal m0_phy_mux_afi_wdata               : std_logic_vector(31 downto 0); -- m0:phy_mux_wdata -> p0:afi_wdata
+	signal m0_phy_mux_afi_wdata_valid         : std_logic_vector(3 downto 0);  -- m0:phy_mux_wdata_valid -> p0:afi_wdata_valid
+	signal p0_afi_afi_rdata                   : std_logic_vector(63 downto 0); -- p0:afi_rdata -> m0:phy_mux_rdata
+	signal m0_phy_mux_afi_wdata               : std_logic_vector(63 downto 0); -- m0:phy_mux_wdata -> p0:afi_wdata
 	signal m0_phy_mux_afi_rst_n               : std_logic_vector(1 downto 0);  -- m0:phy_mux_rst_n -> p0:afi_rst_n
-	signal m0_phy_mux_afi_dqs_burst           : std_logic_vector(1 downto 0);  -- m0:phy_mux_dqs_burst -> p0:afi_dqs_burst
-	signal m0_phy_mux_afi_addr                : std_logic_vector(25 downto 0); -- m0:phy_mux_addr -> p0:afi_addr
+	signal m0_phy_mux_afi_dqs_burst           : std_logic_vector(3 downto 0);  -- m0:phy_mux_dqs_burst -> p0:afi_dqs_burst
+	signal m0_phy_mux_afi_addr                : std_logic_vector(29 downto 0); -- m0:phy_mux_addr -> p0:afi_addr
 	signal m0_phy_mux_afi_ba                  : std_logic_vector(5 downto 0);  -- m0:phy_mux_ba -> p0:afi_ba
 	signal p0_afi_afi_wlat                    : std_logic_vector(5 downto 0);  -- p0:afi_wlat -> m0:phy_mux_wlat
-	signal m0_phy_mux_afi_dm                  : std_logic_vector(3 downto 0);  -- m0:phy_mux_dm -> p0:afi_dm
+	signal m0_phy_mux_afi_dm                  : std_logic_vector(7 downto 0);  -- m0:phy_mux_dm -> p0:afi_dm
 	signal p0_afi_afi_cal_fail                : std_logic;                     -- p0:afi_cal_fail -> m0:phy_mux_cal_fail
 	signal p0_afi_afi_rdata_valid             : std_logic_vector(1 downto 0);  -- p0:afi_rdata_valid -> m0:phy_mux_rdata_valid
 	signal m0_phy_mux_afi_we_n                : std_logic_vector(1 downto 0);  -- m0:phy_mux_we_n -> p0:afi_we_n
@@ -360,7 +360,7 @@ architecture rtl of ddr3_mem_0002 is
 	signal m0_phy_mux_afi_cke                 : std_logic_vector(1 downto 0);  -- m0:phy_mux_cke -> p0:afi_cke
 	signal m0_afi_afi_rlat                    : std_logic_vector(5 downto 0);  -- m0:afi_rlat -> c0:afi_rlat
 	signal m0_afi_afi_cal_success             : std_logic;                     -- m0:afi_cal_success -> c0:afi_cal_success
-	signal m0_afi_afi_rdata                   : std_logic_vector(31 downto 0); -- m0:afi_rdata -> c0:afi_rdata
+	signal m0_afi_afi_rdata                   : std_logic_vector(63 downto 0); -- m0:afi_rdata -> c0:afi_rdata
 	signal m0_afi_afi_wlat                    : std_logic_vector(5 downto 0);  -- m0:afi_wlat -> c0:afi_wlat
 	signal m0_afi_afi_cal_fail                : std_logic;                     -- m0:afi_cal_fail -> c0:afi_cal_fail
 	signal m0_afi_afi_rdata_valid             : std_logic_vector(1 downto 0);  -- m0:afi_rdata_valid -> c0:afi_rdata_valid
@@ -376,14 +376,14 @@ architecture rtl of ddr3_mem_0002 is
 	signal p0_phase_detector_pd_down          : std_logic;                     -- p0:pd_down -> s0:pd_down
 	signal p0_phase_detector_pd_up            : std_logic;                     -- p0:pd_up -> s0:pd_up
 	signal s0_afi_afi_rdata_en_full           : std_logic_vector(1 downto 0);  -- s0:afi_rdata_en_full -> m0:seq_mux_rdata_en_full
-	signal s0_afi_afi_wdata_valid             : std_logic_vector(1 downto 0);  -- s0:afi_wdata_valid -> m0:seq_mux_wdata_valid
-	signal m0_seq_mux_afi_rdata               : std_logic_vector(31 downto 0); -- m0:seq_mux_rdata -> s0:afi_rdata
-	signal s0_afi_afi_wdata                   : std_logic_vector(31 downto 0); -- s0:afi_wdata -> m0:seq_mux_wdata
+	signal s0_afi_afi_wdata_valid             : std_logic_vector(3 downto 0);  -- s0:afi_wdata_valid -> m0:seq_mux_wdata_valid
+	signal m0_seq_mux_afi_rdata               : std_logic_vector(63 downto 0); -- m0:seq_mux_rdata -> s0:afi_rdata
+	signal s0_afi_afi_wdata                   : std_logic_vector(63 downto 0); -- s0:afi_wdata -> m0:seq_mux_wdata
 	signal s0_afi_afi_rst_n                   : std_logic_vector(1 downto 0);  -- s0:afi_rst_n -> m0:seq_mux_rst_n
-	signal s0_afi_afi_dqs_burst               : std_logic_vector(1 downto 0);  -- s0:afi_dqs_burst -> m0:seq_mux_dqs_burst
-	signal s0_afi_afi_addr                    : std_logic_vector(25 downto 0); -- s0:afi_addr -> m0:seq_mux_addr
+	signal s0_afi_afi_dqs_burst               : std_logic_vector(3 downto 0);  -- s0:afi_dqs_burst -> m0:seq_mux_dqs_burst
+	signal s0_afi_afi_addr                    : std_logic_vector(29 downto 0); -- s0:afi_addr -> m0:seq_mux_addr
 	signal s0_afi_afi_ba                      : std_logic_vector(5 downto 0);  -- s0:afi_ba -> m0:seq_mux_ba
-	signal s0_afi_afi_dm                      : std_logic_vector(3 downto 0);  -- s0:afi_dm -> m0:seq_mux_dm
+	signal s0_afi_afi_dm                      : std_logic_vector(7 downto 0);  -- s0:afi_dm -> m0:seq_mux_dm
 	signal m0_seq_mux_afi_rdata_valid         : std_logic_vector(1 downto 0);  -- m0:seq_mux_rdata_valid -> s0:afi_rdata_valid
 	signal s0_afi_afi_we_n                    : std_logic_vector(1 downto 0);  -- s0:afi_we_n -> m0:seq_mux_we_n
 	signal s0_afi_afi_cas_n                   : std_logic_vector(1 downto 0);  -- s0:afi_cas_n -> m0:seq_mux_cas_n
@@ -398,27 +398,27 @@ architecture rtl of ddr3_mem_0002 is
 	signal s0_phy_phy_read_latency_counter    : std_logic_vector(4 downto 0);  -- s0:phy_read_latency_counter -> p0:phy_read_latency_counter
 	signal s0_phy_phy_afi_wlat                : std_logic_vector(5 downto 0);  -- s0:phy_afi_wlat -> p0:phy_afi_wlat
 	signal s0_phy_phy_reset_mem_stable        : std_logic;                     -- s0:phy_reset_mem_stable -> p0:phy_reset_mem_stable
-	signal s0_phy_phy_read_increment_vfifo_qr : std_logic_vector(0 downto 0);  -- s0:phy_read_increment_vfifo_qr -> p0:phy_read_increment_vfifo_qr
-	signal s0_phy_phy_vfifo_rd_en_override    : std_logic_vector(0 downto 0);  -- s0:phy_vfifo_rd_en_override -> p0:phy_vfifo_rd_en_override
-	signal s0_phy_phy_read_fifo_reset         : std_logic_vector(0 downto 0);  -- s0:phy_read_fifo_reset -> p0:phy_read_fifo_reset
-	signal s0_phy_phy_write_fr_cycle_shifts   : std_logic_vector(1 downto 0);  -- s0:phy_write_fr_cycle_shifts -> p0:phy_write_fr_cycle_shifts
+	signal s0_phy_phy_read_increment_vfifo_qr : std_logic_vector(1 downto 0);  -- s0:phy_read_increment_vfifo_qr -> p0:phy_read_increment_vfifo_qr
+	signal s0_phy_phy_vfifo_rd_en_override    : std_logic_vector(1 downto 0);  -- s0:phy_vfifo_rd_en_override -> p0:phy_vfifo_rd_en_override
+	signal s0_phy_phy_read_fifo_reset         : std_logic_vector(1 downto 0);  -- s0:phy_read_fifo_reset -> p0:phy_read_fifo_reset
+	signal s0_phy_phy_write_fr_cycle_shifts   : std_logic_vector(3 downto 0);  -- s0:phy_write_fr_cycle_shifts -> p0:phy_write_fr_cycle_shifts
 	signal s0_phy_phy_cal_fail                : std_logic;                     -- s0:phy_cal_fail -> p0:phy_cal_fail
 	signal s0_phy_phy_cal_success             : std_logic;                     -- s0:phy_cal_success -> p0:phy_cal_success
 	signal p0_phy_phy_reset_n                 : std_logic;                     -- p0:phy_reset_n -> s0:phy_reset_n
 	signal s0_phy_phy_cal_debug_info          : std_logic_vector(31 downto 0); -- s0:phy_cal_debug_info -> p0:phy_cal_debug_info
-	signal s0_phy_phy_read_increment_vfifo_hr : std_logic_vector(0 downto 0);  -- s0:phy_read_increment_vfifo_hr -> p0:phy_read_increment_vfifo_hr
-	signal s0_phy_phy_read_increment_vfifo_fr : std_logic_vector(0 downto 0);  -- s0:phy_read_increment_vfifo_fr -> p0:phy_read_increment_vfifo_fr
-	signal p0_phy_phy_read_fifo_q             : std_logic_vector(31 downto 0); -- p0:phy_read_fifo_q -> s0:phy_read_fifo_q
+	signal s0_phy_phy_read_increment_vfifo_hr : std_logic_vector(1 downto 0);  -- s0:phy_read_increment_vfifo_hr -> p0:phy_read_increment_vfifo_hr
+	signal s0_phy_phy_read_increment_vfifo_fr : std_logic_vector(1 downto 0);  -- s0:phy_read_increment_vfifo_fr -> p0:phy_read_increment_vfifo_fr
+	signal p0_phy_phy_read_fifo_q             : std_logic_vector(63 downto 0); -- p0:phy_read_fifo_q -> s0:phy_read_fifo_q
 	signal p0_calib_calib_skip_steps          : std_logic_vector(7 downto 0);  -- p0:calib_skip_steps -> s0:calib_skip_steps
 	signal c0_afi_afi_rdata_en_full           : std_logic_vector(1 downto 0);  -- c0:afi_rdata_en_full -> m0:afi_rdata_en_full
-	signal c0_afi_afi_wdata_valid             : std_logic_vector(1 downto 0);  -- c0:afi_wdata_valid -> m0:afi_wdata_valid
-	signal c0_afi_afi_wdata                   : std_logic_vector(31 downto 0); -- c0:afi_wdata -> m0:afi_wdata
+	signal c0_afi_afi_wdata_valid             : std_logic_vector(3 downto 0);  -- c0:afi_wdata_valid -> m0:afi_wdata_valid
+	signal c0_afi_afi_wdata                   : std_logic_vector(63 downto 0); -- c0:afi_wdata -> m0:afi_wdata
 	signal c0_afi_afi_rst_n                   : std_logic_vector(1 downto 0);  -- c0:afi_rst_n -> m0:afi_rst_n
 	signal c0_afi_afi_cal_req                 : std_logic;                     -- c0:afi_cal_req -> s0:afi_cal_req
-	signal c0_afi_afi_dqs_burst               : std_logic_vector(1 downto 0);  -- c0:afi_dqs_burst -> m0:afi_dqs_burst
-	signal c0_afi_afi_addr                    : std_logic_vector(25 downto 0); -- c0:afi_addr -> m0:afi_addr
+	signal c0_afi_afi_dqs_burst               : std_logic_vector(3 downto 0);  -- c0:afi_dqs_burst -> m0:afi_dqs_burst
+	signal c0_afi_afi_addr                    : std_logic_vector(29 downto 0); -- c0:afi_addr -> m0:afi_addr
 	signal c0_afi_afi_ba                      : std_logic_vector(5 downto 0);  -- c0:afi_ba -> m0:afi_ba
-	signal c0_afi_afi_dm                      : std_logic_vector(3 downto 0);  -- c0:afi_dm -> m0:afi_dm
+	signal c0_afi_afi_dm                      : std_logic_vector(7 downto 0);  -- c0:afi_dm -> m0:afi_dm
 	signal c0_afi_afi_mem_clk_disable         : std_logic_vector(0 downto 0);  -- c0:afi_mem_clk_disable -> p0:afi_mem_clk_disable
 	signal c0_afi_afi_init_req                : std_logic;                     -- c0:afi_init_req -> s0:afi_init_req
 	signal c0_afi_afi_we_n                    : std_logic_vector(1 downto 0);  -- c0:afi_we_n -> m0:afi_we_n
@@ -533,19 +533,19 @@ begin
 	m0 : component afi_mux_ddr3_ddrx
 		generic map (
 			AFI_RATE_RATIO            => 2,
-			AFI_ADDR_WIDTH            => 26,
+			AFI_ADDR_WIDTH            => 30,
 			AFI_BANKADDR_WIDTH        => 6,
 			AFI_CONTROL_WIDTH         => 2,
 			AFI_CS_WIDTH              => 2,
 			AFI_CLK_EN_WIDTH          => 2,
-			AFI_DM_WIDTH              => 4,
-			AFI_DQ_WIDTH              => 32,
+			AFI_DM_WIDTH              => 8,
+			AFI_DQ_WIDTH              => 64,
 			AFI_ODT_WIDTH             => 2,
-			AFI_WRITE_DQS_WIDTH       => 2,
+			AFI_WRITE_DQS_WIDTH       => 4,
 			AFI_RLAT_WIDTH            => 6,
 			AFI_WLAT_WIDTH            => 6,
-			AFI_RRANK_WIDTH           => 2,
-			AFI_WRANK_WIDTH           => 2,
+			AFI_RRANK_WIDTH           => 4,
+			AFI_WRANK_WIDTH           => 4,
 			MRS_MIRROR_PING_PONG_ATSO => false
 		)
 		port map (

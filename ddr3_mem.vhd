@@ -17,28 +17,28 @@ entity ddr3_mem is
 		afi_half_clk       : out   std_logic;                                        --     afi_half_clk.clk
 		afi_reset_n        : out   std_logic;                                        --        afi_reset.reset_n
 		afi_reset_export_n : out   std_logic;                                        -- afi_reset_export.reset_n
-		mem_a              : out   std_logic_vector(12 downto 0);                    --           memory.mem_a
+		mem_a              : out   std_logic_vector(14 downto 0);                    --           memory.mem_a
 		mem_ba             : out   std_logic_vector(2 downto 0);                     --                 .mem_ba
 		mem_ck             : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_ck
 		mem_ck_n           : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_ck_n
 		mem_cke            : out   std_logic_vector(0 downto 0);                     --                 .mem_cke
 		mem_cs_n           : out   std_logic_vector(0 downto 0);                     --                 .mem_cs_n
-		mem_dm             : out   std_logic_vector(0 downto 0);                     --                 .mem_dm
+		mem_dm             : out   std_logic_vector(1 downto 0);                     --                 .mem_dm
 		mem_ras_n          : out   std_logic_vector(0 downto 0);                     --                 .mem_ras_n
 		mem_cas_n          : out   std_logic_vector(0 downto 0);                     --                 .mem_cas_n
 		mem_we_n           : out   std_logic_vector(0 downto 0);                     --                 .mem_we_n
 		mem_reset_n        : out   std_logic;                                        --                 .mem_reset_n
-		mem_dq             : inout std_logic_vector(7 downto 0)  := (others => '0'); --                 .mem_dq
-		mem_dqs            : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_dqs
-		mem_dqs_n          : inout std_logic_vector(0 downto 0)  := (others => '0'); --                 .mem_dqs_n
+		mem_dq             : inout std_logic_vector(15 downto 0) := (others => '0'); --                 .mem_dq
+		mem_dqs            : inout std_logic_vector(1 downto 0)  := (others => '0'); --                 .mem_dqs
+		mem_dqs_n          : inout std_logic_vector(1 downto 0)  := (others => '0'); --                 .mem_dqs_n
 		mem_odt            : out   std_logic_vector(0 downto 0);                     --                 .mem_odt
 		avl_ready          : out   std_logic;                                        --              avl.waitrequest_n
 		avl_burstbegin     : in    std_logic                     := '0';             --                 .beginbursttransfer
-		avl_addr           : in    std_logic_vector(20 downto 0) := (others => '0'); --                 .address
+		avl_addr           : in    std_logic_vector(25 downto 0) := (others => '0'); --                 .address
 		avl_rdata_valid    : out   std_logic;                                        --                 .readdatavalid
-		avl_rdata          : out   std_logic_vector(31 downto 0);                    --                 .readdata
-		avl_wdata          : in    std_logic_vector(31 downto 0) := (others => '0'); --                 .writedata
-		avl_be             : in    std_logic_vector(3 downto 0)  := (others => '0'); --                 .byteenable
+		avl_rdata          : out   std_logic_vector(63 downto 0);                    --                 .readdata
+		avl_wdata          : in    std_logic_vector(63 downto 0) := (others => '0'); --                 .writedata
+		avl_be             : in    std_logic_vector(7 downto 0)  := (others => '0'); --                 .byteenable
 		avl_read_req       : in    std_logic                     := '0';             --                 .read
 		avl_write_req      : in    std_logic                     := '0';             --                 .write
 		avl_size           : in    std_logic_vector(2 downto 0)  := (others => '0'); --                 .burstcount
@@ -63,28 +63,28 @@ architecture rtl of ddr3_mem is
 			afi_half_clk       : out   std_logic;                                        -- clk
 			afi_reset_n        : out   std_logic;                                        -- reset_n
 			afi_reset_export_n : out   std_logic;                                        -- reset_n
-			mem_a              : out   std_logic_vector(12 downto 0);                    -- mem_a
+			mem_a              : out   std_logic_vector(14 downto 0);                    -- mem_a
 			mem_ba             : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			mem_ck             : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_ck
 			mem_ck_n           : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_ck_n
 			mem_cke            : out   std_logic_vector(0 downto 0);                     -- mem_cke
 			mem_cs_n           : out   std_logic_vector(0 downto 0);                     -- mem_cs_n
-			mem_dm             : out   std_logic_vector(0 downto 0);                     -- mem_dm
+			mem_dm             : out   std_logic_vector(1 downto 0);                     -- mem_dm
 			mem_ras_n          : out   std_logic_vector(0 downto 0);                     -- mem_ras_n
 			mem_cas_n          : out   std_logic_vector(0 downto 0);                     -- mem_cas_n
 			mem_we_n           : out   std_logic_vector(0 downto 0);                     -- mem_we_n
 			mem_reset_n        : out   std_logic;                                        -- mem_reset_n
-			mem_dq             : inout std_logic_vector(7 downto 0)  := (others => 'X'); -- mem_dq
-			mem_dqs            : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_dqs
-			mem_dqs_n          : inout std_logic_vector(0 downto 0)  := (others => 'X'); -- mem_dqs_n
+			mem_dq             : inout std_logic_vector(15 downto 0) := (others => 'X'); -- mem_dq
+			mem_dqs            : inout std_logic_vector(1 downto 0)  := (others => 'X'); -- mem_dqs
+			mem_dqs_n          : inout std_logic_vector(1 downto 0)  := (others => 'X'); -- mem_dqs_n
 			mem_odt            : out   std_logic_vector(0 downto 0);                     -- mem_odt
 			avl_ready          : out   std_logic;                                        -- waitrequest_n
 			avl_burstbegin     : in    std_logic                     := 'X';             -- beginbursttransfer
-			avl_addr           : in    std_logic_vector(20 downto 0) := (others => 'X'); -- address
+			avl_addr           : in    std_logic_vector(25 downto 0) := (others => 'X'); -- address
 			avl_rdata_valid    : out   std_logic;                                        -- readdatavalid
-			avl_rdata          : out   std_logic_vector(31 downto 0);                    -- readdata
-			avl_wdata          : in    std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			avl_be             : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			avl_rdata          : out   std_logic_vector(63 downto 0);                    -- readdata
+			avl_wdata          : in    std_logic_vector(63 downto 0) := (others => 'X'); -- writedata
+			avl_be             : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- byteenable
 			avl_read_req       : in    std_logic                     := 'X';             -- read
 			avl_write_req      : in    std_logic                     := 'X';             -- write
 			avl_size           : in    std_logic_vector(2 downto 0)  := (others => 'X'); -- burstcount
@@ -173,17 +173,17 @@ end architecture rtl; -- of ddr3_mem
 --	needed under any third party's intellectual property, are provided herein.
 ---->
 -- Retrieval info: <instance entity-name="altera_mem_if_ddr3_emif" version="17.0" >
--- Retrieval info: 	<generic name="MEM_VENDOR" value="JEDEC" />
+-- Retrieval info: 	<generic name="MEM_VENDOR" value="Micron" />
 -- Retrieval info: 	<generic name="MEM_FORMAT" value="DISCRETE" />
 -- Retrieval info: 	<generic name="RDIMM_CONFIG" value="0000000000000000" />
 -- Retrieval info: 	<generic name="LRDIMM_EXTENDED_CONFIG" value="0x000000000000000000" />
 -- Retrieval info: 	<generic name="DISCRETE_FLY_BY" value="true" />
 -- Retrieval info: 	<generic name="DEVICE_DEPTH" value="1" />
 -- Retrieval info: 	<generic name="MEM_MIRROR_ADDRESSING" value="0" />
--- Retrieval info: 	<generic name="MEM_CLK_FREQ_MAX" value="400.0" />
--- Retrieval info: 	<generic name="MEM_ROW_ADDR_WIDTH" value="12" />
--- Retrieval info: 	<generic name="MEM_COL_ADDR_WIDTH" value="8" />
--- Retrieval info: 	<generic name="MEM_DQ_WIDTH" value="8" />
+-- Retrieval info: 	<generic name="MEM_CLK_FREQ_MAX" value="800.0" />
+-- Retrieval info: 	<generic name="MEM_ROW_ADDR_WIDTH" value="15" />
+-- Retrieval info: 	<generic name="MEM_COL_ADDR_WIDTH" value="10" />
+-- Retrieval info: 	<generic name="MEM_DQ_WIDTH" value="16" />
 -- Retrieval info: 	<generic name="MEM_DQ_PER_DQS" value="8" />
 -- Retrieval info: 	<generic name="MEM_BANKADDR_WIDTH" value="3" />
 -- Retrieval info: 	<generic name="MEM_IF_DM_PINS_EN" value="true" />
@@ -211,10 +211,10 @@ end architecture rtl; -- of ddr3_mem
 -- Retrieval info: 	<generic name="MEM_ASR" value="Manual" />
 -- Retrieval info: 	<generic name="MEM_SRT" value="Normal" />
 -- Retrieval info: 	<generic name="MEM_PD" value="DLL off" />
--- Retrieval info: 	<generic name="MEM_DRV_STR" value="RZQ/6" />
+-- Retrieval info: 	<generic name="MEM_DRV_STR" value="RZQ/7" />
 -- Retrieval info: 	<generic name="MEM_DLL_EN" value="true" />
--- Retrieval info: 	<generic name="MEM_RTT_NOM" value="ODT Disabled" />
--- Retrieval info: 	<generic name="MEM_RTT_WR" value="Dynamic ODT off" />
+-- Retrieval info: 	<generic name="MEM_RTT_NOM" value="RZQ/6" />
+-- Retrieval info: 	<generic name="MEM_RTT_WR" value="RZQ/4" />
 -- Retrieval info: 	<generic name="MEM_WTCL" value="6" />
 -- Retrieval info: 	<generic name="MEM_ATCL" value="Disabled" />
 -- Retrieval info: 	<generic name="MEM_TCL" value="7" />
@@ -223,31 +223,31 @@ end architecture rtl; -- of ddr3_mem
 -- Retrieval info: 	<generic name="MEM_INIT_EN" value="false" />
 -- Retrieval info: 	<generic name="MEM_INIT_FILE" value="" />
 -- Retrieval info: 	<generic name="DAT_DATA_WIDTH" value="32" />
--- Retrieval info: 	<generic name="TIMING_TIS" value="175" />
--- Retrieval info: 	<generic name="TIMING_TIH" value="250" />
--- Retrieval info: 	<generic name="TIMING_TDS" value="50" />
--- Retrieval info: 	<generic name="TIMING_TDH" value="125" />
--- Retrieval info: 	<generic name="TIMING_TDQSQ" value="120" />
+-- Retrieval info: 	<generic name="TIMING_TIS" value="185" />
+-- Retrieval info: 	<generic name="TIMING_TIH" value="130" />
+-- Retrieval info: 	<generic name="TIMING_TDS" value="55" />
+-- Retrieval info: 	<generic name="TIMING_TDH" value="55" />
+-- Retrieval info: 	<generic name="TIMING_TDQSQ" value="125" />
 -- Retrieval info: 	<generic name="TIMING_TQH" value="0.38" />
--- Retrieval info: 	<generic name="TIMING_TDQSCK" value="400" />
+-- Retrieval info: 	<generic name="TIMING_TDQSCK" value="225" />
 -- Retrieval info: 	<generic name="TIMING_TDQSCKDS" value="450" />
 -- Retrieval info: 	<generic name="TIMING_TDQSCKDM" value="900" />
 -- Retrieval info: 	<generic name="TIMING_TDQSCKDL" value="1200" />
 -- Retrieval info: 	<generic name="TIMING_TDQSS" value="0.25" />
--- Retrieval info: 	<generic name="TIMING_TQSH" value="0.38" />
+-- Retrieval info: 	<generic name="TIMING_TQSH" value="0.4" />
 -- Retrieval info: 	<generic name="TIMING_TDSH" value="0.2" />
 -- Retrieval info: 	<generic name="TIMING_TDSS" value="0.2" />
--- Retrieval info: 	<generic name="MEM_TINIT_US" value="499" />
--- Retrieval info: 	<generic name="MEM_TMRD_CK" value="3" />
--- Retrieval info: 	<generic name="MEM_TRAS_NS" value="40.0" />
--- Retrieval info: 	<generic name="MEM_TRCD_NS" value="15.0" />
--- Retrieval info: 	<generic name="MEM_TRP_NS" value="15.0" />
--- Retrieval info: 	<generic name="MEM_TREFI_US" value="7.0" />
--- Retrieval info: 	<generic name="MEM_TRFC_NS" value="75.0" />
+-- Retrieval info: 	<generic name="MEM_TINIT_US" value="500" />
+-- Retrieval info: 	<generic name="MEM_TMRD_CK" value="4" />
+-- Retrieval info: 	<generic name="MEM_TRAS_NS" value="35.0" />
+-- Retrieval info: 	<generic name="MEM_TRCD_NS" value="13.75" />
+-- Retrieval info: 	<generic name="MEM_TRP_NS" value="13.75" />
+-- Retrieval info: 	<generic name="MEM_TREFI_US" value="7.8" />
+-- Retrieval info: 	<generic name="MEM_TRFC_NS" value="260.0" />
 -- Retrieval info: 	<generic name="CFG_TCCD_NS" value="2.5" />
 -- Retrieval info: 	<generic name="MEM_TWR_NS" value="15.0" />
--- Retrieval info: 	<generic name="MEM_TWTR" value="2" />
--- Retrieval info: 	<generic name="MEM_TFAW_NS" value="37.5" />
+-- Retrieval info: 	<generic name="MEM_TWTR" value="6" />
+-- Retrieval info: 	<generic name="MEM_TFAW_NS" value="45.0" />
 -- Retrieval info: 	<generic name="MEM_TRRD_NS" value="7.5" />
 -- Retrieval info: 	<generic name="MEM_TRTP_NS" value="7.5" />
 -- Retrieval info: 	<generic name="RATE" value="Half" />
@@ -318,7 +318,7 @@ end architecture rtl; -- of ddr3_mem
 -- Retrieval info: 	<generic name="ENABLE_EMIT_BFM_MASTER" value="false" />
 -- Retrieval info: 	<generic name="FORCE_SEQUENCER_TCL_DEBUG_MODE" value="false" />
 -- Retrieval info: 	<generic name="ENABLE_SEQUENCER_MARGINING_ON_BY_DEFAULT" value="false" />
--- Retrieval info: 	<generic name="REF_CLK_FREQ" value="125.0" />
+-- Retrieval info: 	<generic name="REF_CLK_FREQ" value="50.0" />
 -- Retrieval info: 	<generic name="REF_CLK_FREQ_PARAM_VALID" value="false" />
 -- Retrieval info: 	<generic name="REF_CLK_FREQ_MIN_PARAM" value="0.0" />
 -- Retrieval info: 	<generic name="REF_CLK_FREQ_MAX_PARAM" value="0.0" />
@@ -467,16 +467,16 @@ end architecture rtl; -- of ddr3_mem
 -- Retrieval info: 	<generic name="TIMING_BOARD_DELTA_READ_DQS_ARRIVAL_TIME" value="0.0" />
 -- Retrieval info: 	<generic name="PACKAGE_DESKEW" value="false" />
 -- Retrieval info: 	<generic name="AC_PACKAGE_DESKEW" value="false" />
--- Retrieval info: 	<generic name="TIMING_BOARD_MAX_CK_DELAY" value="0.6" />
--- Retrieval info: 	<generic name="TIMING_BOARD_MAX_DQS_DELAY" value="0.6" />
--- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_CKDQS_DIMM_MIN" value="-0.01" />
--- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_CKDQS_DIMM_MAX" value="0.01" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_MAX_CK_DELAY" value="0.183" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_MAX_DQS_DELAY" value="0.181" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_CKDQS_DIMM_MIN" value="0.002" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_CKDQS_DIMM_MAX" value="0.007" />
 -- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_BETWEEN_DIMMS" value="0.05" />
--- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_WITHIN_DQS" value="0.02" />
--- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_BETWEEN_DQS" value="0.02" />
--- Retrieval info: 	<generic name="TIMING_BOARD_DQ_TO_DQS_SKEW" value="0.0" />
--- Retrieval info: 	<generic name="TIMING_BOARD_AC_SKEW" value="0.02" />
--- Retrieval info: 	<generic name="TIMING_BOARD_AC_TO_CK_SKEW" value="0.0" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_WITHIN_DQS" value="0.008" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_SKEW_BETWEEN_DQS" value="0.005" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_DQ_TO_DQS_SKEW" value="-6.0E-4" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_AC_SKEW" value="0.017" />
+-- Retrieval info: 	<generic name="TIMING_BOARD_AC_TO_CK_SKEW" value="-1.3E-4" />
 -- Retrieval info: 	<generic name="ENABLE_EXPORT_SEQ_DEBUG_BRIDGE" value="false" />
 -- Retrieval info: 	<generic name="CORE_DEBUG_CONNECTION" value="EXPORT" />
 -- Retrieval info: 	<generic name="ADD_EXTERNAL_SEQ_DEBUG_NIOS" value="false" />
@@ -492,4 +492,4 @@ end architecture rtl; -- of ddr3_mem
 -- Retrieval info: 	<generic name="AUTO_DEVICE_SPEEDGRADE" value="6" />
 -- Retrieval info: </instance>
 -- IPFS_FILES : ddr3_mem.vho
--- RELATED_FILES: ddr3_mem.vhd, ddr3_mem_0002.v, ddr3_mem_pll0.sv, ddr3_mem_p0_clock_pair_generator.v, ddr3_mem_p0_read_valid_selector.v, ddr3_mem_p0_addr_cmd_datapath.v, ddr3_mem_p0_reset_m10.v, ddr3_mem_p0_memphy_m10.sv, ddr3_mem_p0_dqdqs_pads_m10.sv, ddr3_mem_p0_reset_sync.v, ddr3_mem_p0_fr_cycle_shifter.v, ddr3_mem_p0_read_datapath_m10.sv, ddr3_mem_p0_write_datapath_m10.v, ddr3_mem_p0_simple_ddio_out_m10.sv, max10emif_dcfifo.sv, ddr3_mem_p0_iss_probe.v, ddr3_mem_p0_addr_cmd_pads_m10.v, ddr3_mem_p0_flop_mem.v, ddr3_mem_p0.sv, altera_gpio_lite.sv, afi_mux_ddr3_ddrx.v, ddr3_mem_s0.v, rw_manager_pattern_fifo.v, altera_merlin_arbitrator.sv, rw_manager_data_broadcast.v, rw_manager_ac_ROM_reg.v, rw_manager_dm_decoder.v, ddr3_mem_s0_mm_interconnect_0_cmd_demux.sv, altera_merlin_slave_agent.sv, rw_manager_datamux.v, ddr3_mem_s0_mm_interconnect_0.v, ddr3_mem_s0_mm_interconnect_0_rsp_mux.sv, rw_manager_lfsr12.v, rw_manager_write_decoder.v, rw_manager_di_buffer_wrap.v, sequencer_m10.sv, ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv, sequencer_pll_mgr.sv, rw_manager_core.sv, rw_manager_jumplogic.v, altera_merlin_burst_uncompressor.sv, rw_manager_ram.v, rw_manager_di_buffer.v, rw_manager_lfsr72.v, rw_manager_read_datapath.v, altera_merlin_master_translator.sv, rw_manager_lfsr36.v, rw_manager_ddr3.v, altera_mem_if_sequencer_rst.sv, sequencer_phy_mgr.sv, ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter.v, altera_merlin_master_agent.sv, rw_manager_bitcheck.v, ddr3_mem_s0_mm_interconnect_0_router.sv, ddr3_mem_s0_mm_interconnect_0_rsp_demux.sv, rw_manager_generic.sv, rw_manager_data_decoder.v, altera_avalon_sc_fifo.v, ddr3_mem_s0_mm_interconnect_0_router_001.sv, ddr3_mem_s0_mm_interconnect_0_cmd_mux.sv, rw_manager_inst_ROM_reg.v, rw_manager_ram_csr.v, altera_merlin_slave_translator.sv, rw_manager_m10_ac_ROM.v, rw_manager_m10_inst_ROM.v, ddr3_mem_c0.v, alt_mem_ddrx_addr_cmd.v, alt_mem_ddrx_addr_cmd_wrap.v, alt_mem_ddrx_ddr2_odt_gen.v, alt_mem_ddrx_ddr3_odt_gen.v, alt_mem_ddrx_lpddr2_addr_cmd.v, alt_mem_ddrx_odt_gen.v, alt_mem_ddrx_rdwr_data_tmg.v, alt_mem_ddrx_arbiter.v, alt_mem_ddrx_burst_gen.v, alt_mem_ddrx_cmd_gen.v, alt_mem_ddrx_csr.v, alt_mem_ddrx_buffer.v, alt_mem_ddrx_buffer_manager.v, alt_mem_ddrx_burst_tracking.v, alt_mem_ddrx_dataid_manager.v, alt_mem_ddrx_fifo.v, alt_mem_ddrx_list.v, alt_mem_ddrx_rdata_path.v, alt_mem_ddrx_wdata_path.v, alt_mem_ddrx_define.iv, alt_mem_ddrx_ecc_decoder.v, alt_mem_ddrx_ecc_decoder_32_syn.v, alt_mem_ddrx_ecc_decoder_64_syn.v, alt_mem_ddrx_ecc_encoder.v, alt_mem_ddrx_ecc_encoder_32_syn.v, alt_mem_ddrx_ecc_encoder_64_syn.v, alt_mem_ddrx_ecc_encoder_decoder_wrapper.v, alt_mem_ddrx_axi_st_converter.v, alt_mem_ddrx_input_if.v, alt_mem_ddrx_rank_timer.v, alt_mem_ddrx_sideband.v, alt_mem_ddrx_tbp.v, alt_mem_ddrx_timing_param.v, alt_mem_ddrx_controller.v, alt_mem_ddrx_controller_st_top.v, alt_mem_if_nextgen_ddr3_controller_core.sv, alt_mem_ddrx_mm_st_converter.v
+-- RELATED_FILES: ddr3_mem.vhd, ddr3_mem_0002.v, ddr3_mem_pll0.sv, ddr3_mem_p0_clock_pair_generator.v, ddr3_mem_p0_read_valid_selector.v, ddr3_mem_p0_addr_cmd_datapath.v, ddr3_mem_p0_reset_m10.v, ddr3_mem_p0_memphy_m10.sv, ddr3_mem_p0_dqdqs_pads_m10.sv, ddr3_mem_p0_reset_sync.v, ddr3_mem_p0_fr_cycle_shifter.v, ddr3_mem_p0_read_datapath_m10.sv, ddr3_mem_p0_write_datapath_m10.v, ddr3_mem_p0_simple_ddio_out_m10.sv, max10emif_dcfifo.sv, ddr3_mem_p0_iss_probe.v, ddr3_mem_p0_addr_cmd_pads_m10.v, ddr3_mem_p0_flop_mem.v, ddr3_mem_p0.sv, altera_gpio_lite.sv, afi_mux_ddr3_ddrx.v, ddr3_mem_s0.v, altera_avalon_sc_fifo.v, altera_mem_if_sequencer_rst.sv, altera_merlin_arbitrator.sv, altera_merlin_burst_uncompressor.sv, altera_merlin_master_agent.sv, altera_merlin_master_translator.sv, altera_merlin_slave_agent.sv, altera_merlin_slave_translator.sv, ddr3_mem_s0_mm_interconnect_0.v, ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter.v, ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv, ddr3_mem_s0_mm_interconnect_0_cmd_demux.sv, ddr3_mem_s0_mm_interconnect_0_cmd_mux.sv, ddr3_mem_s0_mm_interconnect_0_router.sv, ddr3_mem_s0_mm_interconnect_0_router_001.sv, ddr3_mem_s0_mm_interconnect_0_rsp_demux.sv, ddr3_mem_s0_mm_interconnect_0_rsp_mux.sv, rw_manager_ac_ROM_reg.v, rw_manager_bitcheck.v, rw_manager_core.sv, rw_manager_datamux.v, rw_manager_data_broadcast.v, rw_manager_data_decoder.v, rw_manager_ddr3.v, rw_manager_di_buffer.v, rw_manager_di_buffer_wrap.v, rw_manager_dm_decoder.v, rw_manager_generic.sv, rw_manager_inst_ROM_reg.v, rw_manager_jumplogic.v, rw_manager_lfsr12.v, rw_manager_lfsr36.v, rw_manager_lfsr72.v, rw_manager_pattern_fifo.v, rw_manager_ram.v, rw_manager_ram_csr.v, rw_manager_read_datapath.v, rw_manager_write_decoder.v, sequencer_m10.sv, sequencer_phy_mgr.sv, sequencer_pll_mgr.sv, rw_manager_m10_ac_ROM.v, rw_manager_m10_inst_ROM.v, ddr3_mem_c0.v, alt_mem_ddrx_addr_cmd.v, alt_mem_ddrx_addr_cmd_wrap.v, alt_mem_ddrx_ddr2_odt_gen.v, alt_mem_ddrx_ddr3_odt_gen.v, alt_mem_ddrx_lpddr2_addr_cmd.v, alt_mem_ddrx_odt_gen.v, alt_mem_ddrx_rdwr_data_tmg.v, alt_mem_ddrx_arbiter.v, alt_mem_ddrx_burst_gen.v, alt_mem_ddrx_cmd_gen.v, alt_mem_ddrx_csr.v, alt_mem_ddrx_buffer.v, alt_mem_ddrx_buffer_manager.v, alt_mem_ddrx_burst_tracking.v, alt_mem_ddrx_dataid_manager.v, alt_mem_ddrx_fifo.v, alt_mem_ddrx_list.v, alt_mem_ddrx_rdata_path.v, alt_mem_ddrx_wdata_path.v, alt_mem_ddrx_define.iv, alt_mem_ddrx_ecc_decoder.v, alt_mem_ddrx_ecc_decoder_32_syn.v, alt_mem_ddrx_ecc_decoder_64_syn.v, alt_mem_ddrx_ecc_encoder.v, alt_mem_ddrx_ecc_encoder_32_syn.v, alt_mem_ddrx_ecc_encoder_64_syn.v, alt_mem_ddrx_ecc_encoder_decoder_wrapper.v, alt_mem_ddrx_axi_st_converter.v, alt_mem_ddrx_input_if.v, alt_mem_ddrx_rank_timer.v, alt_mem_ddrx_sideband.v, alt_mem_ddrx_tbp.v, alt_mem_ddrx_timing_param.v, alt_mem_ddrx_controller.v, alt_mem_ddrx_controller_st_top.v, alt_mem_if_nextgen_ddr3_controller_core.sv, alt_mem_ddrx_mm_st_converter.v

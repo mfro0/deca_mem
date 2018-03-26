@@ -14,28 +14,28 @@ module ddr3_mem_0002 (
 		output wire        afi_half_clk,       //     afi_half_clk.clk
 		output wire        afi_reset_n,        //        afi_reset.reset_n
 		output wire        afi_reset_export_n, // afi_reset_export.reset_n
-		output wire [12:0] mem_a,              //           memory.mem_a
+		output wire [14:0] mem_a,              //           memory.mem_a
 		output wire [2:0]  mem_ba,             //                 .mem_ba
 		inout  wire [0:0]  mem_ck,             //                 .mem_ck
 		inout  wire [0:0]  mem_ck_n,           //                 .mem_ck_n
 		output wire [0:0]  mem_cke,            //                 .mem_cke
 		output wire [0:0]  mem_cs_n,           //                 .mem_cs_n
-		output wire [0:0]  mem_dm,             //                 .mem_dm
+		output wire [1:0]  mem_dm,             //                 .mem_dm
 		output wire [0:0]  mem_ras_n,          //                 .mem_ras_n
 		output wire [0:0]  mem_cas_n,          //                 .mem_cas_n
 		output wire [0:0]  mem_we_n,           //                 .mem_we_n
 		output wire        mem_reset_n,        //                 .mem_reset_n
-		inout  wire [7:0]  mem_dq,             //                 .mem_dq
-		inout  wire [0:0]  mem_dqs,            //                 .mem_dqs
-		inout  wire [0:0]  mem_dqs_n,          //                 .mem_dqs_n
+		inout  wire [15:0] mem_dq,             //                 .mem_dq
+		inout  wire [1:0]  mem_dqs,            //                 .mem_dqs
+		inout  wire [1:0]  mem_dqs_n,          //                 .mem_dqs_n
 		output wire [0:0]  mem_odt,            //                 .mem_odt
 		output wire        avl_ready,          //              avl.waitrequest_n
 		input  wire        avl_burstbegin,     //                 .beginbursttransfer
-		input  wire [20:0] avl_addr,           //                 .address
+		input  wire [25:0] avl_addr,           //                 .address
 		output wire        avl_rdata_valid,    //                 .readdatavalid
-		output wire [31:0] avl_rdata,          //                 .readdata
-		input  wire [31:0] avl_wdata,          //                 .writedata
-		input  wire [3:0]  avl_be,             //                 .byteenable
+		output wire [63:0] avl_rdata,          //                 .readdata
+		input  wire [63:0] avl_wdata,          //                 .writedata
+		input  wire [7:0]  avl_be,             //                 .byteenable
 		input  wire        avl_read_req,       //                 .read
 		input  wire        avl_write_req,      //                 .write
 		input  wire [2:0]  avl_size,           //                 .burstcount
@@ -52,15 +52,15 @@ module ddr3_mem_0002 (
 	wire   [1:0] m0_phy_mux_afi_rdata_en_full;       // m0:phy_mux_rdata_en_full -> p0:afi_rdata_en_full
 	wire   [5:0] p0_afi_afi_rlat;                    // p0:afi_rlat -> m0:phy_mux_rlat
 	wire         p0_afi_afi_cal_success;             // p0:afi_cal_success -> m0:phy_mux_cal_success
-	wire   [1:0] m0_phy_mux_afi_wdata_valid;         // m0:phy_mux_wdata_valid -> p0:afi_wdata_valid
-	wire  [31:0] p0_afi_afi_rdata;                   // p0:afi_rdata -> m0:phy_mux_rdata
-	wire  [31:0] m0_phy_mux_afi_wdata;               // m0:phy_mux_wdata -> p0:afi_wdata
+	wire   [3:0] m0_phy_mux_afi_wdata_valid;         // m0:phy_mux_wdata_valid -> p0:afi_wdata_valid
+	wire  [63:0] p0_afi_afi_rdata;                   // p0:afi_rdata -> m0:phy_mux_rdata
+	wire  [63:0] m0_phy_mux_afi_wdata;               // m0:phy_mux_wdata -> p0:afi_wdata
 	wire   [1:0] m0_phy_mux_afi_rst_n;               // m0:phy_mux_rst_n -> p0:afi_rst_n
-	wire   [1:0] m0_phy_mux_afi_dqs_burst;           // m0:phy_mux_dqs_burst -> p0:afi_dqs_burst
-	wire  [25:0] m0_phy_mux_afi_addr;                // m0:phy_mux_addr -> p0:afi_addr
+	wire   [3:0] m0_phy_mux_afi_dqs_burst;           // m0:phy_mux_dqs_burst -> p0:afi_dqs_burst
+	wire  [29:0] m0_phy_mux_afi_addr;                // m0:phy_mux_addr -> p0:afi_addr
 	wire   [5:0] m0_phy_mux_afi_ba;                  // m0:phy_mux_ba -> p0:afi_ba
 	wire   [5:0] p0_afi_afi_wlat;                    // p0:afi_wlat -> m0:phy_mux_wlat
-	wire   [3:0] m0_phy_mux_afi_dm;                  // m0:phy_mux_dm -> p0:afi_dm
+	wire   [7:0] m0_phy_mux_afi_dm;                  // m0:phy_mux_dm -> p0:afi_dm
 	wire         p0_afi_afi_cal_fail;                // p0:afi_cal_fail -> m0:phy_mux_cal_fail
 	wire   [1:0] p0_afi_afi_rdata_valid;             // p0:afi_rdata_valid -> m0:phy_mux_rdata_valid
 	wire   [1:0] m0_phy_mux_afi_we_n;                // m0:phy_mux_we_n -> p0:afi_we_n
@@ -72,7 +72,7 @@ module ddr3_mem_0002 (
 	wire   [1:0] m0_phy_mux_afi_cke;                 // m0:phy_mux_cke -> p0:afi_cke
 	wire   [5:0] m0_afi_afi_rlat;                    // m0:afi_rlat -> c0:afi_rlat
 	wire         m0_afi_afi_cal_success;             // m0:afi_cal_success -> c0:afi_cal_success
-	wire  [31:0] m0_afi_afi_rdata;                   // m0:afi_rdata -> c0:afi_rdata
+	wire  [63:0] m0_afi_afi_rdata;                   // m0:afi_rdata -> c0:afi_rdata
 	wire   [5:0] m0_afi_afi_wlat;                    // m0:afi_wlat -> c0:afi_wlat
 	wire         m0_afi_afi_cal_fail;                // m0:afi_cal_fail -> c0:afi_cal_fail
 	wire   [1:0] m0_afi_afi_rdata_valid;             // m0:afi_rdata_valid -> c0:afi_rdata_valid
@@ -88,14 +88,14 @@ module ddr3_mem_0002 (
 	wire         p0_phase_detector_pd_down;          // p0:pd_down -> s0:pd_down
 	wire         p0_phase_detector_pd_up;            // p0:pd_up -> s0:pd_up
 	wire   [1:0] s0_afi_afi_rdata_en_full;           // s0:afi_rdata_en_full -> m0:seq_mux_rdata_en_full
-	wire   [1:0] s0_afi_afi_wdata_valid;             // s0:afi_wdata_valid -> m0:seq_mux_wdata_valid
-	wire  [31:0] m0_seq_mux_afi_rdata;               // m0:seq_mux_rdata -> s0:afi_rdata
-	wire  [31:0] s0_afi_afi_wdata;                   // s0:afi_wdata -> m0:seq_mux_wdata
+	wire   [3:0] s0_afi_afi_wdata_valid;             // s0:afi_wdata_valid -> m0:seq_mux_wdata_valid
+	wire  [63:0] m0_seq_mux_afi_rdata;               // m0:seq_mux_rdata -> s0:afi_rdata
+	wire  [63:0] s0_afi_afi_wdata;                   // s0:afi_wdata -> m0:seq_mux_wdata
 	wire   [1:0] s0_afi_afi_rst_n;                   // s0:afi_rst_n -> m0:seq_mux_rst_n
-	wire   [1:0] s0_afi_afi_dqs_burst;               // s0:afi_dqs_burst -> m0:seq_mux_dqs_burst
-	wire  [25:0] s0_afi_afi_addr;                    // s0:afi_addr -> m0:seq_mux_addr
+	wire   [3:0] s0_afi_afi_dqs_burst;               // s0:afi_dqs_burst -> m0:seq_mux_dqs_burst
+	wire  [29:0] s0_afi_afi_addr;                    // s0:afi_addr -> m0:seq_mux_addr
 	wire   [5:0] s0_afi_afi_ba;                      // s0:afi_ba -> m0:seq_mux_ba
-	wire   [3:0] s0_afi_afi_dm;                      // s0:afi_dm -> m0:seq_mux_dm
+	wire   [7:0] s0_afi_afi_dm;                      // s0:afi_dm -> m0:seq_mux_dm
 	wire   [1:0] m0_seq_mux_afi_rdata_valid;         // m0:seq_mux_rdata_valid -> s0:afi_rdata_valid
 	wire   [1:0] s0_afi_afi_we_n;                    // s0:afi_we_n -> m0:seq_mux_we_n
 	wire   [1:0] s0_afi_afi_cas_n;                   // s0:afi_cas_n -> m0:seq_mux_cas_n
@@ -110,27 +110,27 @@ module ddr3_mem_0002 (
 	wire   [4:0] s0_phy_phy_read_latency_counter;    // s0:phy_read_latency_counter -> p0:phy_read_latency_counter
 	wire   [5:0] s0_phy_phy_afi_wlat;                // s0:phy_afi_wlat -> p0:phy_afi_wlat
 	wire         s0_phy_phy_reset_mem_stable;        // s0:phy_reset_mem_stable -> p0:phy_reset_mem_stable
-	wire   [0:0] s0_phy_phy_read_increment_vfifo_qr; // s0:phy_read_increment_vfifo_qr -> p0:phy_read_increment_vfifo_qr
-	wire   [0:0] s0_phy_phy_vfifo_rd_en_override;    // s0:phy_vfifo_rd_en_override -> p0:phy_vfifo_rd_en_override
-	wire   [0:0] s0_phy_phy_read_fifo_reset;         // s0:phy_read_fifo_reset -> p0:phy_read_fifo_reset
-	wire   [1:0] s0_phy_phy_write_fr_cycle_shifts;   // s0:phy_write_fr_cycle_shifts -> p0:phy_write_fr_cycle_shifts
+	wire   [1:0] s0_phy_phy_read_increment_vfifo_qr; // s0:phy_read_increment_vfifo_qr -> p0:phy_read_increment_vfifo_qr
+	wire   [1:0] s0_phy_phy_vfifo_rd_en_override;    // s0:phy_vfifo_rd_en_override -> p0:phy_vfifo_rd_en_override
+	wire   [1:0] s0_phy_phy_read_fifo_reset;         // s0:phy_read_fifo_reset -> p0:phy_read_fifo_reset
+	wire   [3:0] s0_phy_phy_write_fr_cycle_shifts;   // s0:phy_write_fr_cycle_shifts -> p0:phy_write_fr_cycle_shifts
 	wire         s0_phy_phy_cal_fail;                // s0:phy_cal_fail -> p0:phy_cal_fail
 	wire         s0_phy_phy_cal_success;             // s0:phy_cal_success -> p0:phy_cal_success
 	wire         p0_phy_phy_reset_n;                 // p0:phy_reset_n -> s0:phy_reset_n
 	wire  [31:0] s0_phy_phy_cal_debug_info;          // s0:phy_cal_debug_info -> p0:phy_cal_debug_info
-	wire   [0:0] s0_phy_phy_read_increment_vfifo_hr; // s0:phy_read_increment_vfifo_hr -> p0:phy_read_increment_vfifo_hr
-	wire   [0:0] s0_phy_phy_read_increment_vfifo_fr; // s0:phy_read_increment_vfifo_fr -> p0:phy_read_increment_vfifo_fr
-	wire  [31:0] p0_phy_phy_read_fifo_q;             // p0:phy_read_fifo_q -> s0:phy_read_fifo_q
+	wire   [1:0] s0_phy_phy_read_increment_vfifo_hr; // s0:phy_read_increment_vfifo_hr -> p0:phy_read_increment_vfifo_hr
+	wire   [1:0] s0_phy_phy_read_increment_vfifo_fr; // s0:phy_read_increment_vfifo_fr -> p0:phy_read_increment_vfifo_fr
+	wire  [63:0] p0_phy_phy_read_fifo_q;             // p0:phy_read_fifo_q -> s0:phy_read_fifo_q
 	wire   [7:0] p0_calib_calib_skip_steps;          // p0:calib_skip_steps -> s0:calib_skip_steps
 	wire   [1:0] c0_afi_afi_rdata_en_full;           // c0:afi_rdata_en_full -> m0:afi_rdata_en_full
-	wire   [1:0] c0_afi_afi_wdata_valid;             // c0:afi_wdata_valid -> m0:afi_wdata_valid
-	wire  [31:0] c0_afi_afi_wdata;                   // c0:afi_wdata -> m0:afi_wdata
+	wire   [3:0] c0_afi_afi_wdata_valid;             // c0:afi_wdata_valid -> m0:afi_wdata_valid
+	wire  [63:0] c0_afi_afi_wdata;                   // c0:afi_wdata -> m0:afi_wdata
 	wire   [1:0] c0_afi_afi_rst_n;                   // c0:afi_rst_n -> m0:afi_rst_n
 	wire         c0_afi_afi_cal_req;                 // c0:afi_cal_req -> s0:afi_cal_req
-	wire   [1:0] c0_afi_afi_dqs_burst;               // c0:afi_dqs_burst -> m0:afi_dqs_burst
-	wire  [25:0] c0_afi_afi_addr;                    // c0:afi_addr -> m0:afi_addr
+	wire   [3:0] c0_afi_afi_dqs_burst;               // c0:afi_dqs_burst -> m0:afi_dqs_burst
+	wire  [29:0] c0_afi_afi_addr;                    // c0:afi_addr -> m0:afi_addr
 	wire   [5:0] c0_afi_afi_ba;                      // c0:afi_ba -> m0:afi_ba
-	wire   [3:0] c0_afi_afi_dm;                      // c0:afi_dm -> m0:afi_dm
+	wire   [7:0] c0_afi_afi_dm;                      // c0:afi_dm -> m0:afi_dm
 	wire   [0:0] c0_afi_afi_mem_clk_disable;         // c0:afi_mem_clk_disable -> p0:afi_mem_clk_disable
 	wire         c0_afi_afi_init_req;                // c0:afi_init_req -> s0:afi_init_req
 	wire   [1:0] c0_afi_afi_we_n;                    // c0:afi_we_n -> m0:afi_we_n
@@ -235,19 +235,19 @@ module ddr3_mem_0002 (
 
 	afi_mux_ddr3_ddrx #(
 		.AFI_RATE_RATIO            (2),
-		.AFI_ADDR_WIDTH            (26),
+		.AFI_ADDR_WIDTH            (30),
 		.AFI_BANKADDR_WIDTH        (6),
 		.AFI_CONTROL_WIDTH         (2),
 		.AFI_CS_WIDTH              (2),
 		.AFI_CLK_EN_WIDTH          (2),
-		.AFI_DM_WIDTH              (4),
-		.AFI_DQ_WIDTH              (32),
+		.AFI_DM_WIDTH              (8),
+		.AFI_DQ_WIDTH              (64),
 		.AFI_ODT_WIDTH             (2),
-		.AFI_WRITE_DQS_WIDTH       (2),
+		.AFI_WRITE_DQS_WIDTH       (4),
 		.AFI_RLAT_WIDTH            (6),
 		.AFI_WLAT_WIDTH            (6),
-		.AFI_RRANK_WIDTH           (2),
-		.AFI_WRANK_WIDTH           (2),
+		.AFI_RRANK_WIDTH           (4),
+		.AFI_WRANK_WIDTH           (4),
 		.MRS_MIRROR_PING_PONG_ATSO (0)
 	) m0 (
 		.clk                   (afi_clk),                      //     clk.clk

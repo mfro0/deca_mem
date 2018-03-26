@@ -55,22 +55,22 @@ agreement for further details.
 	(port
 		(pt 0 488)
 		(input)
-		(text "avl_addr[20..0]" (rect 0 0 60 12)(font "Arial" (font_size 8)))
-		(text "avl_addr[20..0]" (rect 4 477 94 488)(font "Arial" (font_size 8)))
+		(text "avl_addr[25..0]" (rect 0 0 60 12)(font "Arial" (font_size 8)))
+		(text "avl_addr[25..0]" (rect 4 477 94 488)(font "Arial" (font_size 8)))
 		(line (pt 0 488)(pt 112 488)(line_width 3))
 	)
 	(port
 		(pt 0 536)
 		(input)
-		(text "avl_wdata[31..0]" (rect 0 0 63 12)(font "Arial" (font_size 8)))
-		(text "avl_wdata[31..0]" (rect 4 525 100 536)(font "Arial" (font_size 8)))
+		(text "avl_wdata[63..0]" (rect 0 0 64 12)(font "Arial" (font_size 8)))
+		(text "avl_wdata[63..0]" (rect 4 525 100 536)(font "Arial" (font_size 8)))
 		(line (pt 0 536)(pt 112 536)(line_width 3))
 	)
 	(port
 		(pt 0 552)
 		(input)
-		(text "avl_be[3..0]" (rect 0 0 47 12)(font "Arial" (font_size 8)))
-		(text "avl_be[3..0]" (rect 4 541 76 552)(font "Arial" (font_size 8)))
+		(text "avl_be[7..0]" (rect 0 0 47 12)(font "Arial" (font_size 8)))
+		(text "avl_be[7..0]" (rect 4 541 76 552)(font "Arial" (font_size 8)))
 		(line (pt 0 552)(pt 112 552)(line_width 3))
 	)
 	(port
@@ -125,8 +125,8 @@ agreement for further details.
 	(port
 		(pt 0 192)
 		(output)
-		(text "mem_a[12..0]" (rect 0 0 55 12)(font "Arial" (font_size 8)))
-		(text "mem_a[12..0]" (rect 4 181 76 192)(font "Arial" (font_size 8)))
+		(text "mem_a[14..0]" (rect 0 0 56 12)(font "Arial" (font_size 8)))
+		(text "mem_a[14..0]" (rect 4 181 76 192)(font "Arial" (font_size 8)))
 		(line (pt 0 192)(pt 112 192)(line_width 3))
 	)
 	(port
@@ -153,9 +153,9 @@ agreement for further details.
 	(port
 		(pt 0 288)
 		(output)
-		(text "mem_dm" (rect 0 0 40 12)(font "Arial" (font_size 8)))
-		(text "mem_dm" (rect 4 277 40 288)(font "Arial" (font_size 8)))
-		(line (pt 0 288)(pt 112 288)(line_width 1))
+		(text "mem_dm[1..0]" (rect 0 0 59 12)(font "Arial" (font_size 8)))
+		(text "mem_dm[1..0]" (rect 4 277 76 288)(font "Arial" (font_size 8)))
+		(line (pt 0 288)(pt 112 288)(line_width 3))
 	)
 	(port
 		(pt 0 304)
@@ -209,8 +209,8 @@ agreement for further details.
 	(port
 		(pt 0 520)
 		(output)
-		(text "avl_rdata[31..0]" (rect 0 0 61 12)(font "Arial" (font_size 8)))
-		(text "avl_rdata[31..0]" (rect 4 509 100 520)(font "Arial" (font_size 8)))
+		(text "avl_rdata[63..0]" (rect 0 0 62 12)(font "Arial" (font_size 8)))
+		(text "avl_rdata[63..0]" (rect 4 509 100 520)(font "Arial" (font_size 8)))
 		(line (pt 0 520)(pt 112 520)(line_width 3))
 	)
 	(port
@@ -286,23 +286,23 @@ agreement for further details.
 	(port
 		(pt 0 368)
 		(bidir)
-		(text "mem_dq[7..0]" (rect 0 0 56 12)(font "Arial" (font_size 8)))
-		(text "mem_dq[7..0]" (rect 4 357 76 368)(font "Arial" (font_size 8)))
+		(text "mem_dq[15..0]" (rect 0 0 60 12)(font "Arial" (font_size 8)))
+		(text "mem_dq[15..0]" (rect 4 357 82 368)(font "Arial" (font_size 8)))
 		(line (pt 0 368)(pt 112 368)(line_width 3))
 	)
 	(port
 		(pt 0 384)
 		(bidir)
-		(text "mem_dqs" (rect 0 0 41 12)(font "Arial" (font_size 8)))
-		(text "mem_dqs" (rect 4 373 46 384)(font "Arial" (font_size 8)))
-		(line (pt 0 384)(pt 112 384)(line_width 1))
+		(text "mem_dqs[1..0]" (rect 0 0 60 12)(font "Arial" (font_size 8)))
+		(text "mem_dqs[1..0]" (rect 4 373 82 384)(font "Arial" (font_size 8)))
+		(line (pt 0 384)(pt 112 384)(line_width 3))
 	)
 	(port
 		(pt 0 400)
 		(bidir)
-		(text "mem_dqs_n" (rect 0 0 51 12)(font "Arial" (font_size 8)))
-		(text "mem_dqs_n" (rect 4 389 58 400)(font "Arial" (font_size 8)))
-		(line (pt 0 400)(pt 112 400)(line_width 1))
+		(text "mem_dqs_n[1..0]" (rect 0 0 70 12)(font "Arial" (font_size 8)))
+		(text "mem_dqs_n[1..0]" (rect 4 389 94 400)(font "Arial" (font_size 8)))
+		(line (pt 0 400)(pt 112 400)(line_width 3))
 	)
 	(drawing
 		(text "pll_ref_clk" (rect 51 43 168 99)(font "Arial" (color 128 0 0)(font_size 9)))

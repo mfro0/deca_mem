@@ -1,14 +1,15 @@
 library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
-    
+library ddr3_mem;
+
 entity deca_mem is
     port
     (
         -- clocks
         ADC_CLK_10          : in std_logic;
-        MAX_10_CLK1_50      : in std_logic;
-        MAX_10_CLK2_50      : in std_logic;
+        MAX10_CLK1_50       : in std_logic;
+        MAX10_CLK2_50       : in std_logic;
         
         -- keys
         KEY                 : in std_logic_vector(1 downto 0);
@@ -174,6 +175,30 @@ architecture rtl of deca_mem is
            clk_200                  : std_ulogic;
     signal pll_locked               : std_ulogic;
     
+    signal afi_clk                  : std_ulogic;
+    signal afi_half_clk             : std_ulogic;
+    signal afi_reset_n              : std_ulogic;
+    signal afi_reset_export_n       : std_ulogic;
+    
+    signal avl_ready                : std_ulogic;
+    signal avl_burstbegin           : std_ulogic;
+    signal avl_addr                 : std_logic_vector(25 downto 0);
+    signal avl_rdata_valid          : std_ulogic;
+    signal avl_rdata                : std_logic_vector(63 downto 0);
+    signal avl_wdata                : std_logic_vector(63 downto 0);
+    signal avl_be                   : std_logic_vector(7 downto 0);
+    signal avl_read_req             : std_ulogic;
+    signal avl_write_req            : std_ulogic;
+    signal avl_size                 : std_logic_vector(2 downto 0);
+    
+    signal ddr3_init_done,
+           ddr3_cal_success,
+           ddr3_cal_fail,
+           ddr3_mem_clk,
+           ddr3_write_clk,
+           ddr3_capture0_clk,
+           ddr3_capture1_clk        : std_ulogic;
+    
 begin
     i_reset_circuit : entity work.deca_reset
         generic map
@@ -182,7 +207,7 @@ begin
         )
         port map
         (
-            clk             => MAX_10_CLK1_50,
+            clk             => MAX10_CLK1_50,
             reset_n         => reset_n,
             lock_pll        => pll_locked
         );
@@ -190,7 +215,7 @@ begin
     i_clocks : entity work.deca_clocks
         port map
         (
-            clk             => MAX_10_CLK1_50,
+            clk             => MAX10_CLK1_50,
             reset_n         => reset_n,
             clk_100         => clk_100,
             clk_125         => clk_125,
@@ -199,4 +224,54 @@ begin
             clk_200         => clk_200,
             locked          => pll_locked
         );
+
+	i_ddr3_memory : entity ddr3_mem.ddr3_mem
+		port map
+		(
+            pll_ref_clk         => clk_100,
+            global_reset_n      => reset_n,
+            soft_reset_n        => reset_n,
+            afi_clk             => afi_clk,
+            afi_half_clk        => afi_half_clk,
+            afi_reset_n         => afi_reset_n,
+            afi_reset_export_n  => afi_reset_export_n,
+            
+            mem_a               => DDR3_A,
+            mem_ba              => DDR3_BA,
+            mem_ck(0)           => DDR3_CK_p,
+            mem_ck_n(0)         => DDR3_CK_n,
+            mem_cke(0)          => DDR3_CKE,
+            mem_cs_n(0)         => DDR3_CS_n,
+            mem_dm              => DDR3_DM,
+            mem_ras_n(0)        => DDR3_RAS_n,
+            mem_cas_n(0)        => DDR3_CAS_n,
+            mem_we_n(0)         => DDR3_WE_n,
+            mem_reset_n         => DDR3_reset_n,
+            mem_dq              => DDR3_DQ,
+            mem_dqs             => DDR3_DQS_p,
+            mem_dqs_n           => DDR3_DQS_n,
+            mem_odt(0)          => DDR3_ODT,
+            
+            avl_ready           => avl_ready,
+            avl_burstbegin      => avl_burstbegin,
+            avl_addr            => avl_addr,
+            avl_rdata_valid     => avl_rdata_valid,
+            avl_rdata           => avl_rdata,
+            avl_wdata           => avl_wdata,
+            avl_be              => avl_be,
+            avl_read_req        => avl_read_req,
+            avl_write_req       => avl_write_req,
+            avl_size            => avl_size,
+            
+            local_init_done     => ddr3_init_done,
+            local_cal_success   => ddr3_cal_success,
+            local_cal_fail      => ddr3_cal_fail,
+            
+            pll_mem_clk         => ddr3_mem_clk,
+            pll_write_clk       => ddr3_write_clk,
+            pll_locked          => ddr3_pll_locked,
+            pll_capture0_clk    => ddr3_capture0_clk,
+            pll_capture1_clk    => ddr3_capture1_clk
+        );
+            
 end architecture rtl;

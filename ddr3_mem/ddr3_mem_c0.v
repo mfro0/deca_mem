@@ -13,7 +13,7 @@ module ddr3_mem_c0 (
 		output wire        local_init_done,     //       status.local_init_done
 		output wire        local_cal_success,   //             .local_cal_success
 		output wire        local_cal_fail,      //             .local_cal_fail
-		output wire [25:0] afi_addr,            //          afi.afi_addr
+		output wire [29:0] afi_addr,            //          afi.afi_addr
 		output wire [5:0]  afi_ba,              //             .afi_ba
 		output wire [1:0]  afi_ras_n,           //             .afi_ras_n
 		output wire [1:0]  afi_we_n,            //             .afi_we_n
@@ -21,11 +21,11 @@ module ddr3_mem_c0 (
 		output wire [1:0]  afi_odt,             //             .afi_odt
 		output wire [1:0]  afi_cke,             //             .afi_cke
 		output wire [1:0]  afi_cs_n,            //             .afi_cs_n
-		output wire [1:0]  afi_dqs_burst,       //             .afi_dqs_burst
-		output wire [1:0]  afi_wdata_valid,     //             .afi_wdata_valid
-		output wire [31:0] afi_wdata,           //             .afi_wdata
-		output wire [3:0]  afi_dm,              //             .afi_dm
-		input  wire [31:0] afi_rdata,           //             .afi_rdata
+		output wire [3:0]  afi_dqs_burst,       //             .afi_dqs_burst
+		output wire [3:0]  afi_wdata_valid,     //             .afi_wdata_valid
+		output wire [63:0] afi_wdata,           //             .afi_wdata
+		output wire [7:0]  afi_dm,              //             .afi_dm
+		input  wire [63:0] afi_rdata,           //             .afi_rdata
 		output wire [1:0]  afi_rst_n,           //             .afi_rst_n
 		output wire [0:0]  afi_mem_clk_disable, //             .afi_mem_clk_disable
 		output wire        afi_init_req,        //             .afi_init_req
@@ -39,11 +39,11 @@ module ddr3_mem_c0 (
 		input  wire [5:0]  afi_rlat,            //             .afi_rlat
 		output wire        avl_ready,           //          avl.waitrequest_n
 		input  wire        avl_burstbegin,      //             .beginbursttransfer
-		input  wire [20:0] avl_addr,            //             .address
+		input  wire [25:0] avl_addr,            //             .address
 		output wire        avl_rdata_valid,     //             .readdatavalid
-		output wire [31:0] avl_rdata,           //             .readdata
-		input  wire [31:0] avl_wdata,           //             .writedata
-		input  wire [3:0]  avl_be,              //             .byteenable
+		output wire [63:0] avl_rdata,           //             .readdata
+		input  wire [63:0] avl_wdata,           //             .writedata
+		input  wire [7:0]  avl_be,              //             .byteenable
 		input  wire        avl_read_req,        //             .read
 		input  wire        avl_write_req,       //             .write
 		input  wire [2:0]  avl_size             //             .burstcount
@@ -54,12 +54,12 @@ module ddr3_mem_c0 (
 	wire         a0_native_st_itf_cmd_autopercharge; // a0:itf_cmd_autopercharge -> ng0:itf_cmd_autopercharge
 	wire         ng0_native_st_itf_rd_data_error;    // ng0:itf_rd_data_error -> a0:itf_rd_data_error
 	wire         a0_native_st_itf_cmd_priority;      // a0:itf_cmd_priority -> ng0:itf_cmd_priority
-	wire   [3:0] a0_native_st_itf_wr_data_byte_en;   // a0:itf_wr_data_byte_en -> ng0:itf_wr_data_byte_en
+	wire   [7:0] a0_native_st_itf_wr_data_byte_en;   // a0:itf_wr_data_byte_en -> ng0:itf_wr_data_byte_en
 	wire   [7:0] ng0_native_st_itf_rd_data_id;       // ng0:itf_rd_data_id -> a0:itf_rd_data_id
-	wire  [31:0] a0_native_st_itf_wr_data;           // a0:itf_wr_data -> ng0:itf_wr_data
+	wire  [63:0] a0_native_st_itf_wr_data;           // a0:itf_wr_data -> ng0:itf_wr_data
 	wire         a0_native_st_itf_wr_data_valid;     // a0:itf_wr_data_valid -> ng0:itf_wr_data_valid
 	wire   [7:0] a0_native_st_itf_cmd_id;            // a0:itf_cmd_id -> ng0:itf_cmd_id
-	wire  [31:0] ng0_native_st_itf_rd_data;          // ng0:itf_rd_data -> a0:itf_rd_data
+	wire  [63:0] ng0_native_st_itf_rd_data;          // ng0:itf_rd_data -> a0:itf_rd_data
 	wire         ng0_native_st_itf_cmd_ready;        // ng0:itf_cmd_ready -> a0:itf_cmd_ready
 	wire         ng0_native_st_itf_rd_data_begin;    // ng0:itf_rd_data_begin -> a0:itf_rd_data_begin
 	wire         a0_native_st_itf_cmd_multicast;     // a0:itf_cmd_multicast -> ng0:itf_cmd_multicast
@@ -70,29 +70,29 @@ module ddr3_mem_c0 (
 	wire         a0_native_st_itf_rd_data_ready;     // a0:itf_rd_data_ready -> ng0:itf_rd_data_ready
 	wire   [2:0] a0_native_st_itf_cmd_burstlen;      // a0:itf_cmd_burstlen -> ng0:itf_cmd_burstlen
 	wire         a0_native_st_itf_cmd;               // a0:itf_cmd -> ng0:itf_cmd
-	wire  [20:0] a0_native_st_itf_cmd_address;       // a0:itf_cmd_address -> ng0:itf_cmd_address
+	wire  [25:0] a0_native_st_itf_cmd_address;       // a0:itf_cmd_address -> ng0:itf_cmd_address
 	wire   [7:0] a0_native_st_itf_wr_data_id;        // a0:itf_wr_data_id -> ng0:itf_wr_data_id
 
 	alt_mem_if_nextgen_ddr3_controller_core #(
-		.MEM_IF_ADDR_WIDTH                (13),
-		.MEM_IF_ROW_ADDR_WIDTH            (12),
-		.MEM_IF_COL_ADDR_WIDTH            (8),
-		.MEM_IF_DM_WIDTH                  (1),
-		.MEM_IF_DQS_WIDTH                 (1),
+		.MEM_IF_ADDR_WIDTH                (15),
+		.MEM_IF_ROW_ADDR_WIDTH            (15),
+		.MEM_IF_COL_ADDR_WIDTH            (10),
+		.MEM_IF_DM_WIDTH                  (2),
+		.MEM_IF_DQS_WIDTH                 (2),
 		.MEM_IF_CS_WIDTH                  (1),
 		.MEM_IF_CHIP_BITS                 (1),
 		.MEM_IF_BANKADDR_WIDTH            (3),
-		.MEM_IF_DQ_WIDTH                  (8),
+		.MEM_IF_DQ_WIDTH                  (16),
 		.MEM_IF_CLK_EN_WIDTH              (1),
 		.MEM_IF_CLK_PAIR_COUNT            (1),
-		.MEM_TRC                          (17),
-		.MEM_TRAS                         (13),
+		.MEM_TRC                          (15),
+		.MEM_TRAS                         (11),
 		.MEM_TRCD                         (5),
 		.MEM_TRP                          (5),
-		.MEM_TREFI                        (2101),
-		.MEM_TRFC                         (23),
+		.MEM_TREFI                        (2341),
+		.MEM_TRFC                         (79),
 		.MEM_TWR                          (5),
-		.MEM_TFAW                         (12),
+		.MEM_TFAW                         (14),
 		.MEM_TRRD                         (3),
 		.MEM_TRTP                         (3),
 		.MEM_IF_ODT_WIDTH                 (1),
@@ -105,25 +105,25 @@ module ddr3_mem_c0 (
 		.CTL_RD_TO_RD_DIFF_CHIP_EXTRA_CLK (1),
 		.CTL_WR_TO_WR_DIFF_CHIP_EXTRA_CLK (1),
 		.MEM_TCL                          (7),
-		.MEM_TMRD_CK                      (3),
-		.MEM_TWTR                         (2),
+		.MEM_TMRD_CK                      (4),
+		.MEM_TWTR                         (6),
 		.CSR_ADDR_WIDTH                   (8),
 		.CSR_DATA_WIDTH                   (32),
 		.CSR_BE_WIDTH                     (4),
 		.CTL_CS_WIDTH                     (1),
-		.AVL_ADDR_WIDTH                   (21),
-		.AVL_BE_WIDTH                     (4),
-		.AVL_DATA_WIDTH                   (32),
+		.AVL_ADDR_WIDTH                   (26),
+		.AVL_BE_WIDTH                     (8),
+		.AVL_DATA_WIDTH                   (64),
 		.AVL_SIZE_WIDTH                   (3),
 		.DWIDTH_RATIO                     (4),
-		.CTL_ODT_ENABLED                  (0),
+		.CTL_ODT_ENABLED                  (1),
 		.CTL_OUTPUT_REGD                  (0),
 		.CTL_ECC_MULTIPLES_16_24_40_72    (1),
 		.CTL_REGDIMM_ENABLED              (0),
 		.CTL_TBP_NUM                      (4),
 		.CTL_USR_REFRESH                  (0),
 		.CFG_TYPE                         (2),
-		.CFG_INTERFACE_WIDTH              (8),
+		.CFG_INTERFACE_WIDTH              (16),
 		.CFG_BURST_LENGTH                 (8),
 		.CFG_ADDR_ORDER                   (0),
 		.CFG_PDN_EXIT_CYCLES              (10),
@@ -161,19 +161,19 @@ module ddr3_mem_c0 (
 		.USE_DQS_TRACKING                 (0),
 		.USE_SHADOW_REGS                  (0),
 		.AFI_RATE_RATIO                   (2),
-		.AFI_ADDR_WIDTH                   (26),
+		.AFI_ADDR_WIDTH                   (30),
 		.AFI_BANKADDR_WIDTH               (6),
 		.AFI_CONTROL_WIDTH                (2),
 		.AFI_CS_WIDTH                     (2),
 		.AFI_CLK_EN_WIDTH                 (2),
-		.AFI_DM_WIDTH                     (4),
-		.AFI_DQ_WIDTH                     (32),
+		.AFI_DM_WIDTH                     (8),
+		.AFI_DQ_WIDTH                     (64),
 		.AFI_ODT_WIDTH                    (2),
-		.AFI_WRITE_DQS_WIDTH              (2),
+		.AFI_WRITE_DQS_WIDTH              (4),
 		.AFI_RLAT_WIDTH                   (6),
 		.AFI_WLAT_WIDTH                   (6),
-		.AFI_RRANK_WIDTH                  (2),
-		.AFI_WRANK_WIDTH                  (2)
+		.AFI_RRANK_WIDTH                  (4),
+		.AFI_WRANK_WIDTH                  (4)
 	) ng0 (
 		.afi_reset_n             (afi_reset_n),                          //    afi_reset.reset_n
 		.afi_half_clk            (afi_half_clk),                         // afi_half_clk.clk
@@ -259,8 +259,8 @@ module ddr3_mem_c0 (
 
 	alt_mem_ddrx_mm_st_converter #(
 		.AVL_SIZE_WIDTH   (3),
-		.AVL_ADDR_WIDTH   (21),
-		.AVL_DATA_WIDTH   (32),
+		.AVL_ADDR_WIDTH   (26),
+		.AVL_DATA_WIDTH   (64),
 		.LOCAL_ID_WIDTH   (8),
 		.CFG_DWIDTH_RATIO (4)
 	) a0 (

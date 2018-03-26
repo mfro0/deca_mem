@@ -111,37 +111,37 @@ parameter OCT_TERM_CONTROL_WIDTH   = 14;
 
 // PHY-Memory Interface
 // Memory device specific parameters, they are set according to the memory spec.
-parameter MEM_IF_ADDR_WIDTH			= 13;
+parameter MEM_IF_ADDR_WIDTH			= 15;
 parameter MEM_IF_BANKADDR_WIDTH     = 3;
 parameter MEM_IF_CK_WIDTH			= 1;
 parameter MEM_IF_CLK_EN_WIDTH		= 1;
 parameter MEM_IF_CS_WIDTH			= 1;
-parameter MEM_IF_DM_WIDTH         	= 1;
+parameter MEM_IF_DM_WIDTH         	= 2;
 parameter MEM_IF_CONTROL_WIDTH    	= 1; 
-parameter MEM_IF_DQ_WIDTH         	= 8;
-parameter MEM_IF_DQS_WIDTH         	= 1;
-parameter MEM_IF_READ_DQS_WIDTH    	= 1;
-parameter MEM_IF_WRITE_DQS_WIDTH   	= 1;
+parameter MEM_IF_DQ_WIDTH         	= 16;
+parameter MEM_IF_DQS_WIDTH         	= 2;
+parameter MEM_IF_READ_DQS_WIDTH    	= 2;
+parameter MEM_IF_WRITE_DQS_WIDTH   	= 2;
 parameter MEM_IF_ODT_WIDTH         	= 1;
 parameter MEM_IF_NUMBER_OF_RANKS	= 1;
 
 // PHY-Controller (AFI) Interface
 // The AFI interface widths are derived from the memory interface widths based on full/half rate operations.
 // The calculations are done on higher level wrapper.
-parameter AFI_ADDR_WIDTH 	        = 26; 
-parameter AFI_DM_WIDTH 	        	= 4; 
+parameter AFI_ADDR_WIDTH 	        = 30; 
+parameter AFI_DM_WIDTH 	        	= 8; 
 parameter AFI_BANKADDR_WIDTH        = 6; 
 parameter AFI_CS_WIDTH				= 2;
 parameter AFI_CLK_EN_WIDTH          = 2;
 parameter AFI_CONTROL_WIDTH         = 2; 
 parameter AFI_ODT_WIDTH             = 2; 
-parameter AFI_DQ_WIDTH				= 32; 
-parameter AFI_WRITE_DQS_WIDTH		= 2;
+parameter AFI_DQ_WIDTH				= 64; 
+parameter AFI_WRITE_DQS_WIDTH		= 4;
 parameter AFI_RATE_RATIO			= 2;
 parameter AFI_WLAT_WIDTH			= 6;
 parameter AFI_RLAT_WIDTH			= 6;
-parameter AFI_RRANK_WIDTH           = 2;
-parameter AFI_WRANK_WIDTH           = 2;
+parameter AFI_RRANK_WIDTH           = 4;
+parameter AFI_WRANK_WIDTH           = 4;
 
 // DLL Interface
 parameter DLL_DELAY_CTRL_WIDTH	= 6;
@@ -175,9 +175,9 @@ parameter REGISTER_C2P = "false";
 // Address/Command Datapath
 parameter NUM_AC_FR_CYCLE_SHIFTS = 0;
 
-parameter MR1_ODS								= 0;
-parameter MR1_RTT								= 0;
-parameter MR2_RTT_WR							= 0;
+parameter MR1_ODS								= 1;
+parameter MR1_RTT								= 3;
+parameter MR2_RTT_WR							= 1;
 parameter MEM_T_WL								= 6;
 
 localparam MEM_T_RL								= 7;
@@ -201,8 +201,8 @@ parameter CALIB_REG_WIDTH = 8;
 parameter TB_PROTOCOL       = "DDR3";
 parameter TB_MEM_CLK_FREQ   = "300.0";
 parameter TB_RATE           = "HALF";
-parameter TB_MEM_DQ_WIDTH   = "8";
-parameter TB_MEM_DQS_WIDTH  = "1";
+parameter TB_MEM_DQ_WIDTH   = "16";
+parameter TB_MEM_DQS_WIDTH  = "2";
 parameter TB_PLL_DLL_MASTER = "true";
 
 parameter FAST_SIM_CALIBRATION = "false";

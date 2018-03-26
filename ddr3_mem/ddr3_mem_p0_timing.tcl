@@ -36,25 +36,25 @@ package require ::quartus::ddr_timing_model
 set t(CK) 3.333
 
 # Reference Clock Period
-set t(refCK) 8.0
+set t(refCK) 20.0
 
 # Minimum Clock Period
-set t(min_CK) 2.5
+set t(min_CK) 1.25
 
 ##########################
 # Memory timing parameters
 ##########################
 
 # A/C Setup/Hold
-set t(IS) 0.35
-set t(IH) 0.35
+set t(IS) 0.335
+set t(IH) 0.23
 
 # Data Setup/Hold
-set t(DS) 0.225
-set t(DH) 0.225
+set t(DS) 0.205
+set t(DH) 0.155
 
 # DQS clock edge to DQ data edge (in same group)
-set t(DQSQ) [expr { 120 / 1000.0 }]
+set t(DQSQ) [expr { 125 / 1000.0 }]
 set t(QH) 0.38
 set t(QH) [expr (0.5*$t(CK)-(0.5-$t(QH))*$t(min_CK))/$t(CK)]
 
@@ -70,10 +70,10 @@ set t(DSH) [expr $t(DSH)*$t(min_CK)/$t(CK)]
 set t(DQSS) [expr 2 * $t(DQSS)]  
 
 # DQS Width
-set t(QSH) 0.38
+set t(QSH) 0.4
 
 # DQS to CK timing on reads
-set t(DQSCK) [expr { 400 / 1000.0 }]
+set t(DQSCK) [expr { 225 / 1000.0 }]
 
 # FPGA Duty Cycle Distortion
 set t(DCD) 0.0
@@ -122,14 +122,14 @@ set ISI(READ_DQ) 0.0
 set ISI(READ_DQS) 0.0
 
 # Board skews
-set board(abs_max_CK_delay) 0.6
-set board(abs_max_DQS_delay) 0.6
-set board(minCK_DQS_skew) -0.01
-set board(maxCK_DQS_skew) 0.01
+set board(abs_max_CK_delay) 0.183
+set board(abs_max_DQS_delay) 0.181
+set board(minCK_DQS_skew) 0.002
+set board(maxCK_DQS_skew) 0.007
 set board(tpd_inter_DIMM) 0.0
-set board(intra_DQS_group_skew) 0.02
-set board(inter_DQS_group_skew) 0.02
-set board(DQ_DQS_skew) 0.0
-set board(intra_addr_ctrl_skew) 0.02
-set board(addresscmd_CK_skew) 0.0
+set board(intra_DQS_group_skew) 0.008
+set board(inter_DQS_group_skew) 0.005
+set board(DQ_DQS_skew) -6.0E-4
+set board(intra_addr_ctrl_skew) 0.017
+set board(addresscmd_CK_skew) -1.3E-4
 

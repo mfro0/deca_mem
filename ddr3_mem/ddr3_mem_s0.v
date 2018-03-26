@@ -23,22 +23,22 @@ module ddr3_mem_s0 (
 		output wire [4:0]  phy_read_latency_counter,    //                 .phy_read_latency_counter
 		output wire [5:0]  phy_afi_wlat,                //                 .phy_afi_wlat
 		output wire [5:0]  phy_afi_rlat,                //                 .phy_afi_rlat
-		output wire [0:0]  phy_read_increment_vfifo_fr, //                 .phy_read_increment_vfifo_fr
-		output wire [0:0]  phy_read_increment_vfifo_hr, //                 .phy_read_increment_vfifo_hr
-		output wire [0:0]  phy_read_increment_vfifo_qr, //                 .phy_read_increment_vfifo_qr
+		output wire [1:0]  phy_read_increment_vfifo_fr, //                 .phy_read_increment_vfifo_fr
+		output wire [1:0]  phy_read_increment_vfifo_hr, //                 .phy_read_increment_vfifo_hr
+		output wire [1:0]  phy_read_increment_vfifo_qr, //                 .phy_read_increment_vfifo_qr
 		output wire        phy_reset_mem_stable,        //                 .phy_reset_mem_stable
 		output wire        phy_cal_success,             //                 .phy_cal_success
 		output wire        phy_cal_fail,                //                 .phy_cal_fail
 		output wire [31:0] phy_cal_debug_info,          //                 .phy_cal_debug_info
-		output wire [0:0]  phy_read_fifo_reset,         //                 .phy_read_fifo_reset
-		output wire [0:0]  phy_vfifo_rd_en_override,    //                 .phy_vfifo_rd_en_override
-		input  wire [31:0] phy_read_fifo_q,             //                 .phy_read_fifo_q
-		output wire [1:0]  phy_write_fr_cycle_shifts,   //                 .phy_write_fr_cycle_shifts
+		output wire [1:0]  phy_read_fifo_reset,         //                 .phy_read_fifo_reset
+		output wire [1:0]  phy_vfifo_rd_en_override,    //                 .phy_vfifo_rd_en_override
+		input  wire [63:0] phy_read_fifo_q,             //                 .phy_read_fifo_q
+		output wire [3:0]  phy_write_fr_cycle_shifts,   //                 .phy_write_fr_cycle_shifts
 		output wire        phy_mux_sel,                 //          mux_sel.mux_sel
 		input  wire [7:0]  calib_skip_steps,            //            calib.calib_skip_steps
 		input  wire        afi_clk,                     //          afi_clk.clk
 		input  wire        afi_reset_n,                 //        afi_reset.reset_n
-		output wire [25:0] afi_addr,                    //              afi.afi_addr
+		output wire [29:0] afi_addr,                    //              afi.afi_addr
 		output wire [5:0]  afi_ba,                      //                 .afi_ba
 		output wire [1:0]  afi_cs_n,                    //                 .afi_cs_n
 		output wire [1:0]  afi_cke,                     //                 .afi_cke
@@ -46,14 +46,14 @@ module ddr3_mem_s0 (
 		output wire [1:0]  afi_ras_n,                   //                 .afi_ras_n
 		output wire [1:0]  afi_cas_n,                   //                 .afi_cas_n
 		output wire [1:0]  afi_we_n,                    //                 .afi_we_n
-		output wire [1:0]  afi_dqs_burst,               //                 .afi_dqs_burst
+		output wire [3:0]  afi_dqs_burst,               //                 .afi_dqs_burst
 		output wire [1:0]  afi_rst_n,                   //                 .afi_rst_n
-		output wire [31:0] afi_wdata,                   //                 .afi_wdata
-		output wire [1:0]  afi_wdata_valid,             //                 .afi_wdata_valid
-		output wire [3:0]  afi_dm,                      //                 .afi_dm
+		output wire [63:0] afi_wdata,                   //                 .afi_wdata
+		output wire [3:0]  afi_wdata_valid,             //                 .afi_wdata_valid
+		output wire [7:0]  afi_dm,                      //                 .afi_dm
 		output wire [1:0]  afi_rdata_en,                //                 .afi_rdata_en
 		output wire [1:0]  afi_rdata_en_full,           //                 .afi_rdata_en_full
-		input  wire [31:0] afi_rdata,                   //                 .afi_rdata
+		input  wire [63:0] afi_rdata,                   //                 .afi_rdata
 		input  wire [1:0]  afi_rdata_valid,             //                 .afi_rdata_valid
 		input  wire        afi_init_req,                // afi_init_cal_req.afi_init_req
 		input  wire        afi_cal_req                  //                 .afi_cal_req
@@ -103,7 +103,7 @@ module ddr3_mem_s0 (
 		.PHY_MGR_BASE         (294912),
 		.RW_MGR_BASE          (327680),
 		.PLL_MGR_BASE         (360448),
-		.MEM_DQ_WIDTH         (8)
+		.MEM_DQ_WIDTH         (16)
 	) cpu_inst (
 		.clk         (avl_clk),                          //            clk.clk
 		.reset_n     (~sequencer_rst_reset_out_reset),   //        reset_n.reset_n
@@ -144,9 +144,9 @@ module ddr3_mem_s0 (
 		.AVL_DATA_WIDTH                    (32),
 		.AVL_ADDR_WIDTH                    (13),
 		.MAX_LATENCY_COUNT_WIDTH           (5),
-		.MEM_IF_READ_DQS_WIDTH             (1),
-		.MEM_IF_WRITE_DQS_WIDTH            (1),
-		.AFI_DQ_WIDTH                      (32),
+		.MEM_IF_READ_DQS_WIDTH             (2),
+		.MEM_IF_WRITE_DQS_WIDTH            (2),
+		.AFI_DQ_WIDTH                      (64),
 		.AFI_DEBUG_INFO_WIDTH              (32),
 		.AFI_MAX_WRITE_LATENCY_COUNT_WIDTH (6),
 		.AFI_MAX_READ_LATENCY_COUNT_WIDTH  (6),
@@ -193,17 +193,17 @@ module ddr3_mem_s0 (
 		.RATE                                 ("Half"),
 		.AVL_DATA_WIDTH                       (32),
 		.AVL_ADDR_WIDTH                       (13),
-		.MEM_ADDRESS_WIDTH                    (13),
+		.MEM_ADDRESS_WIDTH                    (15),
 		.MEM_CONTROL_WIDTH                    (1),
-		.MEM_DQ_WIDTH                         (8),
-		.MEM_DM_WIDTH                         (1),
+		.MEM_DQ_WIDTH                         (16),
+		.MEM_DM_WIDTH                         (2),
 		.MEM_NUMBER_OF_RANKS                  (1),
 		.MEM_CLK_EN_WIDTH                     (1),
 		.MEM_BANK_WIDTH                       (3),
 		.MEM_ODT_WIDTH                        (1),
 		.MEM_CHIP_SELECT_WIDTH                (1),
-		.MEM_READ_DQS_WIDTH                   (1),
-		.MEM_WRITE_DQS_WIDTH                  (1),
+		.MEM_READ_DQS_WIDTH                   (2),
+		.MEM_WRITE_DQS_WIDTH                  (2),
 		.AFI_RATIO                            (2),
 		.AC_BUS_WIDTH                         (27),
 		.HCX_COMPAT_MODE                      (0),

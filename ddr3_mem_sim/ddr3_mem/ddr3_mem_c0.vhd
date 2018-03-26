@@ -17,7 +17,7 @@ entity ddr3_mem_c0 is
 		local_init_done     : out std_logic;                                        --       status.local_init_done
 		local_cal_success   : out std_logic;                                        --             .local_cal_success
 		local_cal_fail      : out std_logic;                                        --             .local_cal_fail
-		afi_addr            : out std_logic_vector(25 downto 0);                    --          afi.afi_addr
+		afi_addr            : out std_logic_vector(29 downto 0);                    --          afi.afi_addr
 		afi_ba              : out std_logic_vector(5 downto 0);                     --             .afi_ba
 		afi_ras_n           : out std_logic_vector(1 downto 0);                     --             .afi_ras_n
 		afi_we_n            : out std_logic_vector(1 downto 0);                     --             .afi_we_n
@@ -25,11 +25,11 @@ entity ddr3_mem_c0 is
 		afi_odt             : out std_logic_vector(1 downto 0);                     --             .afi_odt
 		afi_cke             : out std_logic_vector(1 downto 0);                     --             .afi_cke
 		afi_cs_n            : out std_logic_vector(1 downto 0);                     --             .afi_cs_n
-		afi_dqs_burst       : out std_logic_vector(1 downto 0);                     --             .afi_dqs_burst
-		afi_wdata_valid     : out std_logic_vector(1 downto 0);                     --             .afi_wdata_valid
-		afi_wdata           : out std_logic_vector(31 downto 0);                    --             .afi_wdata
-		afi_dm              : out std_logic_vector(3 downto 0);                     --             .afi_dm
-		afi_rdata           : in  std_logic_vector(31 downto 0) := (others => '0'); --             .afi_rdata
+		afi_dqs_burst       : out std_logic_vector(3 downto 0);                     --             .afi_dqs_burst
+		afi_wdata_valid     : out std_logic_vector(3 downto 0);                     --             .afi_wdata_valid
+		afi_wdata           : out std_logic_vector(63 downto 0);                    --             .afi_wdata
+		afi_dm              : out std_logic_vector(7 downto 0);                     --             .afi_dm
+		afi_rdata           : in  std_logic_vector(63 downto 0) := (others => '0'); --             .afi_rdata
 		afi_rst_n           : out std_logic_vector(1 downto 0);                     --             .afi_rst_n
 		afi_mem_clk_disable : out std_logic_vector(0 downto 0);                     --             .afi_mem_clk_disable
 		afi_init_req        : out std_logic;                                        --             .afi_init_req
@@ -43,11 +43,11 @@ entity ddr3_mem_c0 is
 		afi_rlat            : in  std_logic_vector(5 downto 0)  := (others => '0'); --             .afi_rlat
 		avl_ready           : out std_logic;                                        --          avl.waitrequest_n
 		avl_burstbegin      : in  std_logic                     := '0';             --             .beginbursttransfer
-		avl_addr            : in  std_logic_vector(20 downto 0) := (others => '0'); --             .address
+		avl_addr            : in  std_logic_vector(25 downto 0) := (others => '0'); --             .address
 		avl_rdata_valid     : out std_logic;                                        --             .readdatavalid
-		avl_rdata           : out std_logic_vector(31 downto 0);                    --             .readdata
-		avl_wdata           : in  std_logic_vector(31 downto 0) := (others => '0'); --             .writedata
-		avl_be              : in  std_logic_vector(3 downto 0)  := (others => '0'); --             .byteenable
+		avl_rdata           : out std_logic_vector(63 downto 0);                    --             .readdata
+		avl_wdata           : in  std_logic_vector(63 downto 0) := (others => '0'); --             .writedata
+		avl_be              : in  std_logic_vector(7 downto 0)  := (others => '0'); --             .byteenable
 		avl_read_req        : in  std_logic                     := '0';             --             .read
 		avl_write_req       : in  std_logic                     := '0';             --             .write
 		avl_size            : in  std_logic_vector(2 downto 0)  := (others => '0')  --             .burstcount
@@ -168,7 +168,7 @@ architecture rtl of ddr3_mem_c0 is
 			itf_cmd_ready           : out std_logic;                                        -- itf_cmd_ready
 			itf_cmd_valid           : in  std_logic                     := 'X';             -- itf_cmd_valid
 			itf_cmd                 : in  std_logic                     := 'X';             -- itf_cmd
-			itf_cmd_address         : in  std_logic_vector(20 downto 0) := (others => 'X'); -- itf_cmd_address
+			itf_cmd_address         : in  std_logic_vector(25 downto 0) := (others => 'X'); -- itf_cmd_address
 			itf_cmd_burstlen        : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- itf_cmd_burstlen
 			itf_cmd_id              : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- itf_cmd_id
 			itf_cmd_priority        : in  std_logic                     := 'X';             -- itf_cmd_priority
@@ -176,19 +176,19 @@ architecture rtl of ddr3_mem_c0 is
 			itf_cmd_multicast       : in  std_logic                     := 'X';             -- itf_cmd_multicast
 			itf_wr_data_ready       : out std_logic;                                        -- itf_wr_data_ready
 			itf_wr_data_valid       : in  std_logic                     := 'X';             -- itf_wr_data_valid
-			itf_wr_data             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- itf_wr_data
-			itf_wr_data_byte_en     : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- itf_wr_data_byte_en
+			itf_wr_data             : in  std_logic_vector(63 downto 0) := (others => 'X'); -- itf_wr_data
+			itf_wr_data_byte_en     : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- itf_wr_data_byte_en
 			itf_wr_data_begin       : in  std_logic                     := 'X';             -- itf_wr_data_begin
 			itf_wr_data_last        : in  std_logic                     := 'X';             -- itf_wr_data_last
 			itf_wr_data_id          : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- itf_wr_data_id
 			itf_rd_data_ready       : in  std_logic                     := 'X';             -- itf_rd_data_ready
 			itf_rd_data_valid       : out std_logic;                                        -- itf_rd_data_valid
-			itf_rd_data             : out std_logic_vector(31 downto 0);                    -- itf_rd_data
+			itf_rd_data             : out std_logic_vector(63 downto 0);                    -- itf_rd_data
 			itf_rd_data_error       : out std_logic;                                        -- itf_rd_data_error
 			itf_rd_data_begin       : out std_logic;                                        -- itf_rd_data_begin
 			itf_rd_data_last        : out std_logic;                                        -- itf_rd_data_last
 			itf_rd_data_id          : out std_logic_vector(7 downto 0);                     -- itf_rd_data_id
-			afi_addr                : out std_logic_vector(25 downto 0);                    -- afi_addr
+			afi_addr                : out std_logic_vector(29 downto 0);                    -- afi_addr
 			afi_ba                  : out std_logic_vector(5 downto 0);                     -- afi_ba
 			afi_ras_n               : out std_logic_vector(1 downto 0);                     -- afi_ras_n
 			afi_we_n                : out std_logic_vector(1 downto 0);                     -- afi_we_n
@@ -196,11 +196,11 @@ architecture rtl of ddr3_mem_c0 is
 			afi_odt                 : out std_logic_vector(1 downto 0);                     -- afi_odt
 			afi_cke                 : out std_logic_vector(1 downto 0);                     -- afi_cke
 			afi_cs_n                : out std_logic_vector(1 downto 0);                     -- afi_cs_n
-			afi_dqs_burst           : out std_logic_vector(1 downto 0);                     -- afi_dqs_burst
-			afi_wdata_valid         : out std_logic_vector(1 downto 0);                     -- afi_wdata_valid
-			afi_wdata               : out std_logic_vector(31 downto 0);                    -- afi_wdata
-			afi_dm                  : out std_logic_vector(3 downto 0);                     -- afi_dm
-			afi_rdata               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- afi_rdata
+			afi_dqs_burst           : out std_logic_vector(3 downto 0);                     -- afi_dqs_burst
+			afi_wdata_valid         : out std_logic_vector(3 downto 0);                     -- afi_wdata_valid
+			afi_wdata               : out std_logic_vector(63 downto 0);                    -- afi_wdata
+			afi_dm                  : out std_logic_vector(7 downto 0);                     -- afi_dm
+			afi_rdata               : in  std_logic_vector(63 downto 0) := (others => 'X'); -- afi_rdata
 			afi_rst_n               : out std_logic_vector(1 downto 0);                     -- afi_rst_n
 			afi_mem_clk_disable     : out std_logic_vector(0 downto 0);                     -- afi_mem_clk_disable
 			afi_init_req            : out std_logic;                                        -- afi_init_req
@@ -223,8 +223,8 @@ architecture rtl of ddr3_mem_c0 is
 			afi_seq_busy            : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- afi_seq_busy
 			afi_ctl_refresh_done    : out std_logic_vector(0 downto 0);                     -- afi_ctl_refresh_done
 			afi_ctl_long_idle       : out std_logic_vector(0 downto 0);                     -- afi_ctl_long_idle
-			afi_rrank               : out std_logic_vector(1 downto 0);                     -- afi_rrank
-			afi_wrank               : out std_logic_vector(1 downto 0);                     -- afi_wrank
+			afi_rrank               : out std_logic_vector(3 downto 0);                     -- afi_rrank
+			afi_wrank               : out std_logic_vector(3 downto 0);                     -- afi_wrank
 			local_multicast         : in  std_logic                     := 'X';             -- local_multicast
 			local_refresh_req       : in  std_logic                     := 'X';             -- local_refresh_req
 			local_refresh_chip      : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- local_refresh_chip
@@ -257,18 +257,18 @@ architecture rtl of ddr3_mem_c0 is
 			ctl_half_clk_reset_n  : in  std_logic                     := 'X';             -- reset_n
 			avl_ready             : out std_logic;                                        -- waitrequest_n
 			avl_burstbegin        : in  std_logic                     := 'X';             -- beginbursttransfer
-			avl_addr              : in  std_logic_vector(20 downto 0) := (others => 'X'); -- address
+			avl_addr              : in  std_logic_vector(25 downto 0) := (others => 'X'); -- address
 			avl_rdata_valid       : out std_logic;                                        -- readdatavalid
-			avl_rdata             : out std_logic_vector(31 downto 0);                    -- readdata
-			avl_wdata             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			avl_be                : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			avl_rdata             : out std_logic_vector(63 downto 0);                    -- readdata
+			avl_wdata             : in  std_logic_vector(63 downto 0) := (others => 'X'); -- writedata
+			avl_be                : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- byteenable
 			avl_read_req          : in  std_logic                     := 'X';             -- read
 			avl_write_req         : in  std_logic                     := 'X';             -- write
 			avl_size              : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- burstcount
 			itf_cmd_ready         : in  std_logic                     := 'X';             -- itf_cmd_ready
 			itf_cmd_valid         : out std_logic;                                        -- itf_cmd_valid
 			itf_cmd               : out std_logic;                                        -- itf_cmd
-			itf_cmd_address       : out std_logic_vector(20 downto 0);                    -- itf_cmd_address
+			itf_cmd_address       : out std_logic_vector(25 downto 0);                    -- itf_cmd_address
 			itf_cmd_burstlen      : out std_logic_vector(2 downto 0);                     -- itf_cmd_burstlen
 			itf_cmd_id            : out std_logic_vector(7 downto 0);                     -- itf_cmd_id
 			itf_cmd_priority      : out std_logic;                                        -- itf_cmd_priority
@@ -276,14 +276,14 @@ architecture rtl of ddr3_mem_c0 is
 			itf_cmd_multicast     : out std_logic;                                        -- itf_cmd_multicast
 			itf_wr_data_ready     : in  std_logic                     := 'X';             -- itf_wr_data_ready
 			itf_wr_data_valid     : out std_logic;                                        -- itf_wr_data_valid
-			itf_wr_data           : out std_logic_vector(31 downto 0);                    -- itf_wr_data
-			itf_wr_data_byte_en   : out std_logic_vector(3 downto 0);                     -- itf_wr_data_byte_en
+			itf_wr_data           : out std_logic_vector(63 downto 0);                    -- itf_wr_data
+			itf_wr_data_byte_en   : out std_logic_vector(7 downto 0);                     -- itf_wr_data_byte_en
 			itf_wr_data_begin     : out std_logic;                                        -- itf_wr_data_begin
 			itf_wr_data_last      : out std_logic;                                        -- itf_wr_data_last
 			itf_wr_data_id        : out std_logic_vector(7 downto 0);                     -- itf_wr_data_id
 			itf_rd_data_ready     : out std_logic;                                        -- itf_rd_data_ready
 			itf_rd_data_valid     : in  std_logic                     := 'X';             -- itf_rd_data_valid
-			itf_rd_data           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- itf_rd_data
+			itf_rd_data           : in  std_logic_vector(63 downto 0) := (others => 'X'); -- itf_rd_data
 			itf_rd_data_error     : in  std_logic                     := 'X';             -- itf_rd_data_error
 			itf_rd_data_begin     : in  std_logic                     := 'X';             -- itf_rd_data_begin
 			itf_rd_data_last      : in  std_logic                     := 'X';             -- itf_rd_data_last
@@ -299,12 +299,12 @@ architecture rtl of ddr3_mem_c0 is
 	signal a0_native_st_itf_cmd_autopercharge : std_logic;                     -- a0:itf_cmd_autopercharge -> ng0:itf_cmd_autopercharge
 	signal ng0_native_st_itf_rd_data_error    : std_logic;                     -- ng0:itf_rd_data_error -> a0:itf_rd_data_error
 	signal a0_native_st_itf_cmd_priority      : std_logic;                     -- a0:itf_cmd_priority -> ng0:itf_cmd_priority
-	signal a0_native_st_itf_wr_data_byte_en   : std_logic_vector(3 downto 0);  -- a0:itf_wr_data_byte_en -> ng0:itf_wr_data_byte_en
+	signal a0_native_st_itf_wr_data_byte_en   : std_logic_vector(7 downto 0);  -- a0:itf_wr_data_byte_en -> ng0:itf_wr_data_byte_en
 	signal ng0_native_st_itf_rd_data_id       : std_logic_vector(7 downto 0);  -- ng0:itf_rd_data_id -> a0:itf_rd_data_id
-	signal a0_native_st_itf_wr_data           : std_logic_vector(31 downto 0); -- a0:itf_wr_data -> ng0:itf_wr_data
+	signal a0_native_st_itf_wr_data           : std_logic_vector(63 downto 0); -- a0:itf_wr_data -> ng0:itf_wr_data
 	signal a0_native_st_itf_wr_data_valid     : std_logic;                     -- a0:itf_wr_data_valid -> ng0:itf_wr_data_valid
 	signal a0_native_st_itf_cmd_id            : std_logic_vector(7 downto 0);  -- a0:itf_cmd_id -> ng0:itf_cmd_id
-	signal ng0_native_st_itf_rd_data          : std_logic_vector(31 downto 0); -- ng0:itf_rd_data -> a0:itf_rd_data
+	signal ng0_native_st_itf_rd_data          : std_logic_vector(63 downto 0); -- ng0:itf_rd_data -> a0:itf_rd_data
 	signal ng0_native_st_itf_cmd_ready        : std_logic;                     -- ng0:itf_cmd_ready -> a0:itf_cmd_ready
 	signal ng0_native_st_itf_rd_data_begin    : std_logic;                     -- ng0:itf_rd_data_begin -> a0:itf_rd_data_begin
 	signal a0_native_st_itf_cmd_multicast     : std_logic;                     -- a0:itf_cmd_multicast -> ng0:itf_cmd_multicast
@@ -315,32 +315,32 @@ architecture rtl of ddr3_mem_c0 is
 	signal a0_native_st_itf_rd_data_ready     : std_logic;                     -- a0:itf_rd_data_ready -> ng0:itf_rd_data_ready
 	signal a0_native_st_itf_cmd_burstlen      : std_logic_vector(2 downto 0);  -- a0:itf_cmd_burstlen -> ng0:itf_cmd_burstlen
 	signal a0_native_st_itf_cmd               : std_logic;                     -- a0:itf_cmd -> ng0:itf_cmd
-	signal a0_native_st_itf_cmd_address       : std_logic_vector(20 downto 0); -- a0:itf_cmd_address -> ng0:itf_cmd_address
+	signal a0_native_st_itf_cmd_address       : std_logic_vector(25 downto 0); -- a0:itf_cmd_address -> ng0:itf_cmd_address
 	signal a0_native_st_itf_wr_data_id        : std_logic_vector(7 downto 0);  -- a0:itf_wr_data_id -> ng0:itf_wr_data_id
 
 begin
 
 	ng0 : component alt_mem_if_nextgen_ddr3_controller_core
 		generic map (
-			MEM_IF_ADDR_WIDTH                => 13,
-			MEM_IF_ROW_ADDR_WIDTH            => 12,
-			MEM_IF_COL_ADDR_WIDTH            => 8,
-			MEM_IF_DM_WIDTH                  => 1,
-			MEM_IF_DQS_WIDTH                 => 1,
+			MEM_IF_ADDR_WIDTH                => 15,
+			MEM_IF_ROW_ADDR_WIDTH            => 15,
+			MEM_IF_COL_ADDR_WIDTH            => 10,
+			MEM_IF_DM_WIDTH                  => 2,
+			MEM_IF_DQS_WIDTH                 => 2,
 			MEM_IF_CS_WIDTH                  => 1,
 			MEM_IF_CHIP_BITS                 => 1,
 			MEM_IF_BANKADDR_WIDTH            => 3,
-			MEM_IF_DQ_WIDTH                  => 8,
+			MEM_IF_DQ_WIDTH                  => 16,
 			MEM_IF_CLK_EN_WIDTH              => 1,
 			MEM_IF_CLK_PAIR_COUNT            => 1,
-			MEM_TRC                          => 17,
-			MEM_TRAS                         => 13,
+			MEM_TRC                          => 15,
+			MEM_TRAS                         => 11,
 			MEM_TRCD                         => 5,
 			MEM_TRP                          => 5,
-			MEM_TREFI                        => 2101,
-			MEM_TRFC                         => 23,
+			MEM_TREFI                        => 2341,
+			MEM_TRFC                         => 79,
 			MEM_TWR                          => 5,
-			MEM_TFAW                         => 12,
+			MEM_TFAW                         => 14,
 			MEM_TRRD                         => 3,
 			MEM_TRTP                         => 3,
 			MEM_IF_ODT_WIDTH                 => 1,
@@ -353,25 +353,25 @@ begin
 			CTL_RD_TO_RD_DIFF_CHIP_EXTRA_CLK => 1,
 			CTL_WR_TO_WR_DIFF_CHIP_EXTRA_CLK => 1,
 			MEM_TCL                          => 7,
-			MEM_TMRD_CK                      => 3,
-			MEM_TWTR                         => 2,
+			MEM_TMRD_CK                      => 4,
+			MEM_TWTR                         => 6,
 			CSR_ADDR_WIDTH                   => 8,
 			CSR_DATA_WIDTH                   => 32,
 			CSR_BE_WIDTH                     => 4,
 			CTL_CS_WIDTH                     => 1,
-			AVL_ADDR_WIDTH                   => 21,
-			AVL_BE_WIDTH                     => 4,
-			AVL_DATA_WIDTH                   => 32,
+			AVL_ADDR_WIDTH                   => 26,
+			AVL_BE_WIDTH                     => 8,
+			AVL_DATA_WIDTH                   => 64,
 			AVL_SIZE_WIDTH                   => 3,
 			DWIDTH_RATIO                     => 4,
-			CTL_ODT_ENABLED                  => false,
+			CTL_ODT_ENABLED                  => true,
 			CTL_OUTPUT_REGD                  => false,
 			CTL_ECC_MULTIPLES_16_24_40_72    => 1,
 			CTL_REGDIMM_ENABLED              => false,
 			CTL_TBP_NUM                      => 4,
 			CTL_USR_REFRESH                  => 0,
 			CFG_TYPE                         => 2,
-			CFG_INTERFACE_WIDTH              => 8,
+			CFG_INTERFACE_WIDTH              => 16,
 			CFG_BURST_LENGTH                 => 8,
 			CFG_ADDR_ORDER                   => 0,
 			CFG_PDN_EXIT_CYCLES              => 10,
@@ -409,19 +409,19 @@ begin
 			USE_DQS_TRACKING                 => false,
 			USE_SHADOW_REGS                  => false,
 			AFI_RATE_RATIO                   => 2,
-			AFI_ADDR_WIDTH                   => 26,
+			AFI_ADDR_WIDTH                   => 30,
 			AFI_BANKADDR_WIDTH               => 6,
 			AFI_CONTROL_WIDTH                => 2,
 			AFI_CS_WIDTH                     => 2,
 			AFI_CLK_EN_WIDTH                 => 2,
-			AFI_DM_WIDTH                     => 4,
-			AFI_DQ_WIDTH                     => 32,
+			AFI_DM_WIDTH                     => 8,
+			AFI_DQ_WIDTH                     => 64,
 			AFI_ODT_WIDTH                    => 2,
-			AFI_WRITE_DQS_WIDTH              => 2,
+			AFI_WRITE_DQS_WIDTH              => 4,
 			AFI_RLAT_WIDTH                   => 6,
 			AFI_WLAT_WIDTH                   => 6,
-			AFI_RRANK_WIDTH                  => 2,
-			AFI_WRANK_WIDTH                  => 2
+			AFI_RRANK_WIDTH                  => 4,
+			AFI_WRANK_WIDTH                  => 4
 		)
 		port map (
 			afi_reset_n             => afi_reset_n,                        --    afi_reset.reset_n
@@ -509,8 +509,8 @@ begin
 	a0 : component alt_mem_ddrx_mm_st_converter
 		generic map (
 			AVL_SIZE_WIDTH   => 3,
-			AVL_ADDR_WIDTH   => 21,
-			AVL_DATA_WIDTH   => 32,
+			AVL_ADDR_WIDTH   => 26,
+			AVL_DATA_WIDTH   => 64,
 			LOCAL_ID_WIDTH   => 8,
 			CFG_DWIDTH_RATIO => 4
 		)
