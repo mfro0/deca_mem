@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_mm_st_converter.v"
+   type="VERILOG"
+   library="a0"
+   simulator="ncsim, vcs, riviera" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_mm_st_converter.v"
+   type="VERILOG_ENCRYPT"
+   library="a0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_addr_cmd.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_addr_cmd.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_addr_cmd_wrap.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_addr_cmd_wrap.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ddr2_odt_gen.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ddr2_odt_gen.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ddr3_odt_gen.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ddr3_odt_gen.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_lpddr2_addr_cmd.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_lpddr2_addr_cmd.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_odt_gen.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_odt_gen.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_rdwr_data_tmg.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_rdwr_data_tmg.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_arbiter.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_arbiter.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_burst_gen.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_burst_gen.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_cmd_gen.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_cmd_gen.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_csr.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_csr.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_buffer.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_buffer.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_buffer_manager.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_buffer_manager.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_burst_tracking.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_burst_tracking.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_dataid_manager.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_dataid_manager.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_fifo.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_fifo.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_list.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_list.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_rdata_path.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_rdata_path.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_wdata_path.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_wdata_path.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ecc_decoder.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ecc_decoder.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ecc_decoder_32_syn.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ecc_decoder_32_syn.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ecc_decoder_64_syn.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ecc_decoder_64_syn.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ecc_encoder.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ecc_encoder.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ecc_encoder_32_syn.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ecc_encoder_32_syn.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ecc_encoder_64_syn.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ecc_encoder_64_syn.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_ecc_encoder_decoder_wrapper.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_ecc_encoder_decoder_wrapper.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_axi_st_converter.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_axi_st_converter.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_input_if.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_input_if.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_rank_timer.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_rank_timer.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_sideband.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_sideband.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_tbp.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_tbp.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_timing_param.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_timing_param.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_controller.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_controller.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_controller_st_top.v"
+   type="VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_ddrx_controller_st_top.v"
+   type="VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/alt_mem_if_nextgen_ddr3_controller_core.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="ng0"
+   simulator="modelsim">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file
+   path="ddr3_mem_sim/ddr3_mem/alt_mem_if_nextgen_ddr3_controller_core.sv"
+   type="SYSTEM_VERILOG"
+   library="ng0"
+   simulator="ncsim, vcs, riviera">
+  <include path="ddr3_mem_sim/ddr3_mem/alt_mem_ddrx_define.iv" />
+ </file>
+ <file path="ddr3_mem_sim/ddr3_mem/ddr3_mem_c0.vhd" type="VHDL" library="c0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_make_qsys_seq.tcl"
+   type="OTHER"
+   library="s0"
+   simulator="ncsim, vcs, riviera" />
+ <file path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0.vhd" type="VHDL" library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_pattern_fifo.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/altera_merlin_arbitrator.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_data_broadcast.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_ac_ROM_reg.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_dm_decoder.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_cmd_demux.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_datamux.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_rsp_mux.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0.vhd"
+   type="VHDL"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_lfsr12.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_write_decoder.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_di_buffer_wrap.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/sequencer_m10.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/sequencer_pll_mgr.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_core.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_jumplogic.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_ram.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_di_buffer.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_lfsr72.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_read_datapath.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/altera_merlin_master_translator.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_lfsr36.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter.vhd"
+   type="VHDL"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_ddr3.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/altera_mem_if_sequencer_rst.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/sequencer_phy_mgr.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_bitcheck.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_router.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_rsp_demux.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_generic.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_data_decoder.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/altera_avalon_sc_fifo.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_router_001.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_cmd_mux.sv"
+   type="SYSTEM_VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_inst_ROM_reg.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_ram_csr.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/cadence/altera_merlin_slave_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="ncsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/cadence/altera_merlin_burst_uncompressor.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="ncsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/cadence/altera_merlin_master_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="ncsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/cadence/altera_merlin_slave_translator.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="ncsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/aldec/altera_merlin_slave_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="riviera" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/aldec/altera_merlin_burst_uncompressor.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="riviera" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/aldec/altera_merlin_master_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="riviera" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/aldec/altera_merlin_slave_translator.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="riviera" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/synopsys/altera_merlin_slave_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="vcs" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/synopsys/altera_merlin_burst_uncompressor.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="vcs" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/synopsys/altera_merlin_master_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="vcs" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/synopsys/altera_merlin_slave_translator.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="vcs" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_pattern_fifo.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_data_broadcast.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_ac_ROM_reg.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_dm_decoder.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/altera_merlin_slave_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_datamux.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_lfsr12.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_write_decoder.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_di_buffer_wrap.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/sequencer_m10.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/sequencer_pll_mgr.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_core.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_jumplogic.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/altera_merlin_burst_uncompressor.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_ram.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_di_buffer.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_lfsr72.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_read_datapath.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_lfsr36.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_ddr3.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/altera_mem_if_sequencer_rst.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/sequencer_phy_mgr.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/altera_merlin_master_agent.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_bitcheck.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_generic.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_data_decoder.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_inst_ROM_reg.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/rw_manager_ram_csr.v"
+   type="VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/altera_merlin_slave_translator.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="s0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_AC_ROM.hex"
+   type="HEX"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_s0_inst_ROM.hex"
+   type="HEX"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_m10_ac_ROM.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/rw_manager_m10_inst_ROM.v"
+   type="VERILOG"
+   library="s0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/mentor/afi_mux_ddr3_ddrx.v"
+   type="VERILOG_ENCRYPT"
+   library="m0"
+   simulator="modelsim" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/afi_mux_ddr3_ddrx.v"
+   type="VERILOG"
+   library="m0"
+   simulator="ncsim, vcs, riviera" />
+ <file path="ddr3_mem_sim/ddr3_mem/ddr3_mem_p0.vho" type="VHDL" library="p0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_p0_sim_delay.vhd"
+   type="VHDL"
+   library="p0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_pll0.vho"
+   type="VHDL"
+   library="pll0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_pll0_sim_delay.vhd"
+   type="VHDL"
+   library="pll0" />
+ <file
+   path="ddr3_mem_sim/ddr3_mem/ddr3_mem_0002.vhd"
+   type="VHDL"
+   library="ddr3_mem" />
+ <file path="ddr3_mem_sim/ddr3_mem.vhd" type="VHDL" />
+ <topLevel name="ddr3_mem" />
+ <deviceFamily name="max10" />
+ <modelMap controllerPath="ddr3_mem" modelPath="ddr3_mem" />
+</simPackage>
