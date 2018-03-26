@@ -228,7 +228,7 @@ begin
 	i_ddr3_memory : entity ddr3_mem.ddr3_mem
 		port map
 		(
-            pll_ref_clk         => clk_100,
+            pll_ref_clk         => MAX10_CLK1_50,
             global_reset_n      => reset_n,
             soft_reset_n        => reset_n,
             afi_clk             => afi_clk,
