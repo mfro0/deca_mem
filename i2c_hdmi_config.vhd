@@ -12,7 +12,7 @@ entity i2c_hdmi_config is
     port
     (
         iclk                : in std_ulogic;
-        irst_n              : in std_ulogic;
+        reset_n              : in std_ulogic;
         i2c_sclk            : out std_ulogic;
         i2c_sdat            : inout std_logic;
         hdmi_tx_int         : in std_ulogic
@@ -21,15 +21,14 @@ end entity i2c_hdmi_config;
 
 architecture rtl of i2c_hdmi_config is
     signal mi2c_clk_div     : unsigned(15 downto 0);
-    signal mi2c_data        : unsigned(23 downto 0);
+    signal i2c_data        : unsigned(23 downto 0);
     signal mi2c_ctrl_clk    : std_ulogic;
     signal mi2c_go          : std_ulogic;
     signal mi2c_end         : std_ulogic;
     signal mi2c_ack         : std_ulogic;
-    signal lut_index        : integer;
-    signal msetup_st        : unsigned(3 downto 0);
+    signal lut_index        : natural;
     
-    type lut_data_type is array(integer range <>) of unsigned(15 downto 0);
+    type lut_data_type is array(natural range <>) of unsigned(15 downto 0);
     constant lut_data       : lut_data_type :=
     (
         16x"9803",          -- must be set to 0x03 for proper operation
@@ -69,8 +68,9 @@ architecture rtl of i2c_hdmi_config is
 begin
     p_control_clock : process
     begin
+        report "size of lut_data is " & integer'image(lut_data'low) & " to " & integer'image(lut_data'high) severity note;
         wait until rising_edge(iclk);
-        if irst_n = '0' then
+        if reset_n = '0' then
             mi2c_ctrl_clk   <= '0';
             mi2c_clk_div    <= (others => '0');
         else
@@ -89,43 +89,44 @@ begin
             clock           => mi2c_ctrl_clk,
             i2c_sclk        => i2c_sclk,
             i2c_sdat        => i2c_sdat,
-            i2c_data        => mi2c_data,
+            i2c_data        => i2c_data,
             go              => mi2c_go,
             e_nd            => mi2c_end,
             ack             => mi2c_ack,
-            reset_n         => irst_n
+            reset_n         => reset_n
         );
     
     p_config : process
+        type config_setup_type is (STATE0, STATE1, STATE2);
+        variable config_status   : config_setup_type;
     begin
         wait until rising_edge(mi2c_ctrl_clk);
         
-        if not irst_n then
+        if not reset_n then
             lut_index <= 0;
-            msetup_st <= (others => '0');
+            config_status := STATE0;
             mi2c_go <= '0';
         else
             if lut_index < LUT_SIZE then
-                case msetup_st is
-                    when 4d"0" =>
-                        mi2c_data <= 8x"72" & lut_data(lut_index);
+                case config_status is
+                    when STATE0 =>
+                        i2c_data <= 8x"72" & lut_data(lut_index);
                         mi2c_go <= '1';
-                        msetup_st <= 4d"1";
+                        config_status := STATE1;
                     
-                    when 4d"1" =>
+                    when STATE1 =>
                         if mi2c_end then
                             if not mi2c_ack then
-                                msetup_st <= 4d"2";
+                                config_status := STATE2;
                             else
-                                msetup_st <= 4d"0";
+                                config_status := STATE0;
                                 mi2c_go <= '0';
                             end if;
                         end if;
                         
-                    when 4d"2" =>
+                    when STATE2 =>
                         lut_index <= lut_index + 1;
-                        msetup_st <= 4d"0";
-                    
+                        config_status := STATE0;
                     when others =>
                         null;
                 end case;
