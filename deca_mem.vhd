@@ -273,5 +273,24 @@ begin
             pll_capture0_clk    => ddr3_capture0_clk,
             pll_capture1_clk    => ddr3_capture1_clk
         );
+        
+    i_hdmi_tx : entity work.hdmi_tx
+        port map
+        (
+            clk_50              => MAX10_CLK1_50,
+            reset_n             => reset_n,
             
+            hdmi_i2c_scl        => HDMI_I2C_SCL,
+            hdmi_i2c_sda        => HDMI_I2C_SDA,
+            hdmi_i2s            => HDMI_I2S,
+            hdmi_lrclk          => HDMI_LRCLK,
+            hdmi_mclk           => HDMI_MCLK,
+            hdmi_sclk           => HDMI_SCLK,
+            hdmi_tx_clk         => HDMI_TXCLK,
+            hdmi_tx_d           => HDMI_TX_D,
+            hdmi_tx_de          => HDMI_TX_DE,
+            hdmi_tx_hs          => HDMI_TX_HS,
+            hdmi_tx_int         => HDMI_TX_INT,
+            hdmi_tx_vs          => HDMI_TX_VS
+        );
 end architecture rtl;
