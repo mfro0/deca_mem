@@ -18,7 +18,7 @@ entity vga_generator is
         v_end,
         v_active_14,
         v_active_24,
-        v_active_34     : in unsigned(11 downto 0);
+        v_active_34     : in integer range 0 to 4095;
         
         vga_hs,
         vga_vs,
@@ -32,7 +32,7 @@ end entity vga_generator;
 
 architecture rtl of vga_generator is
     signal h_count,
-           v_count      : unsigned(11 downto 0);
+           v_count      : integer range 0 to 4095;
     signal pixel_x      : unsigned(7 downto 0);
     signal h_act,
            h_act_d,
@@ -72,14 +72,14 @@ begin
         wait until rising_edge(clk);
         if reset_n = '0' then
             h_act_d <= '1';
-            h_count <= 12d"0";
+            h_count <= 0;
             pixel_x <= (others => '0');
             vga_hs <= '1';
             h_act <= '0';
         else
             h_act_d <= h_act;
             if h_max = '1' then
-                h_count <= 12d"0";
+                h_count <= 0;
             else
                 h_count <= h_count + 1;
             end if;
@@ -110,7 +110,7 @@ begin
         wait until rising_edge(clk);
         if reset_n = '0' then
             v_act_d <= '0';
-            v_count <= (others => '0');
+            v_count <= 0;
             vga_vs <= '1';
             v_act <= '0';
             color_mode <= (others => '0');
@@ -119,7 +119,7 @@ begin
                 v_act_d <= v_act;
                 
                 if v_max = '1' then
-                    v_count <= (others => '0');
+                    v_count <= 0;
                 else
                     v_count <= v_count + 1;
                 end if;
