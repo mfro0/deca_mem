@@ -87,7 +87,7 @@ architecture rtl of vpg is
             v_active_14 => 348, v_active_24 => 648, v_active_34 => 948
         )
     );
-    constant v      : video_timing_type := video_timings(3);
+    constant v      : video_timing_type := video_timings(4);        -- select 1920 x 1080 for now (must fit video_pll settings)
 begin
     i_video_pll : entity work.video_pll
         port map

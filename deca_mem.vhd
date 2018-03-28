@@ -86,7 +86,7 @@ entity deca_mem is
         LIGHT_I2C_SDA       : inout std_logic;
         LIGHT_INT           : inout std_logic;
         
-        -- MIPI
+        -- MIPI (Mobile Industry Processor Interface) camera module
         MIPI_CORE_ENV       : out std_ulogic;
         MIPI_I2C_SCL        : out std_ulogic;
         MIPI_I2C_SDA        : inout std_logic;
@@ -203,7 +203,7 @@ begin
     i_reset_circuit : entity work.deca_reset
         generic map
         (
-            TICKS           => 100
+            WAIT_TICKS      => 100
         )
         port map
         (

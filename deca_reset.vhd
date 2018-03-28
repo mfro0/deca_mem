@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity deca_reset is
     generic
     (
-        TICKS           : integer := 100
+        WAIT_TICKS      : integer := 100
     );
     
     port
@@ -17,7 +17,7 @@ entity deca_reset is
 end entity deca_reset;
 
 architecture rtl of deca_reset is
-    signal counter      : unsigned(7 downto 0) := to_unsigned(TICKS, 8);
+    signal counter      : integer := WAIT_TICKS;
 begin
     p_reset_delay : process
     begin
