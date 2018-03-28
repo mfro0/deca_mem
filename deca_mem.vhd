@@ -305,4 +305,6 @@ begin
             reset_out_n         => button_reset_n
         );
         LED(1) <= not button_reset_n;
+        LED(2) <= ddr3_cal_success;
+        LED(3) <= ddr3_cal_fail;
 end architecture rtl;

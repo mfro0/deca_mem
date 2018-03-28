@@ -13,7 +13,7 @@ entity deca_reset is
         clk             : in std_ulogic;
         lock_pll        : in std_ulogic;
         reset_button_n  : in std_ulogic;
-        reset_n         : out std_ulogic := '0';
+        reset_n         : out std_ulogic;
         led             : out std_ulogic
     );
 end entity deca_reset;
@@ -26,6 +26,7 @@ begin
         wait until rising_edge(clk);
         if counter /= 0 then
             counter <= counter - 1;
+            led <= '0';
         else
             if lock_pll then
                 reset_n <= '1' and reset_button_n;
