@@ -5,14 +5,16 @@ use ieee.numeric_std.all;
 entity deca_reset is
     generic
     (
-        WAIT_TICKS      : integer := 100
+        WAIT_TICKS      : integer := 1000
     );
     
     port
     (
         clk             : in std_ulogic;
         lock_pll        : in std_ulogic;
-        reset_n         : out std_ulogic
+        reset_button_n  : in std_ulogic;
+        reset_n         : out std_ulogic := '0';
+        led             : out std_ulogic
     );
 end entity deca_reset;
 
@@ -26,7 +28,8 @@ begin
             counter <= counter - 1;
         else
             if lock_pll then
-                reset_n <= '1';
+                reset_n <= '1' and reset_button_n;
+                led <= '1';
             end if;
         end if;
     end process p_reset_delay;

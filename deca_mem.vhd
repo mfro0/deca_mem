@@ -198,18 +198,21 @@ architecture rtl of deca_mem is
            ddr3_write_clk,
            ddr3_capture0_clk,
            ddr3_capture1_clk        : std_ulogic;
+    signal button_reset_n           : std_ulogic;
     
-begin
+begin    
     i_reset_circuit : entity work.deca_reset
         generic map
         (
-            WAIT_TICKS      => 100
+            WAIT_TICKS      => 1000
         )
         port map
         (
             clk             => MAX10_CLK1_50,
             reset_n         => reset_n,
-            lock_pll        => pll_locked
+            reset_button_n  => button_reset_n,
+            lock_pll        => pll_locked,
+            led             => led(0)
         );
         
     i_clocks : entity work.deca_clocks
@@ -293,4 +296,13 @@ begin
             hdmi_tx_int         => HDMI_TX_INT,
             hdmi_tx_vs          => HDMI_TX_VS
         );
+    
+    i_reset_button : entity work.reset_button
+        port map
+        (
+            clk                 => MAX10_CLK1_50,
+            button              => KEY(0),
+            reset_out_n         => button_reset_n
+        );
+        LED(1) <= not button_reset_n;
 end architecture rtl;
