@@ -22,6 +22,8 @@ entity hdmi_tx is
         hdmi_tx_d           : out std_ulogic_vector(23 downto 0);
         hdmi_tx_de          : out std_ulogic;
         hdmi_tx_hs          : out std_ulogic;
+        
+        -- HDMI interrupt
         hdmi_tx_int         : in std_ulogic;
         hdmi_tx_vs          : out std_ulogic
     );
