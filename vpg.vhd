@@ -87,7 +87,12 @@ architecture rtl of vpg is
             v_active_14 => 348, v_active_24 => 648, v_active_34 => 948
         )
     );
-    constant v      : video_timing_type := video_timings(4);        -- select 1920 x 1080 for now (must fit video_pll settings)
+    constant v          : video_timing_type := video_timings(4);        -- select 1920 x 1080 for now (must fit video_pll settings)
+    
+    -- cut timing path for reset_n in pixel clock domain
+    signal synced_reset             : std_ulogic_vector(1 downto 0);
+    attribute altera_attribute      : string;
+    attribute altera_attribute of synced_reset : signal is "-name CUT ON -from *";
 begin
     i_video_pll : entity work.video_pll
         port map
@@ -98,11 +103,18 @@ begin
         );
     vpg_pclk_out <= not vpg_pclk;
     
+    -- synchronize reset signal into pixel clk domain
+    p_sync_reset : process
+    begin
+        wait until rising_edge(vpg_pclk);
+        synced_reset <= synced_reset(0) & reset_n;
+    end process p_sync_reset;
+    
     i_vga_generator : entity work.vga_generator
         port map
         (
             clk             => vpg_pclk,
-            reset_n         => reset_n,
+            reset_n         => synced_reset(1),
             h_total         => v.h_total,
             h_sync          => v.h_sync,
             h_start         => v.h_start,

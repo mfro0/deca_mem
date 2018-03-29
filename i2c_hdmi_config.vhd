@@ -12,7 +12,7 @@ entity i2c_hdmi_config is
     port
     (
         iclk                : in std_ulogic;
-        reset_n              : in std_ulogic;
+        reset_n             : in std_ulogic;
         i2c_sclk            : out std_ulogic;
         i2c_sdat            : inout std_logic;
         hdmi_tx_int         : in std_ulogic
