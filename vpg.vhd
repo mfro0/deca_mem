@@ -92,7 +92,9 @@ architecture rtl of vpg is
     -- cut timing path for reset_n in pixel clock domain
     signal synced_reset             : std_ulogic_vector(1 downto 0);
     attribute altera_attribute      : string;
-    attribute altera_attribute of synced_reset : signal is "-name CUT ON -from *";
+    attribute altera_attribute of synced_reset : signal is "-name SDC_STATEMENT ""set_false_path " &
+                                                           "-from [get_registers *reset_n*] " &
+                                                           "-to [get_registers *synced_reset[*]*];""";
 begin
     i_video_pll : entity work.video_pll
         port map

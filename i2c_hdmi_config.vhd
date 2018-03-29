@@ -6,8 +6,7 @@ entity i2c_hdmi_config is
     generic
     (
         CLK_FREQ            : integer := 50000000;      -- 50 MHz
-        I2C_FREQ            : integer := 20000;         -- 20 KHz
-        LUT_SIZE            : integer := 31     
+        I2C_FREQ            : integer := 20000          -- 20 KHz
     );
     port
     (
@@ -68,7 +67,6 @@ architecture rtl of i2c_hdmi_config is
 begin
     p_control_clock : process
     begin
-        report "size of lut_data is " & integer'image(lut_data'low) & " to " & integer'image(lut_data'high) severity note;
         wait until rising_edge(iclk);
         if reset_n = '0' then
             i2c_ctrl_clk   <= '0';
@@ -91,10 +89,13 @@ begin
             i2c_sdat        => i2c_sdat,
             i2c_data        => i2c_data,
             go              => i2c_go,
-            e_nd            => i2c_end,
-            ack             => i2c_ack,
+            i2c_end         => i2c_end,
+            i2c_ack         => i2c_ack,
             reset_n         => reset_n
         );
+    
+    
+    -- configuration control
     
     p_config : process
         type config_setup_type is (STATE0, STATE1, STATE2);
@@ -103,11 +104,11 @@ begin
         wait until rising_edge(i2c_ctrl_clk);
         
         if not reset_n then
-            lut_index <= 0;
+            lut_index <= lut_data'low;
             config_status := STATE0;
             i2c_go <= '0';
         else
-            if lut_index < LUT_SIZE then
+            if lut_index < lut_data'high then
                 case config_status is
                     when STATE0 =>
                         i2c_data <= 8x"72" & lut_data(lut_index);
@@ -115,16 +116,16 @@ begin
                         config_status := STATE1;
                     
                     when STATE1 =>
-                        if i2c_end then
-                            if not i2c_ack then
-                                config_status := STATE2;
+                        if i2c_end then                     -- i2c controller isn't busy
+                            if not i2c_ack then             -- and didn't yet acknowledge anything
+                                config_status := STATE2;    -- then go ahead
                             else
-                                config_status := STATE0;
+                                config_status := STATE0;    -- else wait for a new transfer
                                 i2c_go <= '0';
                             end if;
                         end if;
                         
-                    when STATE2 =>
+                    when STATE2 =>                          
                         lut_index <= lut_index + 1;
                         config_status := STATE0;
                     when others =>
@@ -133,8 +134,6 @@ begin
             else
                 if not HDMI_TX_INT then
                     lut_index <= 0;
-                else
-                    lut_index <= lut_index;
                 end if;
             end if;
         end if;
