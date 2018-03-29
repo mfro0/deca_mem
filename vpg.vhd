@@ -87,12 +87,14 @@ architecture rtl of vpg is
             v_active_14 => 348, v_active_24 => 648, v_active_34 => 948
         )
     );
-    constant v          : video_timing_type := video_timings(4);        -- select 1920 x 1080 for now (must fit video_pll settings)
+    constant v          : video_timing_type := video_timings(5);        -- select 1600 x 1200 for now (must fit video_pll settings)
     
     -- cut timing path for reset_n in pixel clock domain
     signal synced_reset             : std_ulogic_vector(1 downto 0);
     attribute altera_attribute      : string;
-    attribute altera_attribute of synced_reset : signal is "-name CUT ON -from *";
+    attribute altera_attribute of synced_reset : signal is "-name SDC_STATEMENT ""set_false_path " &
+                                                           "-from [get_registers *reset_n*] " &
+                                                           "-to [get_registers *synced_reset[*]*];""";
 begin
     i_video_pll : entity work.video_pll
         port map
