@@ -53,13 +53,13 @@ END video_pll;
 
 ARCHITECTURE SYN OF video_pll IS
 
-	SIGNAL sub_wire0	: STD_LOGIC ;
-	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (1 DOWNTO 0);
-	SIGNAL sub_wire2_bv	: BIT_VECTOR (0 DOWNTO 0);
-	SIGNAL sub_wire2	: STD_LOGIC_VECTOR (0 DOWNTO 0);
-	SIGNAL sub_wire3	: STD_LOGIC_VECTOR (4 DOWNTO 0);
-	SIGNAL sub_wire4	: STD_LOGIC ;
-	SIGNAL sub_wire5	: STD_LOGIC ;
+	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (4 DOWNTO 0);
+	SIGNAL sub_wire1	: STD_LOGIC ;
+	SIGNAL sub_wire2	: STD_LOGIC ;
+	SIGNAL sub_wire3	: STD_LOGIC ;
+	SIGNAL sub_wire4	: STD_LOGIC_VECTOR (1 DOWNTO 0);
+	SIGNAL sub_wire5_bv	: BIT_VECTOR (0 DOWNTO 0);
+	SIGNAL sub_wire5	: STD_LOGIC_VECTOR (0 DOWNTO 0);
 
 
 
@@ -130,20 +130,20 @@ ARCHITECTURE SYN OF video_pll IS
 	END COMPONENT;
 
 BEGIN
-	sub_wire2_bv(0 DOWNTO 0) <= "0";
-	sub_wire2    <= To_stdlogicvector(sub_wire2_bv);
-	sub_wire0    <= inclk0;
-	sub_wire1    <= sub_wire2(0 DOWNTO 0) & sub_wire0;
-	sub_wire4    <= sub_wire3(0);
-	c0    <= sub_wire4;
-	locked    <= sub_wire5;
+	sub_wire5_bv(0 DOWNTO 0) <= "0";
+	sub_wire5    <= To_stdlogicvector(sub_wire5_bv);
+	sub_wire1    <= sub_wire0(0);
+	c0    <= sub_wire1;
+	locked    <= sub_wire2;
+	sub_wire3    <= inclk0;
+	sub_wire4    <= sub_wire5(0 DOWNTO 0) & sub_wire3;
 
 	altpll_component : altpll
 	GENERIC MAP (
 		bandwidth_type => "AUTO",
-		clk0_divide_by => 100,
+		clk0_divide_by => 25,
 		clk0_duty_cycle => 50,
-		clk0_multiply_by => 297,
+		clk0_multiply_by => 81,
 		clk0_phase_shift => "0",
 		compensate_clock => "CLK0",
 		inclk0_input_frequency => 20000,
@@ -198,9 +198,9 @@ BEGIN
 	)
 	PORT MAP (
 		areset => areset,
-		inclk => sub_wire1,
-		clk => sub_wire3,
-		locked => sub_wire5
+		inclk => sub_wire4,
+		clk => sub_wire0,
+		locked => sub_wire2
 	);
 
 
@@ -228,7 +228,7 @@ END SYN;
 -- Retrieval info: PRIVATE: DEVICE_SPEED_GRADE STRING "Any"
 -- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "1"
 -- Retrieval info: PRIVATE: DUTY_CYCLE0 STRING "50.00000000"
--- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "148.500000"
+-- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "162.000000"
 -- Retrieval info: PRIVATE: EXPLICIT_SWITCHOVER_COUNTER STRING "0"
 -- Retrieval info: PRIVATE: EXT_FEEDBACK_RADIO STRING "0"
 -- Retrieval info: PRIVATE: GLOCKED_COUNTER_EDIT_CHANGED STRING "1"
@@ -253,7 +253,7 @@ END SYN;
 -- Retrieval info: PRIVATE: MIRROR_CLK0 STRING "0"
 -- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "1"
 -- Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "1"
--- Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "148.50000000"
+-- Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "162.00000000"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "1"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT0 STRING "MHz"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_FEATURE_ENABLED STRING "1"
@@ -296,9 +296,9 @@ END SYN;
 -- Retrieval info: PRIVATE: ZERO_DELAY_RADIO STRING "0"
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 -- Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
--- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "100"
+-- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "25"
 -- Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
--- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "297"
+-- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "81"
 -- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "0"
 -- Retrieval info: CONSTANT: COMPENSATE_CLOCK STRING "CLK0"
 -- Retrieval info: CONSTANT: INCLK0_INPUT_FREQUENCY NUMERIC "20000"
