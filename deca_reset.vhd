@@ -14,7 +14,7 @@ entity deca_reset is
         lock_pll        : in std_ulogic;
         reset_button_n  : in std_ulogic;
         reset_n         : out std_ulogic;
-        led             : out std_ulogic
+        led             : out std_ulogic := '1'     -- LED off by default
     );
 end entity deca_reset;
 
@@ -26,11 +26,11 @@ begin
         wait until rising_edge(clk);
         if counter /= 0 then
             counter <= counter - 1;
-            led <= '0';
+            led <= '1';                             -- LED off
         else
             if lock_pll then
                 reset_n <= '1' and reset_button_n;
-                led <= '1';
+                led <= '1';                         -- LED on
             end if;
         end if;
     end process p_reset_delay;

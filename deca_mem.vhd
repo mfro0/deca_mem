@@ -200,7 +200,19 @@ architecture rtl of deca_mem is
            ddr3_capture1_clk        : std_ulogic;
     signal button_reset_n           : std_ulogic;
     
-begin    
+begin
+    i_blinker : entity work.blinker
+        generic map
+        (
+            COUNTER_MAX     => 50000000
+        )
+        port map
+        (
+            clk             => MAX10_CLK1_50,
+            reset_n         => reset_n,
+            led             => LED(7)
+        );
+        
     i_reset_circuit : entity work.deca_reset
         generic map
         (
@@ -304,7 +316,7 @@ begin
             button              => KEY(0),
             reset_out_n         => button_reset_n
         );
-        LED(1) <= not button_reset_n;
+        LED(1) <= button_reset_n;
         LED(2) <= ddr3_cal_success;
         LED(3) <= ddr3_cal_fail;
 end architecture rtl;

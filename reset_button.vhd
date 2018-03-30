@@ -1,6 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+-- the DECA buttons have reverse logic (pressed = LOW)
+
 entity reset_button is
     port
     (
@@ -17,6 +19,6 @@ begin
     begin
         wait until rising_edge(clk);
         sync_button <= sync_button(0) & button;
-        reset_out_n <= not sync_button(1);
+        reset_out_n <= sync_button(1);
     end process p_sync_button;
 end architecture rtl;
