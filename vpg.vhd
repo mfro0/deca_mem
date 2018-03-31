@@ -95,12 +95,16 @@ architecture rtl of vpg is
     attribute altera_attribute of synced_reset : signal is "-name SDC_STATEMENT ""set_false_path " &
                                                            "-from [get_registers *reset_n*] " &
                                                            "-to [get_registers *synced_reset[*]*];""";
+    signal reset                    : std_ulogic;
+
 begin
+    reset <= not reset_n;
+
     i_video_pll : entity work.video_pll
         port map
         (
             inclk0          => clk_50,
-            areset          => not reset_n,
+            areset          => reset,
             c0              => vpg_pclk
         );
     vpg_pclk_out <= not vpg_pclk;

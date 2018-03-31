@@ -1,0 +1,32 @@
+[*]
+[*] GTKWave Analyzer v3.3.82 (w)1999-2017 BSI
+[*] Sat Mar 31 06:49:00 2018
+[*]
+[dumpfile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/hdmi.ghw"
+[dumpfile_mtime] "Sat Mar 31 06:41:56 2018"
+[dumpfile_size] 1438226
+[savefile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/hdmi_tb.gtkw"
+[timestart] 0
+[size] 1859 1025
+[pos] -1 -1
+*-36.780087 649200000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.hdmi_tb.
+[sst_width] 223
+[signals_width] 251
+[sst_expanded] 1
+[sst_vpaned_height] 633
+@28
+top.hdmi_tb.i_hdmi_tx.clk_50
+top.hdmi_tb.i_hdmi_tx.reset_n
+top.hdmi_tb.i_hdmi_tx.hdmi_i2c_sda
+top.hdmi_tb.i_hdmi_tx.hdmi_i2c_scl
+top.hdmi_tb.i_hdmi_tx.hdmi_sclk
+top.hdmi_tb.i_hdmi_tx.hdmi_mclk
+top.hdmi_tb.i_hdmi_tx.hdmi_lrclk
+@22
+#{top.hdmi_tb.hdmi_tx_d[23:0]} top.hdmi_tb.hdmi_tx_d[23] top.hdmi_tb.hdmi_tx_d[22] top.hdmi_tb.hdmi_tx_d[21] top.hdmi_tb.hdmi_tx_d[20] top.hdmi_tb.hdmi_tx_d[19] top.hdmi_tb.hdmi_tx_d[18] top.hdmi_tb.hdmi_tx_d[17] top.hdmi_tb.hdmi_tx_d[16] top.hdmi_tb.hdmi_tx_d[15] top.hdmi_tb.hdmi_tx_d[14] top.hdmi_tb.hdmi_tx_d[13] top.hdmi_tb.hdmi_tx_d[12] top.hdmi_tb.hdmi_tx_d[11] top.hdmi_tb.hdmi_tx_d[10] top.hdmi_tb.hdmi_tx_d[9] top.hdmi_tb.hdmi_tx_d[8] top.hdmi_tb.hdmi_tx_d[7] top.hdmi_tb.hdmi_tx_d[6] top.hdmi_tb.hdmi_tx_d[5] top.hdmi_tb.hdmi_tx_d[4] top.hdmi_tb.hdmi_tx_d[3] top.hdmi_tb.hdmi_tx_d[2] top.hdmi_tb.hdmi_tx_d[1] top.hdmi_tb.hdmi_tx_d[0]
+@23
+#{top.hdmi_tb.hdmi_i2s[3:0]} top.hdmi_tb.hdmi_i2s[3] top.hdmi_tb.hdmi_i2s[2] top.hdmi_tb.hdmi_i2s[1] top.hdmi_tb.hdmi_i2s[0]
+[pattern_trace] 1
+[pattern_trace] 0
