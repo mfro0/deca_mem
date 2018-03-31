@@ -6,14 +6,14 @@ use ieee.std_logic_1164.all;
 entity reset_button is
     port
     (
-        clk             : in std_ulogic;
-        button          : in std_ulogic;
-        reset_out_n     : out std_ulogic
+        clk             : in std_logic;
+        button          : in std_logic;
+        reset_out_n     : out std_logic
     );
 end entity reset_button;
         
 architecture rtl of reset_button is
-    signal sync_button  : std_ulogic_vector(1 downto 0);
+    signal sync_button  : std_logic_vector(1 downto 0);
 begin
     p_sync_button : process
     begin

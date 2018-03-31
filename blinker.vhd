@@ -4,25 +4,25 @@ use ieee.std_logic_1164.all;
 entity blinker is
     generic
     (
-        COUNTER_MAX     : integer := 50000000   -- blink every second at 50 MHz clock
+        COUNTER_MAX     : integer := 50000000 / 2   -- blink every half second at 50 MHz clock
     );
     port
     (
-        clk             : in std_ulogic;
-        reset_n         : in std_ulogic;
-        led             : out std_ulogic
+        clk             : in std_logic;
+        reset_n         : in std_logic;
+        led             : out std_logic
     );
 end entity blinker;
 
 architecture rtl of blinker is
     signal counter      : integer := 0;
-    signal led_out      : std_ulogic := '0';
+    signal led_out      : std_logic := '0';
 begin
     p_blink : process(all)
     begin
         if not reset_n then
             counter <= 0;
-            led_out <= '1';                     -- LED off
+            led_out <= '1';                         -- LED off
         elsif rising_edge(clk) then
             if counter = COUNTER_MAX then
                 counter <= 0;

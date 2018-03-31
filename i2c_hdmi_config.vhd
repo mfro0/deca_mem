@@ -10,23 +10,24 @@ entity i2c_hdmi_config is
     );
     port
     (
-        iclk                : in std_ulogic;
-        reset_n             : in std_ulogic;
-        i2c_sclk            : inout std_ulogic;
+        clk                 : in std_logic;
+        reset_n             : in std_logic;
+        i2c_sclk            : inout std_logic;
         i2c_sdat            : inout std_logic;
-        hdmi_tx_int         : in std_ulogic
+        hdmi_tx_int         : in std_logic;
+        ack_error           : out std_logic
     );
 end entity i2c_hdmi_config;
 
 architecture rtl of i2c_hdmi_config is
-    signal i2c_ena          : std_ulogic;
-    signal i2c_busy         : std_ulogic;
+    signal i2c_ena          : std_logic;
+    signal i2c_busy         : std_logic;
     signal i2c_addr         : std_logic_vector(6 downto 0);
-    signal i2c_rw           : std_ulogic;
+    signal i2c_rw           : std_logic;
     signal i2c_data_rd      : std_logic_vector(7 downto 0);
     signal i2c_data_wr      : std_logic_vector(7 downto 0);
-    signal i2c_ack_err      : std_ulogic;
-    signal i2c_ctrl_clk     : std_ulogic;
+    signal i2c_ack_err      : std_logic;
+    signal i2c_ctrl_clk     : std_logic;
 
     signal lut_index        : natural;
 
@@ -68,10 +69,17 @@ architecture rtl of i2c_hdmi_config is
     );
     
 begin
+    ack_error <= i2c_ack_err;
+
     i_i2c_master : entity work.i2c_master
+        generic map
+        (
+            CLK_FREQ        => 50_000_000,              --  input clock speed from user logic in Hz
+            I2C_FREQ        => 20_000                   --  speed the i2c bus (scl) will run at in Hz
+        )
         port map
         (
-            clk             => iclk,
+            clk             => clk,
             reset_n         => reset_n,
             ena             => i2c_ena,
             busy            => i2c_busy,
@@ -95,14 +103,14 @@ begin
             lut_index <= lut_data'low;
             config_status := STATE0;
             i2c_ena <= '0';
-        elsif rising_edge(iclk) then
-            if lut_index < lut_data'high then
+        elsif rising_edge(clk) then
+            if lut_index <= lut_data'high then
                 case config_status is
                     when STATE0 =>
-                        i2c_addr <= 7x"72";
-                        i2c_rw <= '1';
-                        i2c_data_wr <= std_logic_vector(lut_data(lut_index));
                         i2c_ena <= '1';
+                        i2c_addr <= 7x"72";
+                        i2c_rw <= '0';
+                        i2c_data_wr <= std_logic_vector(lut_data(lut_index));
                         config_status := STATE1;
                     
                     when STATE1 =>
@@ -115,6 +123,7 @@ begin
                     when STATE2 =>                          
                         lut_index <= lut_index + 1;
                         config_status := STATE0;
+
                     when others =>
                         null;
                 end case;

@@ -5,21 +5,21 @@ use ieee.numeric_std.all;
 entity vpg is
     port
     (
-        clk_50              : in std_ulogic;
-        reset_n             : in std_ulogic;
+        clk_50              : in std_logic;
+        reset_n             : in std_logic;
     
-        vpg_pclk_out        : out std_ulogic;
-        vpg_de              : out std_ulogic;
-        vpg_hs              : out std_ulogic;
-        vpg_vs              : out std_ulogic;
+        vpg_pclk_out        : out std_logic;
+        vpg_de              : out std_logic;
+        vpg_hs              : out std_logic;
+        vpg_vs              : out std_logic;
         vpg_r,
         vpg_g,
-        vpg_b               : out std_ulogic_vector(7 downto 0)
+        vpg_b               : out std_logic_vector(7 downto 0)
     );
 end entity vpg;
 
 architecture rtl of vpg is
-    signal vpg_pclk         : std_ulogic;
+    signal vpg_pclk         : std_logic;
     
     subtype v_int is integer range 0 to 4095;       -- 12 bits
     type video_timing_type is record
@@ -90,12 +90,12 @@ architecture rtl of vpg is
     constant v          : video_timing_type := video_timings(5);        -- select 1600 x 1200 for now (must fit video_pll settings)
     
     -- cut timing path for reset_n in pixel clock domain
-    signal synced_reset             : std_ulogic_vector(1 downto 0);
+    signal synced_reset             : std_logic_vector(1 downto 0);
     attribute altera_attribute      : string;
     attribute altera_attribute of synced_reset : signal is "-name SDC_STATEMENT ""set_false_path " &
                                                            "-from [get_registers *reset_n*] " &
                                                            "-to [get_registers *synced_reset[*]*];""";
-    signal reset                    : std_ulogic;
+    signal reset                    : std_logic;
 
 begin
     reset <= not reset_n;

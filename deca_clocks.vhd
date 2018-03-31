@@ -4,15 +4,15 @@ use ieee.std_logic_1164.all;
 entity deca_clocks is
     port
     (
-        clk             : in std_ulogic;
-        reset_n         : in std_ulogic;
-        clk_100         : out std_ulogic;
-        clk_125         : out std_ulogic;
-        clk_150         : out std_ulogic;
-        clk_175         : out std_ulogic;
-        clk_200         : out std_ulogic;
+        clk             : in std_logic;
+        reset_n         : in std_logic;
+        clk_100         : out std_logic;
+        clk_125         : out std_logic;
+        clk_150         : out std_logic;
+        clk_175         : out std_logic;
+        clk_200         : out std_logic;
         
-        locked          : out std_ulogic
+        locked          : out std_logic
     );
 end entity deca_clocks;
 

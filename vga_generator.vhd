@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity vga_generator is
     port
     (
-        clk             : in std_ulogic;
-        reset_n         : in std_ulogic;
+        clk             : in std_logic;
+        reset_n         : in std_logic;
         
         h_total,
         h_sync,
@@ -22,11 +22,11 @@ entity vga_generator is
         
         vga_hs,
         vga_vs,
-        vga_de          : out std_ulogic;
+        vga_de          : out std_logic;
         
         vga_r,
         vga_g,
-        vga_b           : out std_ulogic_vector(7 downto 0)
+        vga_b           : out std_logic_vector(7 downto 0)
     );
 end entity vga_generator;
 
@@ -38,7 +38,7 @@ architecture rtl of vga_generator is
            h_act_d,
            v_act,
            v_act_d,
-           pre_vga_de   : std_ulogic;
+           pre_vga_de   : std_logic;
     signal h_max, 
            hs_end, 
            hr_start, 
@@ -46,11 +46,11 @@ architecture rtl of vga_generator is
            v_max,
            vs_end,
            vr_start,
-           vr_end       : std_ulogic;
+           vr_end       : std_logic;
     signal v_act_14,
            v_act_24,
-           v_act_34     : std_ulogic;
-    signal border       : std_ulogic;
+           v_act_34     : std_logic;
+    signal border       : std_logic;
     signal color_mode   : unsigned(3 downto 0);
     
 begin
@@ -187,21 +187,21 @@ begin
                 else
                     case color_mode is
                         when 4d"1" => 
-                            vga_r <= std_ulogic_vector(pixel_x);
+                            vga_r <= std_logic_vector(pixel_x);
                             vga_g <= 8x"0";
                             vga_b <= 8x"0";
                         when 4d"2" => 
                             vga_r <= 8x"0";
-                            vga_g <= std_ulogic_vector(pixel_x);
+                            vga_g <= std_logic_vector(pixel_x);
                             vga_b <= 8x"0";
                         when 4d"4" => 
                             vga_r <= 8x"0";
                             vga_g <= 8x"0";
-                            vga_b <= std_ulogic_vector(pixel_x);
+                            vga_b <= std_logic_vector(pixel_x);
                         when 4d"8" => 
-                            vga_r <= std_ulogic_vector(pixel_x);
-                            vga_g <= std_ulogic_vector(pixel_x);
-                            vga_b <= std_ulogic_vector(pixel_x);
+                            vga_r <= std_logic_vector(pixel_x);
+                            vga_g <= std_logic_vector(pixel_x);
+                            vga_b <= std_logic_vector(pixel_x);
                         when others => 
                             vga_r <= 8x"0";
                             vga_g <= 8x"0";
@@ -212,3 +212,4 @@ begin
         end if;
     end process p_pattern;
 end architecture rtl;
+

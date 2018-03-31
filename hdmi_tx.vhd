@@ -4,28 +4,31 @@ use ieee.std_logic_1164.all;
 entity hdmi_tx is
     port
     (
-        clk_50              : in std_ulogic;
-        reset_n             : in std_ulogic;
+        clk_50              : in std_logic;
+        reset_n             : in std_logic;
         
         -- HDMI chip config
         hdmi_i2c_scl        : inout std_logic;                      -- i2c clock
         hdmi_i2c_sda        : inout std_logic;                      -- i2c data
         
         -- HDMI inter-IC sound bus
-        hdmi_i2s            : inout std_ulogic_vector(3 downto 0);  --  
-        hdmi_lrclk          : inout std_ulogic;                     -- i2s lrclk
-        hdmi_mclk           : inout std_ulogic;
-        hdmi_sclk           : inout std_ulogic;
+        hdmi_i2s            : inout std_logic_vector(3 downto 0);  --  
+        hdmi_lrclk          : inout std_logic;                     -- i2s lrclk
+        hdmi_mclk           : inout std_logic;
+        hdmi_sclk           : inout std_logic;
         
         -- HDMI video
-        hdmi_tx_clk         : out std_ulogic;
-        hdmi_tx_d           : out std_ulogic_vector(23 downto 0);
-        hdmi_tx_de          : out std_ulogic;
-        hdmi_tx_hs          : out std_ulogic;
+        hdmi_tx_clk         : out std_logic;
+        hdmi_tx_d           : out std_logic_vector(23 downto 0);
+        hdmi_tx_de          : out std_logic;
+        hdmi_tx_hs          : out std_logic;
         
         -- HDMI interrupt
-        hdmi_tx_int         : in std_ulogic;
-        hdmi_tx_vs          : out std_ulogic
+        hdmi_tx_int         : in std_logic;
+        hdmi_tx_vs          : out std_logic;
+
+        -- DEBUG
+        ack_error           : out std_logic
     );
 end entity hdmi_tx;
 
@@ -48,11 +51,12 @@ begin
     i_i2c_hdmi_config : entity work.i2c_hdmi_config
         port map
         (
-            iclk                    => clk_50,
+            clk                     => clk_50,
             reset_n                 => reset_n,
             i2c_sclk                => hdmi_i2c_scl,
             i2c_sdat                => hdmi_i2c_sda,
-            hdmi_tx_int             => hdmi_tx_int
+            hdmi_tx_int             => hdmi_tx_int,
+            ack_error               => ack_error
         );
 end architecture rtl;
         

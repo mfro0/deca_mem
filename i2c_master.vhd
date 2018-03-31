@@ -41,7 +41,7 @@ architecture logic of i2c_master is
     signal stretch          : std_logic := '0';             -- identifies if slave is stretching scl
 begin
     -- generate the timing for the bus clock (scl_clk) and the data clock (data_clk)
-    process(clk, reset_n)
+    process(all)
         variable count      :  integer range 0 to divider * 4;  -- timing for clock generation
     begin
         if not reset_n then                                 -- reset asserted
@@ -77,7 +77,7 @@ begin
     end process;
 
     -- state machine and writing to sda during scl low (data_clk rising edge)
-    process(clk, reset_n)
+    process(all)
     begin
         if not reset_n then                                 -- reset asserted
             state <= ready;                                 -- return to initial state

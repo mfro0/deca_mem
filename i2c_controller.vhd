@@ -5,25 +5,25 @@ use ieee.std_logic_1164.all;
 entity i2c_controller is
     port
     (
-        clock           : in std_ulogic;
+        clock           : in std_logic;
         i2c_sdat        : inout std_logic;
         i2c_data        : in unsigned(23 downto 0);
-        go              : in std_ulogic;
-        reset_n         : in std_ulogic;
-        i2c_end         : out std_ulogic;
-        i2c_ack         : out std_ulogic;
+        go              : in std_logic;
+        reset_n         : in std_logic;
+        i2c_end         : out std_logic;
+        i2c_ack         : out std_logic;
         i2c_sclk        : out std_logic
     );
 end entity i2c_controller;
 
 architecture rtl of i2c_controller is
-    signal sdo          : std_ulogic;
-    signal sclk         : std_ulogic;
+    signal sdo          : std_logic;
+    signal sclk         : std_logic;
     signal sd           : unsigned(23 downto 0);
     signal sd_counter   : integer range 0 to 63;
     signal i2c_ack1,
            i2c_ack2,
-           i2c_ack3     : std_ulogic;
+           i2c_ack3     : std_logic;
 begin
     i2c_sclk <= '1' when sclk = '1' else
                 not clock when (sd_counter >= 4 and sd_counter <= 30) else
