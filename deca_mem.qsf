@@ -730,21 +730,7 @@ set_instance_assignment -name GLOBAL_SIGNAL OFF -to u0|mem_if_ddr3_emif|p0|umemp
 set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL_CLOCKS ON -to u0|mem_if_ddr3_emif -tag __deca_qsys_mem_if_ddr3_emif_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to "dut_example_if0:if0|dut_example_if0_p0:p0|dut_example_if0_p0_deca_qsys_mem_if_ddr3_emif_p0_m10:umemphy|dut_example_if0_p0_dqdqs_pads_m10:dq_ddio[*].ubidir_dq_dqs|altera_gpio_lite:dq_ddio_io|altgpio_one_bit:gpio_one_bit.i_loop[*].altgpio_bit_i|fr_clock"
 
-set_global_assignment -name SDC_FILE ddr3_mem.sdc
-set_global_assignment -name QIP_FILE ddr3_mem.qip
-set_global_assignment -name VHDL_FILE deca_clocks.vhd
-set_global_assignment -name VHDL_FILE deca_mem.vhd
-set_global_assignment -name QIP_FILE pll.qip
-set_global_assignment -name VHDL_FILE deca_reset.vhd
-set_global_assignment -name SIP_FILE ddr3_mem.sip
-set_global_assignment -name VHDL_FILE hdmi_tx.vhd
-set_global_assignment -name VHDL_FILE vpg.vhd
-set_global_assignment -name QIP_FILE video_pll.qip
-set_global_assignment -name VHDL_FILE vga_generator.vhd
-set_global_assignment -name VHDL_FILE i2c_hdmi_config.vhd
-set_global_assignment -name VHDL_FILE i2c_controller.vhd
 
-set_global_assignment -name VHDL_FILE reset_button.vhd
 
 set_global_assignment -name ASSIGNMENT_GROUP_MEMBER DDR3_CAS_n -section_id FAST_IO
 set_global_assignment -name ASSIGNMENT_GROUP_MEMBER DDR3_CK_n -section_id FAST_IO
@@ -766,5 +752,19 @@ set_instance_assignment -name FAST_INPUT_REGISTER ON -to FAST_IO
 set_instance_assignment -name FAST_OUTPUT_ENABLE_REGISTER ON -to FAST_IO
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to FAST_IO
 set_global_assignment -name TIMEQUEST_DO_REPORT_TIMING ON
+set_global_assignment -name VHDL_FILE i2c_master.vhd
+set_global_assignment -name SDC_FILE ddr3_mem.sdc
+set_global_assignment -name QIP_FILE ddr3_mem.qip
+set_global_assignment -name VHDL_FILE deca_clocks.vhd
+set_global_assignment -name VHDL_FILE deca_mem.vhd
+set_global_assignment -name QIP_FILE pll.qip
+set_global_assignment -name VHDL_FILE deca_reset.vhd
+set_global_assignment -name SIP_FILE ddr3_mem.sip
+set_global_assignment -name VHDL_FILE hdmi_tx.vhd
+set_global_assignment -name VHDL_FILE vpg.vhd
+set_global_assignment -name QIP_FILE video_pll.qip
+set_global_assignment -name VHDL_FILE vga_generator.vhd
+set_global_assignment -name VHDL_FILE i2c_hdmi_config.vhd
+set_global_assignment -name VHDL_FILE reset_button.vhd
 set_global_assignment -name VHDL_FILE blinker.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

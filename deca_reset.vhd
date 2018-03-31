@@ -29,8 +29,8 @@ begin
             led <= '1';                             -- LED off
         else
             if lock_pll then
-                reset_n <= '1' and reset_button_n;
-                led <= '1';                         -- LED on
+                reset_n <= reset_button_n;
+                led <= '0';                         -- LED on
             end if;
         end if;
     end process p_reset_delay;

@@ -12,117 +12,104 @@ entity i2c_hdmi_config is
     (
         iclk                : in std_ulogic;
         reset_n             : in std_ulogic;
-        i2c_sclk            : out std_ulogic;
+        i2c_sclk            : inout std_ulogic;
         i2c_sdat            : inout std_logic;
         hdmi_tx_int         : in std_ulogic
     );
 end entity i2c_hdmi_config;
 
 architecture rtl of i2c_hdmi_config is
-    signal i2c_clk_div     : unsigned(15 downto 0);
-    signal i2c_data        : unsigned(23 downto 0);
-    signal i2c_ctrl_clk    : std_ulogic;
-    signal i2c_go          : std_ulogic;
-    signal i2c_end         : std_ulogic;
-    signal i2c_ack         : std_ulogic;
+    signal i2c_ena          : std_ulogic;
+    signal i2c_busy         : std_ulogic;
+    signal i2c_addr         : std_logic_vector(6 downto 0);
+    signal i2c_rw           : std_ulogic;
+    signal i2c_data_rd      : std_logic_vector(7 downto 0);
+    signal i2c_data_wr      : std_logic_vector(7 downto 0);
+    signal i2c_ack_err      : std_ulogic;
+    signal i2c_ctrl_clk     : std_ulogic;
+
     signal lut_index        : natural;
-    
-    type lut_data_type is array(natural range <>) of unsigned(15 downto 0);
+
+    type lut_data_type is array(natural range <>) of unsigned(7 downto 0);
     constant lut_data       : lut_data_type :=
     (
-        16x"9803",          -- must be set to 0x03 for proper operation
-        16x"0100",          -- set 'n' value at 6144
-        16x"0218",          -- set 'n' value at 6144
-        16x"0300",          -- set 'n' value at 6144
-        16x"1470",          -- set ch count in the channel status to 8
-        16x"1520",          -- input 444 (RGB or YcrCb) with separate syncs, 48 kHz fs
-        16x"1630",          -- output format 444, 24 bit input
-        16x"1846",          -- disable CSC
-        16x"4080",          -- general control packet enable
-        16x"4110",          -- power down control
-        16x"49a8",          -- set dither mode - 12-to-10 bit
-        16x"5510",          -- set RGB in AVI infoframe
-        16x"5608",          -- set active format aspect
-        16x"96f6",          -- set interrupt
-        16x"7307",          -- info frame ch count to 8
-        16x"761f",          -- set speaker allocation for 8 channels
-        16x"9803",          -- must be set to 0x03 for proper operation
-        16x"9902",          -- must be set to default value
-        16x"9ae0",          -- must be set to 0b1110000
-        16x"9c30",          -- PLL filter R1 value
-        16x"9d61",          -- set clock divide
-        16x"a2a4",          -- must be set to 0xa4 for proper operation
-        16x"a3a4",          -- must be set to 0xa4 for proper operation
-        16x"a504",          -- must be set to default value
-        16x"ab40",          -- must be set to default value
-        16x"af16",          -- select HDMI mode
-        16x"ba60",          -- no clock delay
-        16x"d1ff",          -- must be set to default value
-        16x"de10",          -- must be set to default value
-        16x"e460",          -- must be set to default value
-        16x"fa7d",          -- number of times to look for good phase
-        16x"9803"
+        x"98", x"03",          -- must be set to 0x03 for proper operation
+        x"01", x"00",          -- set 'n' value at 6144
+        x"02", x"18",          -- set 'n' value at 6144
+        x"03", x"00",          -- set 'n' value at 6144
+        x"14", x"70",          -- set ch count in the channel status to 8
+        x"15", x"20",          -- input 444 (RGB or YcrCb) with separate syncs, 48 kHz fs
+        x"16", x"30",          -- output format 444, 24 bit input
+        x"18", x"46",          -- disable CSC
+        x"40", x"80",          -- general control packet enable
+        x"41", x"10",          -- power down control
+        x"49", x"a8",          -- set dither mode - 12-to-10 bit
+        x"55", x"10",          -- set RGB in AVI infoframe
+        x"56", x"08",          -- set active format aspect
+        x"96", x"f6",          -- set interrupt
+        x"73", x"07",          -- info frame ch count to 8
+        x"76", x"1f",          -- set speaker allocation for 8 channels
+        x"98", x"03",          -- must be set to 0x03 for proper operation
+        x"99", x"02",          -- must be set to default value
+        x"9a", x"e0",          -- must be set to 0b1110000
+        x"9c", x"30",          -- PLL filter R1 value
+        x"9d", x"61",          -- set clock divide
+        x"a2", x"a4",          -- must be set to 0xa4 for proper operation
+        x"a3", x"a4",          -- must be set to 0xa4 for proper operation
+        x"a5", x"04",          -- must be set to default value
+        x"ab", x"40",          -- must be set to default value
+        x"af", x"16",          -- select HDMI mode
+        x"ba", x"60",          -- no clock delay
+        x"d1", x"ff",          -- must be set to default value
+        x"de", x"10",          -- must be set to default value
+        x"e4", x"60",          -- must be set to default value
+        x"fa", x"7d",          -- number of times to look for good phase
+        x"98", x"03"
     );
     
 begin
-    p_control_clock : process
-    begin
-        wait until rising_edge(iclk);
-        if reset_n = '0' then
-            i2c_ctrl_clk   <= '0';
-            i2c_clk_div    <= (others => '0');
-        else
-            if i2c_clk_div < CLK_FREQ / I2C_FREQ then
-                i2c_clk_div <= i2c_clk_div + 1;
-            else
-                i2c_clk_div <= (others => '0');
-                i2c_ctrl_clk <= not i2c_ctrl_clk;
-            end if;
-        end if;
-    end process p_control_clock;
-    
-    i_i2c_controller : entity work.i2c_controller
+    i_i2c_master : entity work.i2c_master
         port map
         (
-            clock           => i2c_ctrl_clk,
-            i2c_sclk        => i2c_sclk,
-            i2c_sdat        => i2c_sdat,
-            i2c_data        => i2c_data,
-            go              => i2c_go,
-            i2c_end         => i2c_end,
-            i2c_ack         => i2c_ack,
-            reset_n         => reset_n
+            clk             => iclk,
+            reset_n         => reset_n,
+            ena             => i2c_ena,
+            busy            => i2c_busy,
+            addr            => i2c_addr,
+            rw              => i2c_rw,
+            data_wr         => i2c_data_wr,
+            data_rd         => i2c_data_rd,
+            ack_error       => i2c_ack_err,
+            sda             => i2c_sdat,
+            scl             => i2c_sclk
         );
     
     
     -- configuration control
     
-    p_config : process
+    p_config : process(all)
         type config_setup_type is (STATE0, STATE1, STATE2);
         variable config_status   : config_setup_type;
     begin
-        wait until rising_edge(i2c_ctrl_clk);
-        
         if not reset_n then
             lut_index <= lut_data'low;
             config_status := STATE0;
-            i2c_go <= '0';
-        else
+            i2c_ena <= '0';
+        elsif rising_edge(iclk) then
             if lut_index < lut_data'high then
                 case config_status is
                     when STATE0 =>
-                        i2c_data <= 8x"72" & lut_data(lut_index);
-                        i2c_go <= '1';
+                        i2c_addr <= 7x"72";
+                        i2c_rw <= '1';
+                        i2c_data_wr <= std_logic_vector(lut_data(lut_index));
+                        i2c_ena <= '1';
                         config_status := STATE1;
                     
                     when STATE1 =>
-                        if i2c_end then                     -- i2c controller isn't busy
-                            if not i2c_ack then             -- and didn't yet acknowledge anything
-                                config_status := STATE2;    -- then go ahead
-                            else
-                                config_status := STATE0;    -- else wait for a new transfer
-                                i2c_go <= '0';
-                            end if;
+                        if not i2c_busy then            -- i2c controller isn't busy
+                            config_status := STATE2;    -- then go ahead
+                        else
+                            config_status := STATE1;    -- else wait for a new transfer
                         end if;
                         
                     when STATE2 =>                          
