@@ -87,7 +87,7 @@ begin
                 when 8 => sdo <= sd(18);
                 when 9 => sdo <= sd(17);
                 when 10 => sdo <= sd(16);
-                when 11 => sdo <= '1';      -- i2c_ack
+                when 11 => sdo <= '1';      -- ack
                 
                 -- sub address
                 
@@ -101,7 +101,7 @@ begin
                 when 17 => sdo <= sd(10);
                 when 18 => sdo <= sd(9);
                 when 19 => sdo <= sd(8);
-                when 20 => sdo <= '1';      -- i2c_ack
+                when 20 => sdo <= '1';      -- ack
                 
                 -- data
                 
@@ -116,7 +116,7 @@ begin
                 when 26 => sdo <= sd(2);
                 when 27 => sdo <= sd(1);
                 when 28 => sdo <= sd(0);
-                when 29 => sdo <= '1';      -- i2c_ack
+                when 29 => sdo <= '1';      -- ack
                 
                 when 30 =>
                     sdo <= '0';
