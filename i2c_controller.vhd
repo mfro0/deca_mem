@@ -48,17 +48,16 @@ begin
         end if;
     end process p_i2c_counter;
     
-    p_i2c_doit : process
+    p_i2c_doit : process(all)
     begin
-        wait until rising_edge(clock);
-        if reset_n = '0' then
+        if not reset_n then
             sclk <= '1';
             sdo <= '1';
             i2c_ack1 <= '0';
             i2c_ack2 <= '0';
             i2c_ack3 <= '0';
             i2c_end <= '1';
-        else
+        elsif rising_edge(clock) then
             case sd_counter is
                 when 0 =>
                     i2c_ack1 <= '0';
