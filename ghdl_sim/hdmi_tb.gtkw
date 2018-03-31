@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.82 (w)1999-2017 BSI
-[*] Sat Mar 31 14:50:19 2018
+[*] Sat Mar 31 18:41:15 2018
 [*]
 [dumpfile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/hdmi.ghw"
-[dumpfile_mtime] "Sat Mar 31 14:45:02 2018"
-[dumpfile_size] 9126158
+[dumpfile_mtime] "Sat Mar 31 18:39:50 2018"
+[dumpfile_size] 22991139
 [savefile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/hdmi_tb.gtkw"
 [timestart] 0
-[size] 1920 1027
+[size] 1859 1025
 [pos] -1 -1
-*-30.582296 42400000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-32.191654 42400000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.hdmi_tb.
 [treeopen] top.hdmi_tb.i_hdmi_tx.
@@ -28,7 +28,12 @@ top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i2c_rw
 top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i2c_busy
 top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i2c_ena
 top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i2c_sdat
-@29
 top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i2c_sclk
+@22
+#{top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[7:0]} top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[7] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[6] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[5] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[4] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[3] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[2] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[1] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_rx[0]
+#{top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[7:0]} top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[7] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[6] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[5] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[4] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[3] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[2] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[1] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.data_tx[0]
+#{top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[7:0]} top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[7] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[6] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[5] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[4] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[3] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[2] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[1] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr_rw[0]
+@23
+#{top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[6:0]} top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[6] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[5] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[4] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[3] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[2] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[1] top.hdmi_tb.i_hdmi_tx.i_i2c_hdmi_config.i_i2c_master.addr[0]
 [pattern_trace] 1
 [pattern_trace] 0

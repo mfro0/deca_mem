@@ -74,7 +74,7 @@ entity deca_mem is
         HDMI_LRCLK          : inout std_logic;
         HDMI_MCLK           : inout std_logic;
         HDMI_SCLK           : inout std_logic;
-        HDMI_TXCLK          : out std_logic;
+        HDMI_TX_CLK         : out std_logic;
         HDMI_TX_D           : out std_logic_vector(23 downto 0);
         HDMI_TX_DE          : out std_logic;
         HDMI_TX_HS          : out std_logic;
@@ -302,7 +302,7 @@ begin
             hdmi_lrclk          => HDMI_LRCLK,
             hdmi_mclk           => HDMI_MCLK,
             hdmi_sclk           => HDMI_SCLK,
-            hdmi_tx_clk         => HDMI_TXCLK,
+            hdmi_tx_clk         => HDMI_TX_CLK,
             hdmi_tx_d           => HDMI_TX_D,
             hdmi_tx_de          => HDMI_TX_DE,
             hdmi_tx_hs          => HDMI_TX_HS,
