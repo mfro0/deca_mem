@@ -8,8 +8,8 @@ entity hdmi_tx is
         reset_n             : in std_ulogic;
         
         -- HDMI chip config
-        hdmi_i2c_scl        : inout std_ulogic;                     -- i2c clock
-        hdmi_i2c_sda        : inout std_ulogic;                     -- i2c data
+        hdmi_i2c_scl        : inout std_logic;                      -- i2c clock
+        hdmi_i2c_sda        : inout std_logic;                      -- i2c data
         
         -- HDMI inter-IC sound bus
         hdmi_i2s            : inout std_ulogic_vector(3 downto 0);  --  

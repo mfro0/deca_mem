@@ -25,8 +25,8 @@ architecture sim of hdmi_tb is
 
     
     -- HDMI signals
-    signal hdmi_i2c_scl         : std_ulogic;
-    signal hdmi_i2c_sda         : std_ulogic;
+    signal hdmi_i2c_scl         : std_logic;
+    signal hdmi_i2c_sda         : std_logic;
     signal hdmi_i2s             : std_ulogic_vector(3 downto 0);
     signal hdmi_lrclk           : std_ulogic;
     signal hdmi_mclk            : std_ulogic;

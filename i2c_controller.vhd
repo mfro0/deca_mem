@@ -6,13 +6,13 @@ entity i2c_controller is
     port
     (
         clock           : in std_ulogic;
-        i2c_sdat        : inout std_ulogic;
+        i2c_sdat        : inout std_logic;
         i2c_data        : in unsigned(23 downto 0);
         go              : in std_ulogic;
         reset_n         : in std_ulogic;
         i2c_end         : out std_ulogic;
         i2c_ack         : out std_ulogic;
-        i2c_sclk        : out std_ulogic
+        i2c_sclk        : out std_logic
     );
 end entity i2c_controller;
 
@@ -34,12 +34,11 @@ begin
     
     i2c_ack <= i2c_ack1 or i2c_ack2 or i2c_ack3;
     
-    p_i2c_counter : process
+    p_i2c_counter : process(all)
     begin
-        wait until rising_edge(clock);
-        if reset_n = '0' then
+        if not reset_n then
             sd_counter <= 63;
-        else
+        elsif rising_edge(clock) then
             if go = '0' then
                 sd_counter <= 0;
             elsif sd_counter < 63 then
