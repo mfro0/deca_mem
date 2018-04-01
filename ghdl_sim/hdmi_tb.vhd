@@ -9,11 +9,7 @@ architecture sim of hdmi_tb is
     signal clk_50               : std_logic := '0';
     signal reset_n              : std_logic := '0';
 
-    signal clk_100,
-           clk_125,
-           clk_150,
-           clk_175,
-           clk_200,
+    signal clk_1536k,
            plls_locked          : std_logic := '0';
 
 	-- jtag uart signals
@@ -128,11 +124,7 @@ begin
             reset_n             => reset_n,
 
             -- clocks
-            clk_100             => clk_100,
-            clk_125             => clk_125,
-            clk_150             => clk_150,
-            clk_175             => clk_175,
-            clk_200             => clk_200,
+            clk_1536k           => clk_1536k,
             
             locked              => plls_locked
         );

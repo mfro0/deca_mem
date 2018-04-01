@@ -64,9 +64,12 @@ begin
         (
             clk                     => clk_50,
             reset_n                 => reset_n,
+            
             i2c_sclk                => hdmi_i2c_scl,
             i2c_sdat                => hdmi_i2c_sda,
             hdmi_tx_int             => hdmi_tx_int,
+            
+            -- debug
             ack_error               => ack_error,
             reset_button_n          => reset_button_n
         );

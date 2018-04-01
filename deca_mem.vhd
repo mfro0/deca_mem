@@ -168,11 +168,7 @@ architecture rtl of deca_mem is
     signal ddr3_local_cal_success   : std_logic;
     signal ddr3_local_cal_fail      : std_logic;
     
-    signal clk_100,
-           clk_125,
-           clk_150,
-           clk_175,
-           clk_200                  : std_logic;
+    signal clk_1536k                : std_logic;
     signal pll_locked               : std_logic := '1';
     
     signal afi_clk                  : std_logic;
@@ -233,11 +229,7 @@ begin
         (
             clk             => MAX10_CLK1_50,
             reset_n         => reset_n,
-            clk_100         => clk_100,
-            clk_125         => clk_125,
-            clk_150         => clk_150,
-            clk_175         => clk_175,
-            clk_200         => clk_200,
+            clk_1536k       => clk_1536k,
             locked          => pll_locked
         );
 
@@ -317,6 +309,17 @@ begin
             reset_button_n      => KEY(1)
         );
     
+    i_hdmi_audio : entity work.hdmi_audio
+        port map
+        (
+            clk                 => clk_1536k,
+            reset_n             => reset_n,
+            
+            sclk                => HDMI_SCLK,
+            lrclk               => HDMI_LRCLK,
+            i2s                 => HDMI_I2S,
+        );
+        
     i_reset_button : entity work.reset_button
         port map
         (

@@ -9,6 +9,7 @@ HDMI_MODULES = \
     i2c_slave.o \
     i2c_master.o \
     i2c_hdmi_config.o \
+    hdmi_audio.o \
 	hdmi_tx.o \
     pll.o \
     deca_clocks.o \
