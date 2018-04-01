@@ -317,7 +317,7 @@ begin
             
             sclk                => HDMI_SCLK,
             lrclk               => HDMI_LRCLK,
-            i2s                 => HDMI_I2S,
+            i2s                 => HDMI_I2S
         );
         
     i_reset_button : entity work.reset_button
