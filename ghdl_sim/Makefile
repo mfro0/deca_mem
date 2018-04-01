@@ -5,6 +5,8 @@ HDMI_MODULES = \
     video_pll.o \
     vga_generator.o \
     vpg.o \
+    debounce.o \
+    i2c_slave.o \
     i2c_master.o \
     i2c_hdmi_config.o \
 	hdmi_tx.o \

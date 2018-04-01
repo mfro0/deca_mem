@@ -39,8 +39,33 @@ architecture sim of hdmi_tb is
     signal hdmi_tx_vs           : std_logic;
 
     signal sda_counter          : integer range 0 to 8 := 0;
+
+    signal i2c_read_req,
+           i2c_read_response_valid  : std_logic;
+    signal i2c_read_response,
+           i2c_write_data       : std_logic_vector(7 downto 0);
     
 begin
+    i_i2c_slave : entity work.i2c_slave
+        generic map
+        (
+            SLAVE_ADDR          => 7x"72"
+        )
+        port map
+        (
+            clk                 => clk_50,
+            reset_n             => reset_n,
+
+            scl                 => hdmi_i2c_scl,
+            sda                 => hdmi_i2c_sda,
+
+            -- user interface
+            read_req            => i2c_read_req,
+            data_to_master      => i2c_read_response,
+            data_valid          => i2c_read_response_valid,
+            data_from_master    => i2c_write_data
+        );
+
     -- reset
     p_initial : process
     begin

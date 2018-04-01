@@ -26,8 +26,8 @@ end i2c_master;
 
 architecture logic of i2c_master is
     constant divider        :  integer := (CLK_FREQ / I2C_FREQ) / 4;  -- number of clocks in 1/4 cycle of scl
-    type machine is (ready, start, command, slv_ack1, wr, rd, slv_ack2, mstr_ack, stop); -- needed states
-    signal state            : machine;                      -- state machine
+    type i2c_state is (ready, start, command, slv_ack1, wr, rd, slv_ack2, mstr_ack, stop); -- needed states
+    signal state            : i2c_state;                    -- state machine
     signal data_clk         : std_logic;                    -- data clock for sda
     signal data_clk_prev    : std_logic;                    -- data clock during previous system clock
     signal scl_clk          : std_logic;                    -- constantly running internal scl
@@ -50,12 +50,11 @@ begin
         if not reset_n then                                 -- reset asserted
             stretch <= '0';
             count := 0;
-        elsif falling_edge(clk) then
+        elsif rising_edge(clk) then
             data_clk_prev <= data_clk;                      -- store previous value of data clock
             if count = divider * 4 - 1 then                 -- end of timing cycle
                 count := 0;                                 -- reset timer
             elsif stretch = '0' then                        -- clock stretching from slave not detected
-                -- report "count = " & integer'image(count);
                 count := count + 1;                         -- continue clock generation timing
             end if;
             
