@@ -16,7 +16,7 @@ end entity hdmi_audio;
 
 architecture rtl of hdmi_audio is
     subtype sintab_entry_type is integer range 0 to 65535;
-    type sintab_type is array (integer range <>) of sintab_entry_type;
+    type sintab_type is array (natural range <>) of sintab_entry_type;
     constant sintab             : sintab_type :=
     (
             0,  4276,  8480, 12539, 16383, 19947, 23169, 25995,
@@ -28,20 +28,21 @@ architecture rtl of hdmi_audio is
     );
 	signal bitcount,
            table_index          : integer;
-    
+    signal lrclk_i              : std_logic;
 begin
     sclk <= clk;
+    lrclk <= lrclk_i;
     
     p_lrclk : process(all)
         variable sclk_count     : integer;
     begin
         if not reset_n then
-            lrclk <= '0';
+            lrclk_i <= '0';
             sclk_count := 0;
-        elsif falling_edge(sclk) then
+        elsif falling_edge(clk) then
             if sclk_count > 15 then
                 sclk_count := 0;
-                lrclk <= not lrclk;
+                lrclk_i <= not lrclk_i;
             else
                 sclk_count := sclk_count + 1;
             end if;
@@ -52,7 +53,7 @@ begin
     begin
         if not reset_n then
             bitcount <= 0;
-        elsif falling_edge(sclk) then
+        elsif falling_edge(clk) then
             if bitcount > 15 then
                 bitcount <= 0;
             else
@@ -65,7 +66,7 @@ begin
     begin
         if not reset_n then
             table_index <= 0;
-        elsif falling_edge(lrclk) then
+        elsif falling_edge(lrclk_i) then
             if table_index <= sintab'high then
                 table_index <= table_index + 1;
             else
