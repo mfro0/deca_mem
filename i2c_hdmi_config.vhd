@@ -89,7 +89,7 @@ begin
                 case state is
                     when STATE0 =>
                         i2c_ena <= '1';
-                        i2c_addr <= 7x"72";
+                        i2c_addr <= 7x"39";
                         i2c_rw <= '0';                      -- write
                         i2c_data_wr <= std_logic_vector(lut_data(lut_index));
                         lut_index <= lut_index + 1;
