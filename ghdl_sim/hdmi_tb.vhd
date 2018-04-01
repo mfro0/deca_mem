@@ -46,6 +46,9 @@ architecture sim of hdmi_tb is
            i2c_write_data       : std_logic_vector(7 downto 0);
     
 begin
+    hdmi_i2c_scl <= 'H';
+    hdmi_i2c_sda <= 'H';                                -- add pull-ups to i2c signals
+
     i_i2c_slave : entity work.i2c_slave
         generic map
         (
@@ -82,18 +85,12 @@ begin
         clk_50 <= not clk_50;
     end process p_clk_50;
 
-    p_count_scl : process
-    begin
-        wait until falling_edge(hdmi_i2c_scl);
-        report "scl rises" severity note;
-        sda_counter <= sda_counter + 1;
-        if sda_counter = 8 then
-            hdmi_i2c_sda <= '0';
-            sda_counter <= 0;
-        end if;
-    end process p_count_scl;
-
     i_hdmi_tx : entity work.hdmi_tx
+        generic map
+        (
+            CLK_FREQUENCY       => 50_000_000,
+            I2C_FREQUENCY       => 2_000_000        -- only for simulation; real device supports 400 KHz!
+        )
         port map
         (
             clk_50              => clk_50,

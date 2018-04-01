@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity i2c_hdmi_config is
     generic
     (
-        CLK_FREQ            : integer := 50000000;      -- 50 MHz
-        I2C_FREQ            : integer := 200000         -- 20 KHz
+        CLK_FREQUENCY       : integer := 50000000;      -- 50 MHz
+        I2C_FREQUENCY       : integer := 200000         -- 20 KHz
     );
     port
     (
@@ -114,8 +114,8 @@ begin
     i_i2c_master : entity work.i2c_master
         generic map
         (
-            CLK_FREQ        => CLK_FREQ,                --  input clock speed from user logic in Hz
-            I2C_FREQ        => I2C_FREQ                 --  speed the i2c bus (scl) will run at in Hz
+            CLK_FREQUENCY   => CLK_FREQUENCY,           --  input clock speed from user logic in Hz
+            I2C_FREQUENCY   => I2C_FREQUENCY            --  speed the i2c bus (scl) will run at in Hz
         )
         port map
         (

@@ -2,6 +2,11 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity hdmi_tx is
+    generic
+    (
+        CLK_FREQUENCY       : integer := 50000000;
+        I2C_FREQUENCY       : integer := 40000
+    );
     port
     (
         clk_50              : in std_logic;
@@ -51,8 +56,8 @@ begin
     i_i2c_hdmi_config : entity work.i2c_hdmi_config
         generic map
         (
-            CLK_FREQ                => 50000000,                    -- 50 MHz
-            I2C_FREQ                => 400000                       -- 400 KHz
+            CLK_FREQUENCY           => CLK_FREQUENCY,
+            I2C_FREQUENCY           => I2C_FREQUENCY
         )
         port map
         (
