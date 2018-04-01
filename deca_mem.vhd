@@ -291,6 +291,11 @@ begin
         );
         
     i_hdmi_tx : entity work.hdmi_tx
+        generic map
+        (
+            CLK_FREQUENCY       => 50_000_000,
+            I2C_FREQUENCY       =>    400_000
+        )
         port map
         (
             clk_50              => MAX10_CLK1_50,
@@ -308,7 +313,8 @@ begin
             hdmi_tx_hs          => HDMI_TX_HS,
             hdmi_tx_int         => HDMI_TX_INT,
             hdmi_tx_vs          => HDMI_TX_VS,
-            ack_error           => i2c_ack_err
+            ack_error           => i2c_ack_err,
+            reset_button_n      => KEY(1)
         );
     
     i_reset_button : entity work.reset_button

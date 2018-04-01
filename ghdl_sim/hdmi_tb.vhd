@@ -38,6 +38,8 @@ architecture sim of hdmi_tb is
     signal hdmi_tx_int          : std_logic;
     signal hdmi_tx_vs           : std_logic;
 
+    signal reset_button_n       : std_logic := '1';
+
     signal sda_counter          : integer range 0 to 8 := 0;
 
     signal i2c_read_req,
@@ -114,7 +116,8 @@ begin
 
             -- HDMI interrupt
             hdmi_tx_int         => hdmi_tx_int,
-            hdmi_tx_vs          => hdmi_tx_vs
+            hdmi_tx_vs          => hdmi_tx_vs,
+            reset_button_n      => reset_button_n
         );
 
 

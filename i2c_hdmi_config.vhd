@@ -5,17 +5,21 @@ use ieee.numeric_std.all;
 entity i2c_hdmi_config is
     generic
     (
-        CLK_FREQUENCY       : integer := 50000000;      -- 50 MHz
-        I2C_FREQUENCY       : integer := 200000         -- 20 KHz
+        CLK_FREQUENCY       : integer;
+        I2C_FREQUENCY       : integer
     );
     port
     (
         clk                 : in std_logic;
         reset_n             : in std_logic;
+        
         i2c_sclk            : inout std_logic;
         i2c_sdat            : inout std_logic;
         hdmi_tx_int         : in std_logic;
-        ack_error           : out std_logic
+        
+        -- debug
+        ack_error           : out std_logic;
+        reset_button_n      : in std_logic
     );
 end entity i2c_hdmi_config;
 
@@ -69,10 +73,14 @@ architecture rtl of i2c_hdmi_config is
 
     type config_setup_type is (STATE0, STATE1, STATE2);
     signal state                : config_setup_type := STATE0;
+    
+    signal my_reset_n           : std_logic;
 begin
+    my_reset_n <= reset_n and reset_button_n;
+    
     p_i2c_send_data : process(all)
     begin
-        if not reset_n then
+        if not my_reset_n then
             lut_index <= lut_data'low;
             state <= STATE0;
             i2c_ena <= '0';
@@ -120,7 +128,7 @@ begin
         port map
         (
             clk             => clk,
-            reset_n         => reset_n,
+            reset_n         => my_reset_n,
             ena             => i2c_ena,
             busy            => i2c_busy,
             addr            => i2c_addr,

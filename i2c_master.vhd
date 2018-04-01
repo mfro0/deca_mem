@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity i2c_master is
     generic
     (
-        CLK_FREQUENCY   : integer := 50_000_000;            --  input clock speed from user logic in Hz
-        I2C_FREQUENCY   : integer := 20_000                 --  speed the i2c bus (scl) will run at in Hz
+        CLK_FREQUENCY   : integer;                          --  input clock speed from user logic in Hz
+        I2C_FREQUENCY   : integer                           --  speed the i2c bus (scl) will run at in Hz
     );                    
     port
     (

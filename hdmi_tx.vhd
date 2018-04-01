@@ -4,8 +4,8 @@ use ieee.std_logic_1164.all;
 entity hdmi_tx is
     generic
     (
-        CLK_FREQUENCY       : integer := 50000000;
-        I2C_FREQUENCY       : integer := 40000
+        CLK_FREQUENCY       : integer;
+        I2C_FREQUENCY       : integer
     );
     port
     (
@@ -33,7 +33,8 @@ entity hdmi_tx is
         hdmi_tx_vs          : out std_logic;
 
         -- DEBUG
-        ack_error           : out std_logic
+        ack_error           : out std_logic;
+        reset_button_n      : in std_logic
     );
 end entity hdmi_tx;
 
@@ -66,7 +67,8 @@ begin
             i2c_sclk                => hdmi_i2c_scl,
             i2c_sdat                => hdmi_i2c_sda,
             hdmi_tx_int             => hdmi_tx_int,
-            ack_error               => ack_error
+            ack_error               => ack_error,
+            reset_button_n          => reset_button_n
         );
 end architecture rtl;
         
