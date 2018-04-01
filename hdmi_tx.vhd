@@ -49,6 +49,11 @@ begin
         );
     
     i_i2c_hdmi_config : entity work.i2c_hdmi_config
+        generic map
+        (
+            CLK_FREQ                => 50000000,                    -- 50 MHz
+            I2C_FREQ                => 400000                       -- 400 KHz
+        )
         port map
         (
             clk                     => clk_50,

@@ -87,7 +87,7 @@ architecture rtl of vpg is
             v_active_14 => 348, v_active_24 => 648, v_active_34 => 948
         )
     );
-    constant v          : video_timing_type := video_timings(5);        -- select 1600 x 1200 for now (must fit video_pll settings)
+    constant v          : video_timing_type := video_timings(0);        -- select 640 x 480
     
     -- cut timing path for reset_n in pixel clock domain
     signal synced_reset             : std_logic_vector(1 downto 0);

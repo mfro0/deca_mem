@@ -6,37 +6,39 @@ entity hdmi_tb is
 end entity hdmi_tb;
 
 architecture sim of hdmi_tb is
-    signal clk_50               : std_ulogic := '0';
-    signal reset_n              : std_ulogic := '0';
+    signal clk_50               : std_logic := '0';
+    signal reset_n              : std_logic := '0';
 
     signal clk_100,
            clk_125,
            clk_150,
            clk_175,
            clk_200,
-           plls_locked          : std_ulogic;
+           plls_locked          : std_logic := '0';
 
 	-- jtag uart signals
 	signal rx_data,
-		   tx_data			    : std_ulogic_vector(7 downto 0);
+		   tx_data			    : std_logic_vector(7 downto 0);
 	signal rx_busy,
-		   tx_busy			    : std_ulogic;
-	signal tx_start			    : std_ulogic;
+		   tx_busy			    : std_logic;
+	signal tx_start			    : std_logic;
 
     
     -- HDMI signals
-    signal hdmi_i2c_scl         : std_logic;
-    signal hdmi_i2c_sda         : std_logic;
-    signal hdmi_i2s             : std_ulogic_vector(3 downto 0);
-    signal hdmi_lrclk           : std_ulogic;
-    signal hdmi_mclk            : std_ulogic;
-    signal hdmi_sclk            : std_ulogic;
-    signal hdmi_tx_clk          : std_ulogic;
-    signal hdmi_tx_d            : std_ulogic_vector(23 downto 0);
-    signal hdmi_tx_de           : std_ulogic;
-    signal hdmi_tx_hs           : std_ulogic;
-    signal hdmi_tx_int          : std_ulogic;
-    signal hdmi_tx_vs           : std_ulogic;
+    signal hdmi_i2c_scl         : std_logic := '0';
+    signal hdmi_i2c_sda         : std_logic := '0';
+    signal hdmi_i2s             : std_logic_vector(3 downto 0);
+    signal hdmi_lrclk           : std_logic;
+    signal hdmi_mclk            : std_logic;
+    signal hdmi_sclk            : std_logic;
+    signal hdmi_tx_clk          : std_logic;
+    signal hdmi_tx_d            : std_logic_vector(23 downto 0);
+    signal hdmi_tx_de           : std_logic;
+    signal hdmi_tx_hs           : std_logic;
+    signal hdmi_tx_int          : std_logic;
+    signal hdmi_tx_vs           : std_logic;
+
+    signal sda_counter          : integer range 0 to 8 := 0;
     
 begin
     -- reset
@@ -54,6 +56,17 @@ begin
         wait for 20 ns / 2;
         clk_50 <= not clk_50;
     end process p_clk_50;
+
+    p_count_scl : process
+    begin
+        wait until falling_edge(hdmi_i2c_scl);
+        report "scl rises" severity note;
+        sda_counter <= sda_counter + 1;
+        if sda_counter = 8 then
+            hdmi_i2c_sda <= '0';
+            sda_counter <= 0;
+        end if;
+    end process p_count_scl;
 
     i_hdmi_tx : entity work.hdmi_tx
         port map

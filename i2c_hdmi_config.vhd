@@ -6,7 +6,7 @@ entity i2c_hdmi_config is
     generic
     (
         CLK_FREQ            : integer := 50000000;      -- 50 MHz
-        I2C_FREQ            : integer := 20000          -- 20 KHz
+        I2C_FREQ            : integer := 200000         -- 20 KHz
     );
     port
     (
@@ -20,14 +20,13 @@ entity i2c_hdmi_config is
 end entity i2c_hdmi_config;
 
 architecture rtl of i2c_hdmi_config is
-    signal i2c_ena          : std_logic;
-    signal i2c_busy         : std_logic;
+    signal i2c_ena          : std_logic := '0';
+    signal i2c_busy         : std_logic := '0';
     signal i2c_addr         : std_logic_vector(6 downto 0);
-    signal i2c_rw           : std_logic;
+    signal i2c_rw           : std_logic := '0';
     signal i2c_data_rd      : std_logic_vector(7 downto 0);
     signal i2c_data_wr      : std_logic_vector(7 downto 0);
-    signal i2c_ack_err      : std_logic;
-    signal i2c_ctrl_clk     : std_logic;
+    signal i2c_ack_err      : std_logic := '0';
 
     signal lut_index        : natural;
 
@@ -67,15 +66,56 @@ architecture rtl of i2c_hdmi_config is
         x"fa", x"7d",          -- number of times to look for good phase
         x"98", x"03"
     );
-    
+
+    type config_setup_type is (STATE0, STATE1, STATE2);
+    signal state                : config_setup_type := STATE0;
 begin
+    p_i2c_send_data : process(all)
+    begin
+        if not reset_n then
+            lut_index <= lut_data'low;
+            state <= STATE0;
+            i2c_ena <= '0';
+        elsif rising_edge(clk) then
+            if lut_index <= lut_data'high then
+                case state is
+                    when STATE0 =>
+                        i2c_ena <= '1';
+                        i2c_addr <= 7x"72";
+                        i2c_rw <= '0';                      -- write
+                        i2c_data_wr <= std_logic_vector(lut_data(lut_index));
+                        lut_index <= lut_index + 1;
+                        state <= STATE1;
+                        
+                     when STATE1 =>
+                        -- wait until busy gets asserted
+                        if not i2c_busy then
+                            state <= STATE1;
+                        else
+                            state <= STATE2;
+                        end if;
+                    
+                    when STATE2 =>
+                        if not i2c_busy then
+                            i2c_data_wr <= std_logic_vector(lut_data(lut_index));
+                            lut_index <= lut_index + 1;
+                            state <= STATE1;
+                        end if;
+                        
+                end case;
+            else
+                i2c_ena <= '0';
+            end if;
+        end if;
+    end process p_i2c_send_data;
+    
     ack_error <= i2c_ack_err;
 
     i_i2c_master : entity work.i2c_master
         generic map
         (
-            CLK_FREQ        => 50_000_000,              --  input clock speed from user logic in Hz
-            I2C_FREQ        => 20_000                   --  speed the i2c bus (scl) will run at in Hz
+            CLK_FREQ        => CLK_FREQ,                --  input clock speed from user logic in Hz
+            I2C_FREQ        => I2C_FREQ                 --  speed the i2c bus (scl) will run at in Hz
         )
         port map
         (
@@ -94,14 +134,25 @@ begin
     
     
     -- configuration control
-    
+
+
+/*    
     p_config : process(all)
-        type config_setup_type is (STATE0, STATE1, STATE2);
-        variable config_status   : config_setup_type;
+        variable i                  : integer := lut_data'low;
     begin
+        -- dump parameter array in simulation
+        -- pragma synthesis off
+        while i <= lut_data'high loop
+            report "lut_data(" & integer'image(i) & "): " &
+                   "x""" & to_hstring(lut_data(i)) & 
+                   """,x""" & to_hstring(lut_data(i + 1)) & """" severity note;
+            i := i + 2;
+        end loop;
+        -- pragma synthesis on
+        
         if not reset_n then
             lut_index <= lut_data'low;
-            config_status := STATE0;
+            config_status <= STATE0;
             i2c_ena <= '0';
         elsif rising_edge(clk) then
             if lut_index <= lut_data'high then
@@ -110,28 +161,36 @@ begin
                         i2c_ena <= '1';
                         i2c_addr <= 7x"72";
                         i2c_rw <= '0';                  -- write
-                        i2c_data_wr <= std_logic_vector(lut_data(lut_index));
-                        config_status := STATE1;
+                        
+                        -- pragma synthesis off
+                        report to_hstring(lut_data(lut_index)) & " written" severity note;
+                        -- pragma synthesis on
+                        config_status <= STATE1;
                     
                     when STATE1 =>
                         if not i2c_busy then            -- i2c controller isn't busy
-                            config_status := STATE2;    -- then go ahead
+                            i2c_data_wr <= std_logic_vector(lut_data(lut_index));
+                            config_status <= STATE2;    -- then go ahead
                         else
-                            config_status := STATE1;    -- else wait for a new transfer
+                            config_status <= STATE1;    -- else wait for a new transfer
                         end if;
                         
                     when STATE2 =>                          
                         lut_index <= lut_index + 1;
-                        config_status := STATE0;
+                        i2c_data_wr <= std_logic_vector(lut_data(lut_index));
+
+                        config_status <= STATE1;
 
                     when others =>
                         null;
                 end case;
             else
                 if not HDMI_TX_INT then
-                    lut_index <= 0;
+                    lut_index <= lut_data'low;
                 end if;
             end if;
         end if;
     end process p_config;
+*/
+
 end architecture rtl;

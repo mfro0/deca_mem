@@ -6,7 +6,7 @@ entity i2c_master is
     generic
     (
         CLK_FREQ   : integer := 50_000_000;                 --  input clock speed from user logic in Hz
-        I2C_FREQ   : integer := 400_000                     --  speed the i2c bus (scl) will run at in Hz
+        I2C_FREQ   : integer := 20_000                      --  speed the i2c bus (scl) will run at in Hz
     );                    
     port
     (
@@ -18,14 +18,14 @@ entity i2c_master is
         data_wr   : in     std_logic_vector(7 downto 0);    -- data to write to slave
         busy      : out    std_logic;                       -- indicates transaction in progress
         data_rd   : out    std_logic_vector(7 downto 0);    -- data read from slave
-        ack_error : buffer std_logic;                       -- flag if improper acknowledge from slave
+        ack_error : out    std_logic;                       -- flag if improper acknowledge from slave
         sda       : inout  std_logic;                       -- serial data output of i2c bus
         scl       : inout  std_logic                        -- serial clock output of i2c bus
     );
 end i2c_master;
 
 architecture logic of i2c_master is
-    constant divider        :  integer := CLK_FREQ / I2C_FREQ / 4;  -- number of clocks in 1/4 cycle of scl
+    constant divider        :  integer := (CLK_FREQ / I2C_FREQ) / 4;  -- number of clocks in 1/4 cycle of scl
     type machine is (ready, start, command, slv_ack1, wr, rd, slv_ack2, mstr_ack, stop); -- needed states
     signal state            : machine;                      -- state machine
     signal data_clk         : std_logic;                    -- data clock for sda
@@ -39,7 +39,10 @@ architecture logic of i2c_master is
     signal data_rx          : std_logic_vector(7 downto 0); -- data received from slave
     signal bit_cnt          : integer range 0 to 7 := 7;    -- tracks bit number in transaction
     signal stretch          : std_logic := '0';             -- identifies if slave is stretching scl
+    signal ack_error_i      : std_logic := '0';             -- internal ack_error to get rid of the buffer argument
 begin
+    ack_error <= ack_error_i;
+    
     -- generate the timing for the bus clock (scl_clk) and the data clock (data_clk)
     process(all)
         variable count      :  integer range 0 to divider * 4;  -- timing for clock generation
@@ -52,6 +55,7 @@ begin
             if count = divider * 4 - 1 then                 -- end of timing cycle
                 count := 0;                                 -- reset timer
             elsif stretch = '0' then                        -- clock stretching from slave not detected
+                -- report "count = " & integer'image(count);
                 count := count + 1;                         -- continue clock generation timing
             end if;
             
@@ -84,9 +88,9 @@ begin
             busy <= '1';                                    -- indicate not available
             scl_ena <= '0';                                 -- sets scl high impedance
             sda_int <= '1';                                 -- sets sda high impedance
-            ack_error <= '0';                               -- clear acknowledge error flag
+            ack_error_i <= '0';                             -- clear acknowledge error flag
             bit_cnt <= 7;                                   -- restart data bit counter
-            data_rd <= "00000000";                          -- clear data read port
+            data_rd <= (others => '0');                     -- clear data read port
         elsif rising_edge(clk) then
             if data_clk = '1' and data_clk_prev = '0' then  -- data clock rising edge
                 case state is
@@ -96,6 +100,7 @@ begin
                             addr_rw <= addr & rw;           -- collect requested slave address and command
                             data_tx <= data_wr;             -- collect requested data to write
                             state <= start;                 -- go to start bit
+                            ack_error_i <= '0';
                         else                                -- remain idle
                             busy <= '0';                    -- unflag busy
                             state <= ready;                 -- remain idle
@@ -193,20 +198,20 @@ begin
                     when start =>                  
                         if scl_ena = '0' then               -- starting new transaction
                             scl_ena <= '1';                 -- enable scl output
-                            ack_error <= '0';               -- reset acknowledge error output
+                            ack_error_i <= '0';             -- reset acknowledge error output
                         end if;
                     
                     when slv_ack1 =>                        -- receiving slave acknowledge (command)
-                        if sda /= '0' or ack_error = '1' then  -- no-acknowledge or previous no-acknowledge
-                            ack_error <= '1';               -- set error output if no-acknowledge
+                        if sda /= '0' or ack_error_i = '1' then     -- no-acknowledge or previous no-acknowledge
+                            ack_error_i <= '1';             -- set error output if no-acknowledge
                         end if;
                     
                     when rd =>                              -- receiving slave data
                         data_rx(bit_cnt) <= sda;            -- receive current slave data bit
                     
                     when slv_ack2 =>                        -- receiving slave acknowledge (write)
-                        if sda /= '0' or ack_error = '1' then   -- no-acknowledge or previous no-acknowledge
-                            ack_error <= '1';               -- set error output if no-acknowledge
+                        if sda /= '0' or ack_error_i = '1' then     -- no-acknowledge or previous no-acknowledge
+                            ack_error_i <= '1';             -- set error output if no-acknowledge
                         end if;
                     
                     when stop =>
