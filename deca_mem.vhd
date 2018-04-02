@@ -87,7 +87,7 @@ entity deca_mem is
         LIGHT_INT           : inout std_logic;
         
         -- MIPI (Mobile Industry Processor Interface) camera module
-        MIPI_CORE_ENV       : out std_logic;
+        MIPI_CORE_EN        : out std_logic;
         MIPI_I2C_SCL        : out std_logic;
         MIPI_I2C_SDA        : inout std_logic;
         MIPI_LP_MC_n        : in std_logic;
@@ -308,7 +308,7 @@ begin
             ack_error           => i2c_ack_err,
             reset_button_n      => KEY(1)
         );
-    
+
     i_hdmi_audio : entity work.hdmi_audio
         port map
         (
@@ -319,7 +319,7 @@ begin
             lrclk               => HDMI_LRCLK,
             i2s                 => HDMI_I2S
         );
-        
+    
     i_reset_button : entity work.reset_button
         port map
         (

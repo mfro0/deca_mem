@@ -13,7 +13,10 @@ entity deca_clocks is
 end entity deca_clocks;
 
 architecture rtl of deca_clocks is
+    signal reset        : std_logic;
 begin
+    reset <= not reset_n;
+    
     i_pll : entity work.pll
         port map
         (

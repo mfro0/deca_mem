@@ -769,7 +769,6 @@ set_global_assignment -name VHDL_FILE reset_button.vhd
 set_global_assignment -name VHDL_FILE blinker.vhd
 set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE deca_mem.stp
-set_global_assignment -name SIGNALTAP_FILE deca_mem.stp
 set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id auto_signaltap_0
