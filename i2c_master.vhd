@@ -12,6 +12,7 @@ entity i2c_master is
     (
         clk       : in     std_logic;                       -- system clock
         reset_n   : in     std_logic;                       -- active low reset
+        
         ena       : in     std_logic;                       -- latch in command
         addr      : in     std_logic_vector(6 downto 0);    -- address of target slave
         rw        : in     std_logic;                       -- '0' is write, '1' is read
@@ -19,6 +20,7 @@ entity i2c_master is
         busy      : out    std_logic;                       -- indicates transaction in progress
         data_rd   : out    std_logic_vector(7 downto 0);    -- data read from slave
         ack_error : out    std_logic;                       -- flag if improper acknowledge from slave
+        
         sda       : inout  std_logic;                       -- serial data output of i2c bus
         scl       : inout  std_logic                        -- serial clock output of i2c bus
     );

@@ -328,6 +328,13 @@ begin
             reset_out_n         => button_reset_n
         );
 
+    i_cpu : entity work.simple_m68k
+        port map
+        (
+            clk                 => MAX10_CLK1_50,
+            reset_n             => reset_n
+        );
+        
     LED(0) <= button_reset_n;
     LED(1) <= reset_n;
     LED(2) <= not ddr3_cal_success;
