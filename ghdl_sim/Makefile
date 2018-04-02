@@ -1,7 +1,12 @@
 GHDL = ghdl
 
-VPATH=..
+VPATH=.. ../cpu ../tg68
 HDMI_MODULES = \
+    TG68K_Pack.o \
+	TG68K_ALU.o \
+    TG68KdotC_Kernel.o \
+    simple_memory.o \
+    simple_m68k.o \
     video_pll.o \
     vga_generator.o \
     vpg.o \
