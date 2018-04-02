@@ -36,6 +36,7 @@
 #
 # -------------------------------------------------------------------------- #
 
+set_global_assignment -name PRE_FLOW_SCRIPT_FILE "quartus_sh:make_datetime.tcl"
 
 set_global_assignment -name FAMILY "MAX 10"
 set_global_assignment -name DEVICE 10M50DAF484C6GES
@@ -344,9 +345,9 @@ set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING"
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
 set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH deca_qsys_tb -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME deca_qsys_tb -section_id eda_simulation
@@ -754,6 +755,9 @@ set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to FAST_IO
 set_global_assignment -name TIMEQUEST_DO_REPORT_TIMING ON
 set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name USE_SIGNALTAP_FILE deca_mem.stp
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name OCP_HW_EVAL DISABLE
+set_global_assignment -name VHDL_FILE datetime.vhd
 set_global_assignment -name VHDL_FILE jtag_uart.vhd
 set_global_assignment -name VHDL_FILE tg68/TG68KdotC_Kernel.vhd
 set_global_assignment -name VHDL_FILE tg68/TG68K_Pack.vhd
@@ -776,4 +780,5 @@ set_global_assignment -name VHDL_FILE blinker.vhd
 set_global_assignment -name VHDL_FILE hdmi_audio.vhd
 set_global_assignment -name VHDL_FILE cpu/simple_m68k.vhd
 set_global_assignment -name VHDL_FILE cpu/simple_memory.vhd
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
