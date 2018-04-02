@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use std.textio.all;
 
 entity simple_ram is
 
@@ -29,12 +30,29 @@ architecture rtl of simple_ram is
 
     function init_ram
         return memory_t is 
-        variable tmp : memory_t := (others => (others => '0'));
-    begin 
+        
+        type char_file_type is file of character;
+        file f          : char_file_type open read_mode is "m68k/simple.bin";
+        variable tmp    : memory_t := (others => (others => '0'));
+        variable c0, c1 : character;
+        variable addr   : integer := 0;
+        variable ival   : integer;
+    begin
+        for i in tmp'range loop
+            read(f, c0);
+            read(f, c1);
+            ival := character'pos(c0) * 256 + character'pos(c1);
+            report "read char " & character'image(c0) & character'image(c1) & " from file" severity note;
+            tmp(addr) := std_logic_vector(to_unsigned(ival, 16));
+            addr := addr + 1;
+        end loop;
+        file_close(f);
+        /*
         for addr_pos in 0 to 2**ADDR_WIDTH - 1 loop 
             -- Initialize each address with the address itself
             tmp(addr_pos) := (others => '0');
         end loop;
+        */
         return tmp;
     end init_ram;    
 
