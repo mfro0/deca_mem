@@ -27,24 +27,25 @@ architecture rtl of hdmi_audio is
         37159, 39540, 42366, 45589, 49152, 52997, 57056, 61259
     );
 	signal bitcount,
+           sclk_count,
            table_index          : integer;
     signal lrclk_i              : std_logic;
+    
 begin
     sclk <= clk;
     lrclk <= lrclk_i;
     
     p_lrclk : process(all)
-        variable sclk_count     : integer;
     begin
         if not reset_n then
             lrclk_i <= '0';
-            sclk_count := 0;
+            sclk_count <= 0;
         elsif falling_edge(clk) then
             if sclk_count > 15 then
-                sclk_count := 0;
+                sclk_count <= 0;
                 lrclk_i <= not lrclk_i;
             else
-                sclk_count := sclk_count + 1;
+                sclk_count <= sclk_count + 1;
             end if;
         end if;
     end process p_lrclk;
