@@ -50,7 +50,7 @@ begin
     i_i2c_slave : entity work.i2c_slave
         generic map
         (
-            SLAVE_ADDR          => 7x"72"
+            SLAVE_ADDR          => 7x"39"
         )
         port map
         (
@@ -135,6 +135,7 @@ begin
         port map
         (
             clk				    => clk_50,
+            reset_n             => reset_n,
             rx_data			    => rx_data,
             rx_busy			    => rx_busy,
             tx_data			    => tx_data,
