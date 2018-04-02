@@ -58,10 +58,12 @@ begin
     hs_end <= '1' when h_count >= h_sync else '0';
     hr_start <= '1' when h_count = h_start else '0';
     hr_end <= '1' when h_count = h_end else '0';
+
     v_max <= '1' when v_count = v_total else '0';
     vs_end <= '1' when v_count >= v_sync else '0';
     vr_start <= '1' when v_count = v_start else '0';
     vr_end <= '1' when v_count = v_end else '0';
+
     v_act_14 <= '1' when v_count = v_active_14 else '0';
     v_act_24 <= '1' when v_count = v_active_24 else '0';
     v_act_34 <= '1' when v_count = v_active_34 else '0';
@@ -69,35 +71,35 @@ begin
     -- horizontal control signals
     p_horiz : process(all)
     begin
-        if reset_n = '0' then
-            h_act_d <= '1';
+        if not reset_n then
+            h_act_d <= '0';
             h_count <= 0;
-            pixel_x <= (others => '0');
+            pixel_x <= 8x"0";
             vga_hs <= '1';
             h_act <= '0';
         elsif rising_edge(clk) then
             h_act_d <= h_act;
-            if h_max = '1' then
+            if h_max then
                 h_count <= 0;
             else
                 h_count <= h_count + 1;
             end if;
             
-            if h_act_d = '1' then
+            if h_act_d then
                 pixel_x <= pixel_x + 1;
             else
-                pixel_x <= (others => '0');
+                pixel_x <= 8x"0";
             end if;
             
-            if hs_end = '1' and not h_max = '1' then
+            if hs_end and not h_max then
                 vga_hs <= '1';
             else
                 vga_hs <= '0';
             end if;
             
-            if hr_start = '1' then
+            if hr_start then
                 h_act <= '1';
-            else
+            elsif hr_end then
                 h_act <= '0';
             end if;
         end if;
@@ -113,10 +115,10 @@ begin
             v_act <= '0';
             color_mode <= (others => '0');
         elsif rising_edge(clk) then
-            if h_max = '1' then
+            if h_max then
                 v_act_d <= v_act;
                 
-                if v_max = '1' then
+                if v_max then
                     v_count <= 0;
                 else
                     v_count <= v_count + 1;
@@ -177,34 +179,34 @@ begin
                 border <= '1';
             else
                 border <= '0';
-                if border then
-                    vga_r <= x"ff";
-                    vga_g <= x"ff";
-                    vga_b <= x"ff";
-                else
-                    case color_mode is
-                        when 4d"1" => 
-                            vga_r <= std_logic_vector(pixel_x);
-                            vga_g <= 8x"0";
-                            vga_b <= 8x"0";
-                        when 4d"2" => 
-                            vga_r <= 8x"0";
-                            vga_g <= std_logic_vector(pixel_x);
-                            vga_b <= 8x"0";
-                        when 4d"4" => 
-                            vga_r <= 8x"0";
-                            vga_g <= 8x"0";
-                            vga_b <= std_logic_vector(pixel_x);
-                        when 4d"8" => 
-                            vga_r <= std_logic_vector(pixel_x);
-                            vga_g <= std_logic_vector(pixel_x);
-                            vga_b <= std_logic_vector(pixel_x);
-                        when others => 
-                            vga_r <= 8x"0";
-                            vga_g <= 8x"0";
-                            vga_b <= 8x"0";
-                    end case;
-                end if;
+            end if;
+            if border then
+                vga_r <= x"ff";
+                vga_g <= x"ff";
+                vga_b <= x"ff";
+            else
+                case color_mode is
+                    when 4d"1" => 
+                        vga_r <= std_logic_vector(pixel_x);
+                        vga_g <= 8x"0";
+                        vga_b <= 8x"0";
+                    when 4d"2" => 
+                        vga_r <= 8x"0";
+                        vga_g <= std_logic_vector(pixel_x);
+                        vga_b <= 8x"0";
+                    when 4d"4" => 
+                        vga_r <= 8x"0";
+                        vga_g <= 8x"0";
+                        vga_b <= std_logic_vector(pixel_x);
+                    when 4d"8" => 
+                        vga_r <= std_logic_vector(pixel_x);
+                        vga_g <= std_logic_vector(pixel_x);
+                        vga_b <= std_logic_vector(pixel_x);
+                    when others => 
+                        vga_r <= 8x"0";
+                        vga_g <= 8x"0";
+                        vga_b <= 8x"0";
+                end case;
             end if;
         end if;
     end process p_pattern;
