@@ -1,0 +1,25 @@
+[*]
+[*] GTKWave Analyzer v3.3.82 (w)1999-2017 BSI
+[*] Mon Apr  2 16:38:10 2018
+[*]
+[dumpfile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu.ghw"
+[dumpfile_mtime] "Mon Apr  2 16:36:57 2018"
+[dumpfile_size] 56042134
+[savefile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu_tb.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*0.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.cpu_tb.
+[sst_width] 220
+[signals_width] 118
+[sst_expanded] 1
+[sst_vpaned_height] 147
+@28
+top.cpu_tb.clk_50
+top.cpu_tb.reset_n
+@29
+top.cpu_tb.plls_locked
+[pattern_trace] 1
+[pattern_trace] 0

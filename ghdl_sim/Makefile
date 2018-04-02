@@ -2,11 +2,6 @@ GHDL = ghdl
 
 VPATH=.. ../cpu ../tg68
 HDMI_MODULES = \
-    TG68K_Pack.o \
-	TG68K_ALU.o \
-    TG68KdotC_Kernel.o \
-    simple_memory.o \
-    simple_m68k.o \
     video_pll.o \
     vga_generator.o \
     vpg.o \
@@ -21,6 +16,15 @@ HDMI_MODULES = \
     jtag_uart.o \
 	hdmi_tb.o
 
+CPU_MODULES = \
+    TG68K_Pack.o \
+	TG68K_ALU.o \
+    TG68KdotC_Kernel.o \
+    simple.o \
+    simple_memory.o \
+    jtag_uart.o \
+    cpu_tb.o
+
 DDR_MODULES = \
 	ddr_tb.o
 
@@ -31,10 +35,14 @@ GHDL_RUNFLAGS=--ieee-asserts=disable-at-0
 all:    hdmi
 
 hdmi: $(HDMI_MODULES) hdmi_tb
+cpu: $(CPU_MODULES) cpu_tb
 ddr: $(DDR_MODULES) ddr_tb
 
 run_hdmi: $(HDMI_MODULES)
 	$(GHDL) -r $(GHDLFLAGS) hdmi_tb --disp-tree $(GHDL_RUNFLAGS) --wave=hdmi.ghw
+
+run_cpu: $(CPU_MODULES)
+	$(GHDL) -r $(GHDLFLAGS) cpu_tb --disp-tree $(GHDL_RUNFLAGS) --wave=cpu.ghw
 
 run_ddr: $(DDR_MODULES)
 	$(GHDL) -r $(GHDLFLAGS) ddr_tb --disp-tree $(GHDL_RUNFLAGS) --wave=ddr_tb.ghw
@@ -48,6 +56,9 @@ run_ddr: $(DDR_MODULES)
 .PHONY: view
 view_hdmi:
 	gtkwave hdmi.ghw hdmi_tb.gtkw
+
+view_cpu:
+	gtkwave cpu.ghw cpu_tb.gtkw
 
 view_ddr:
 	gtkwave ddr_tb.ghw ddr_tb.gtkw
