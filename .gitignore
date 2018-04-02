@@ -1,4 +1,5 @@
 *.swp
+*.swo
 *.chg
 db/
 *.csv
@@ -9,3 +10,5 @@ output_files/
 *.txt
 *.log
 *.cnx
+datetime.vhd
+simple.vhd

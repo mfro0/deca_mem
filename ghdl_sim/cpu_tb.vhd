@@ -38,6 +38,14 @@ begin
         clk_50 <= not clk_50;
     end process p_clk_50;
 
+    -- the m68k CPU
+    i_cpu : entity work.simple_m68k
+        port map
+        (
+            clk                 => clk_50,
+            reset_n             => reset_n
+        );
+
     -- add our jtag uart
     i_jtag_uart : entity work.jtag_uart
         port map

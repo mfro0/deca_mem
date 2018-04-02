@@ -60,7 +60,7 @@ begin
     -- 
     -- very simple direct attached 128 bytes (for now) of memory
     --
-    i_memory : entity work.simple_ram
+    i_memory : entity work.simple_memory
         generic map
         (
             DATA_WIDTH          => 16,
@@ -69,6 +69,8 @@ begin
         port map
         (
             clk                 => clk,
+            reset_n             => reset_n,
+            
             addr_in             => tg68_addr(6 - 1 downto 0),
             data                => mem_data_write,
             we                  => tg68_rw,

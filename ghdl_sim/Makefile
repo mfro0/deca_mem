@@ -22,6 +22,7 @@ CPU_MODULES = \
     TG68KdotC_Kernel.o \
     simple.o \
     simple_memory.o \
+    simple_m68k.o \
     jtag_uart.o \
     cpu_tb.o
 

@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 use work.m68k_binary.all;
 
-entity simple_ram is
+entity simple_memory is
 
     generic 
     (
@@ -15,15 +15,16 @@ entity simple_ram is
     port 
     (
         clk     : in std_logic;
+        reset_n : in std_logic;
         addr_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
         data    : in std_logic_vector((DATA_WIDTH - 1) downto 0);
         we      : in std_logic := '1';
         q       : out std_logic_vector((DATA_WIDTH - 1) downto 0)
     );
 
-end simple_ram;
+end simple_memory;
 
-architecture rtl of simple_ram is
+architecture rtl of simple_memory is
 
     -- Build a 2-D array type for the RAM
     subtype word_t is std_logic_vector((DATA_WIDTH - 1) downto 0);
@@ -31,24 +32,15 @@ architecture rtl of simple_ram is
 
     function init_ram return memory_t is 
         variable tmp    : memory_t := (others => (others => '0'));
-        variable c0, c1 : character;
         variable addr   : integer := 0;
-        variable uval   : unsigned(15 downto 0);
         variable i      : integer := 0;
     begin
-        while i < binary'length loop
-            uval := unsigned(binary(i)) * 256 + unsigned(binary(i + 1));
-            tmp(addr) := std_logic_vector(uval);
+        while i < m68k_binary'length loop
+            tmp(addr) := m68k_binary(i) & m68k_binary(i + 1);
             i := i + 2;
             addr := addr + 1;
         end loop;
 
-        /*
-        for addr_pos in 0 to 2**ADDR_WIDTH - 1 loop 
-            -- Initialize each address with the address itself
-            tmp(addr_pos) := (others => '0');
-        end loop;
-        */
         return tmp;
     end init_ram;    
 
@@ -64,16 +56,18 @@ architecture rtl of simple_ram is
 begin
     addr <= to_integer(unsigned(addr_in));
     
-    process(clk)
+    process(all)
     begin
-    if (rising_edge(clk)) then
-        if we then
-            ram(addr) <= data;
-        end if;
+        if not reset_n then
+            null;
+        elsif rising_edge(clk) then
+            if we then
+                ram(addr) <= data;
+            end if;
 
-        -- Register the address for reading
-        addr_reg <= addr;
-    end if;
+            -- Register the address for reading
+            addr_reg <= addr;
+        end if;
     end process;
 
     q <= ram(addr_reg);
