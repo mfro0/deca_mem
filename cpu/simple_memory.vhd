@@ -34,9 +34,13 @@ architecture rtl of simple_memory is
         variable tmp    : memory_t := (others => (others => '0'));
         variable addr   : integer := 0;
         variable i      : integer := 0;
+        variable add    : integer range 0 to 3;
     begin
+
         while i < m68k_binary'length loop
-            tmp(addr) := m68k_binary(i) & m68k_binary(i + 1);
+            -- add := (i + 2) mod 4;
+            add := 0;
+            tmp(addr) := m68k_binary(i + add) & m68k_binary(i + add + 1);
             i := i + 2;
             addr := addr + 1;
         end loop;
@@ -60,7 +64,7 @@ begin
     begin
         if not reset_n then
             null;
-        elsif rising_edge(clk) then
+        elsif falling_edge(clk) then
             if we then
                 ram(addr) <= data;
             end if;

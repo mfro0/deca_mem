@@ -7,8 +7,8 @@
 
                 .org    0
 
-_start:         .long   initialpc
-                .long   initialstack
+_start:         .long   initialstack
+                .long   initialpc
 
 initialpc:
 loop:           lea     hello_world,%sp

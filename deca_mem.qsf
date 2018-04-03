@@ -783,4 +783,6 @@ set_global_assignment -name VHDL_FILE blinker.vhd
 set_global_assignment -name VHDL_FILE hdmi_audio.vhd
 set_global_assignment -name VHDL_FILE cpu/simple_m68k.vhd
 set_global_assignment -name VHDL_FILE cpu/simple_memory.vhd
+set_global_assignment -name FLOW_ENABLE_IO_ASSIGNMENT_ANALYSIS OFF
+set_global_assignment -name FLOW_ENABLE_RTL_VIEWER OFF
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

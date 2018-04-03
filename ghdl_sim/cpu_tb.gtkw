@@ -1,25 +1,38 @@
 [*]
-[*] GTKWave Analyzer v3.3.82 (w)1999-2017 BSI
-[*] Mon Apr  2 16:38:10 2018
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Tue Apr 03 11:34:58 2018
 [*]
-[dumpfile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu.ghw"
-[dumpfile_mtime] "Mon Apr  2 16:36:57 2018"
-[dumpfile_size] 56042134
-[savefile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu_tb.gtkw"
+[dumpfile] "C:\Users\froesm1\Documents\Development\vhdl\deca_mem\ghdl_sim\cpu.ghw"
+[dumpfile_mtime] "Tue Apr 03 12:33:53 2018"
+[dumpfile_size] 30803
+[savefile] "C:\Users\froesm1\Documents\Development\vhdl\deca_mem\ghdl_sim\cpu_tb.gtkw"
 [timestart] 0
-[size] 1000 600
+[size] 1262 824
 [pos] -1 -1
-*0.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-31.461355 2 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.cpu_tb.
+[treeopen] top.cpu_tb.i_cpu.
 [sst_width] 220
-[signals_width] 118
+[signals_width] 190
 [sst_expanded] 1
-[sst_vpaned_height] 147
+[sst_vpaned_height] 223
 @28
 top.cpu_tb.clk_50
 top.cpu_tb.reset_n
-@29
 top.cpu_tb.plls_locked
+@22
+#{top.cpu_tb.i_cpu.memory_addr[5:0]} top.cpu_tb.i_cpu.memory_addr[5] top.cpu_tb.i_cpu.memory_addr[4] top.cpu_tb.i_cpu.memory_addr[3] top.cpu_tb.i_cpu.memory_addr[2] top.cpu_tb.i_cpu.memory_addr[1] top.cpu_tb.i_cpu.memory_addr[0]
+#{top.cpu_tb.i_cpu.mem_data_read[15:0]} top.cpu_tb.i_cpu.mem_data_read[15] top.cpu_tb.i_cpu.mem_data_read[14] top.cpu_tb.i_cpu.mem_data_read[13] top.cpu_tb.i_cpu.mem_data_read[12] top.cpu_tb.i_cpu.mem_data_read[11] top.cpu_tb.i_cpu.mem_data_read[10] top.cpu_tb.i_cpu.mem_data_read[9] top.cpu_tb.i_cpu.mem_data_read[8] top.cpu_tb.i_cpu.mem_data_read[7] top.cpu_tb.i_cpu.mem_data_read[6] top.cpu_tb.i_cpu.mem_data_read[5] top.cpu_tb.i_cpu.mem_data_read[4] top.cpu_tb.i_cpu.mem_data_read[3] top.cpu_tb.i_cpu.mem_data_read[2] top.cpu_tb.i_cpu.mem_data_read[1] top.cpu_tb.i_cpu.mem_data_read[0]
+#{top.cpu_tb.i_cpu.mem_data_write[15:0]} top.cpu_tb.i_cpu.mem_data_write[15] top.cpu_tb.i_cpu.mem_data_write[14] top.cpu_tb.i_cpu.mem_data_write[13] top.cpu_tb.i_cpu.mem_data_write[12] top.cpu_tb.i_cpu.mem_data_write[11] top.cpu_tb.i_cpu.mem_data_write[10] top.cpu_tb.i_cpu.mem_data_write[9] top.cpu_tb.i_cpu.mem_data_write[8] top.cpu_tb.i_cpu.mem_data_write[7] top.cpu_tb.i_cpu.mem_data_write[6] top.cpu_tb.i_cpu.mem_data_write[5] top.cpu_tb.i_cpu.mem_data_write[4] top.cpu_tb.i_cpu.mem_data_write[3] top.cpu_tb.i_cpu.mem_data_write[2] top.cpu_tb.i_cpu.mem_data_write[1] top.cpu_tb.i_cpu.mem_data_write[0]
+#{top.cpu_tb.i_cpu.cpu_data_in[15:0]} top.cpu_tb.i_cpu.cpu_data_in[15] top.cpu_tb.i_cpu.cpu_data_in[14] top.cpu_tb.i_cpu.cpu_data_in[13] top.cpu_tb.i_cpu.cpu_data_in[12] top.cpu_tb.i_cpu.cpu_data_in[11] top.cpu_tb.i_cpu.cpu_data_in[10] top.cpu_tb.i_cpu.cpu_data_in[9] top.cpu_tb.i_cpu.cpu_data_in[8] top.cpu_tb.i_cpu.cpu_data_in[7] top.cpu_tb.i_cpu.cpu_data_in[6] top.cpu_tb.i_cpu.cpu_data_in[5] top.cpu_tb.i_cpu.cpu_data_in[4] top.cpu_tb.i_cpu.cpu_data_in[3] top.cpu_tb.i_cpu.cpu_data_in[2] top.cpu_tb.i_cpu.cpu_data_in[1] top.cpu_tb.i_cpu.cpu_data_in[0]
+@28
+#{top.cpu_tb.i_cpu.tg68_busstate[1:0]} top.cpu_tb.i_cpu.tg68_busstate[1] top.cpu_tb.i_cpu.tg68_busstate[0]
+#{top.cpu_tb.i_cpu.tg68_fc[2:0]} top.cpu_tb.i_cpu.tg68_fc[2] top.cpu_tb.i_cpu.tg68_fc[1] top.cpu_tb.i_cpu.tg68_fc[0]
+#{top.cpu_tb.i_cpu.tg68_ipl[2:0]} top.cpu_tb.i_cpu.tg68_ipl[2] top.cpu_tb.i_cpu.tg68_ipl[1] top.cpu_tb.i_cpu.tg68_ipl[0]
+@22
+#{top.cpu_tb.i_cpu.tg68_addr[31:0]} top.cpu_tb.i_cpu.tg68_addr[31] top.cpu_tb.i_cpu.tg68_addr[30] top.cpu_tb.i_cpu.tg68_addr[29] top.cpu_tb.i_cpu.tg68_addr[28] top.cpu_tb.i_cpu.tg68_addr[27] top.cpu_tb.i_cpu.tg68_addr[26] top.cpu_tb.i_cpu.tg68_addr[25] top.cpu_tb.i_cpu.tg68_addr[24] top.cpu_tb.i_cpu.tg68_addr[23] top.cpu_tb.i_cpu.tg68_addr[22] top.cpu_tb.i_cpu.tg68_addr[21] top.cpu_tb.i_cpu.tg68_addr[20] top.cpu_tb.i_cpu.tg68_addr[19] top.cpu_tb.i_cpu.tg68_addr[18] top.cpu_tb.i_cpu.tg68_addr[17] top.cpu_tb.i_cpu.tg68_addr[16] top.cpu_tb.i_cpu.tg68_addr[15] top.cpu_tb.i_cpu.tg68_addr[14] top.cpu_tb.i_cpu.tg68_addr[13] top.cpu_tb.i_cpu.tg68_addr[12] top.cpu_tb.i_cpu.tg68_addr[11] top.cpu_tb.i_cpu.tg68_addr[10] top.cpu_tb.i_cpu.tg68_addr[9] top.cpu_tb.i_cpu.tg68_addr[8] top.cpu_tb.i_cpu.tg68_addr[7] top.cpu_tb.i_cpu.tg68_addr[6] top.cpu_tb.i_cpu.tg68_addr[5] top.cpu_tb.i_cpu.tg68_addr[4] top.cpu_tb.i_cpu.tg68_addr[3] top.cpu_tb.i_cpu.tg68_addr[2] top.cpu_tb.i_cpu.tg68_addr[1] top.cpu_tb.i_cpu.tg68_addr[0]
+@23
+#{top.cpu_tb.i_cpu.tg68_data_out[15:0]} top.cpu_tb.i_cpu.tg68_data_out[15] top.cpu_tb.i_cpu.tg68_data_out[14] top.cpu_tb.i_cpu.tg68_data_out[13] top.cpu_tb.i_cpu.tg68_data_out[12] top.cpu_tb.i_cpu.tg68_data_out[11] top.cpu_tb.i_cpu.tg68_data_out[10] top.cpu_tb.i_cpu.tg68_data_out[9] top.cpu_tb.i_cpu.tg68_data_out[8] top.cpu_tb.i_cpu.tg68_data_out[7] top.cpu_tb.i_cpu.tg68_data_out[6] top.cpu_tb.i_cpu.tg68_data_out[5] top.cpu_tb.i_cpu.tg68_data_out[4] top.cpu_tb.i_cpu.tg68_data_out[3] top.cpu_tb.i_cpu.tg68_data_out[2] top.cpu_tb.i_cpu.tg68_data_out[1] top.cpu_tb.i_cpu.tg68_data_out[0]
 [pattern_trace] 1
 [pattern_trace] 0
