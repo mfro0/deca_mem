@@ -8,8 +8,8 @@ entity simple_memory is
 
     generic 
     (
-        DATA_WIDTH : natural := 16;
-        ADDR_WIDTH : natural := 6
+        DATA_WIDTH : natural;
+        ADDR_WIDTH : natural
     );
 
     port 
@@ -17,9 +17,9 @@ entity simple_memory is
         clk     : in std_logic;
         reset_n : in std_logic;
         addr_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
-        data    : in std_logic_vector((DATA_WIDTH - 1) downto 0);
+        data    : in std_logic_vector(DATA_WIDTH - 1 downto 0);
         we      : in std_logic := '1';
-        q       : out std_logic_vector((DATA_WIDTH - 1) downto 0)
+        q       : out std_logic_vector(DATA_WIDTH - 1 downto 0)
     );
 
 end simple_memory;
@@ -27,21 +27,21 @@ end simple_memory;
 architecture rtl of simple_memory is
 
     -- Build a 2-D array type for the RAM
-    subtype word_t is std_logic_vector((DATA_WIDTH - 1) downto 0);
+    subtype word_t is std_logic_vector(DATA_WIDTH - 1 downto 0);
     type memory_t is array(2 ** ADDR_WIDTH - 1 downto 0) of word_t;
 
     function init_ram return memory_t is 
         variable tmp    : memory_t := (others => (others => '0'));
-        variable addr   : integer := 0;
-        variable i      : integer := 0;
-        variable add    : integer range 0 to 3;
+        variable addr   : natural := 0;
+        variable i      : natural := 0;
+        variable data   : word_t;
     begin
 
-        while i < m68k_binary'length loop
-            -- add := (i + 2) mod 4;
-            add := 0;
-            tmp(addr) := m68k_binary(i + add) & m68k_binary(i + add + 1);
-            i := i + 2;
+        while i < m68k_binary'length - 4 loop
+            for j in DATA_WIDTH / 8 - 1 downto 0 loop
+                tmp(addr)((j + 1) * 8 - 1 downto j * 8) := m68k_binary(i + 3 - j);
+            end loop;
+            i := i + DATA_WIDTH / 8;
             addr := addr + 1;
         end loop;
 
@@ -64,7 +64,7 @@ begin
     begin
         if not reset_n then
             null;
-        elsif falling_edge(clk) then
+        elsif rising_edge(clk) then
             if we then
                 ram(addr) <= data;
             end if;

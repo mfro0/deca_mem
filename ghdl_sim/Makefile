@@ -1,6 +1,6 @@
 GHDL = ghdl
 
-VPATH=.. ../cpu ../tg68
+VPATH=.. ../cpu ../tg68 ../m68030
 HDMI_MODULES = \
     video_pll.o \
     vga_generator.o \
@@ -16,10 +16,26 @@ HDMI_MODULES = \
     jtag_uart.o \
 	hdmi_tb.o
 
-CPU_MODULES = \
-    TG68K_Pack.o \
-	TG68K_ALU.o \
-    TG68KdotC_Kernel.o \
+# CPU_MODULES = \
+    # TG68K_Pack.o \
+	# TG68K_ALU.o \
+    # TG68KdotC_Kernel.o \
+    # simple.o \
+    # simple_memory.o \
+    # simple_m68k.o \
+    # jtag_uart.o \
+    # cpu_tb.o
+
+CPU_MODULES= \
+	wf68k30l_pkg.o \
+	wf68k30l_address_registers.o \
+	wf68k30l_alu.o \
+	wf68k30l_bus_interface.o \
+	wf68k30l_control.o \
+	wf68k30l_data_registers.o \
+	wf68k30l_exception_handler.o \
+	wf68k30l_opcode_decoder.o \
+	wf68k30l_top.o \
     simple.o \
     simple_memory.o \
     simple_m68k.o \
