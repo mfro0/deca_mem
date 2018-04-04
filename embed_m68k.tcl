@@ -1,7 +1,7 @@
-# Make datetime.vhd package from Tcl script
+package require cmdline
 
-# Current date, time, and seconds since epoch
-# Array index                                            0  1  2  3  4  5  6
+post_message "embed_m68k.tcl"
+
 set binfile m68k/simple.bin
 set fp [open $binfile r]
 fconfigure $fp -translation binary
