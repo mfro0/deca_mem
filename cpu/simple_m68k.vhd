@@ -6,7 +6,9 @@ entity simple_m68k is
     port
     (
         clk                     : in std_logic;
-        reset_n                 : in std_logic
+        reset_n                 : in std_logic;
+        
+        data_out                : out std_logic_vector(31 downto 0)
     );
 end entity simple_m68k;
 
@@ -153,7 +155,7 @@ begin
             else
                 if is_memory_addr then
                     if not rw_n then
-                        null;
+                        mem_data_write <= cpu_data_out;
                     else
                         cpu_data_in <= mem_data_read;
                     end if;

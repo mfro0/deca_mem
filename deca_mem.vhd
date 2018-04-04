@@ -332,7 +332,8 @@ begin
         port map
         (
             clk                 => MAX10_CLK1_50,
-            reset_n             => reset_n
+            reset_n             => reset_n,
+            data_out            => GPIO0_D(31 downto 0)             -- put CPU data to GPIOs to avoid optimizing it away
         );
         
     LED(0) <= button_reset_n;
