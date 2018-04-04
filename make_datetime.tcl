@@ -1,3 +1,5 @@
+puts make_datetime.tcl
+
 # Make datetime.vhd package from Tcl script
 
 # Current date, time, and seconds since epoch
