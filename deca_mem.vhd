@@ -198,6 +198,13 @@ architecture rtl of deca_mem is
     signal blinker                  : std_logic := '0';
     signal i2c_ack_err              : std_logic := '0';
     
+    signal uart_out_ready           : std_logic := '0';
+    signal uart_out_start           : std_logic := '0';
+    signal uart_out_busy            : std_logic := '0';
+    signal uart_out_data            : std_logic_vector(7 downto 0);
+    signal uart_in_data_available   : std_logic;
+    signal uart_in_data             : std_logic_vector(7 downto 0);
+    
 begin
     i_blinker : entity work.blinker
         generic map
@@ -333,7 +340,27 @@ begin
         (
             clk                 => MAX10_CLK1_50,
             reset_n             => reset_n,
-            data_out            => GPIO0_D(31 downto 0)             -- put CPU data to GPIOs to avoid optimizing it away
+            
+            uart_out_ready      => uart_out_ready,
+            uart_out_data       => uart_out_data,
+            uart_out_start      => uart_out_start,
+            
+            uart_in_data_available  => uart_in_data_available,
+            uart_in_data        => uart_in_data
+        );
+
+    i_uart : entity work.jtag_uart
+        port map
+        (
+            clk                 => MAX10_CLK1_50,
+            reset_n             => reset_n,
+            
+            rx_data             => uart_in_data,
+            rx_data_ready       => uart_in_data_available,
+            
+            tx_data             => uart_out_data,
+            tx_start            => uart_out_start,
+            tx_busy             => uart_out_busy
         );
         
     LED(0) <= button_reset_n;

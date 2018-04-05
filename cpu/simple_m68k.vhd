@@ -8,7 +8,12 @@ entity simple_m68k is
         clk                     : in std_logic;
         reset_n                 : in std_logic;
         
-        data_out                : out std_logic_vector(31 downto 0)
+        uart_out_ready          : in std_logic;
+        uart_out_data           : out std_logic_vector(7 downto 0);
+        uart_out_start          : out std_logic;
+        
+        uart_in_data_available  : in std_logic;
+        uart_in_data            : in std_logic_vector(7 downto 0)
     );
 end entity simple_m68k;
 
@@ -75,6 +80,9 @@ architecture rtl of simple_m68k is
     begin
         return std_logic_vector(to_unsigned(dsack_type'pos(ds_n), 2));
     end function to_std_logic_vector;
+    
+    constant term_ready_addr    : std_logic_vector(31 downto 0) := x"fffffff0";
+    constant term_data_out_addr : std_logic_vector(31 downto 0) := x"fffffff4";
     
 begin    
     i_m68k_cpu : entity work.wf68k30l_top
