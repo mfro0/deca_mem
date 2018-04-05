@@ -48,7 +48,6 @@ architecture rtl of simple_m68k is
     signal avec_n               : std_logic;
     signal ipl_n                : std_logic_vector(2 downto 0);
     signal ipend_n              : std_logic;
-    signal dsack_n              : std_logic_vector(1 downto 0);
     signal size                 : std_logic_vector(1 downto 0);
     signal as_n                 : std_logic;
     signal rw_n                 : std_logic;
@@ -64,8 +63,20 @@ architecture rtl of simple_m68k is
     signal br_n                 : std_logic;
     signal bg_n                 : std_logic;
     signal bgack_n              : std_logic;
-
-begin
+    
+    type dsack_type is (DSACK_FINISH_LONG,      -- "00"
+                        DSACK_FINISH_WORD,      -- "01"
+                        DSACK_FINISH_BYTE,      -- "10"
+                        DSACK_WAIT);            -- "11"
+    signal dsack_n              : dsack_type;
+    
+    -- return a std_logic_vector(1 downto 0) for the enumerated type
+    function to_std_logic_vector(ds_n : dsack_type) return std_logic_vector is
+    begin
+        return std_logic_vector(to_unsigned(dsack_type'pos(ds_n), 2));
+    end function to_std_logic_vector;
+    
+begin    
     i_m68k_cpu : entity work.wf68k30l_top
         port map
         (
@@ -93,7 +104,7 @@ begin
             IPENDn              => ipend_n,
 
             -- asynchronous bus control
-            DSACKn              => dsack_n,
+            DSACKn              => to_std_logic_vector(dsack_n),
             SIZE                => size,
             ASn                 => as_n,
             RWn                 => rw_n,
@@ -150,14 +161,17 @@ begin
             startup_counter <= 0;
             
         elsif rising_edge(clk) then
+            dsack_n <= DSACK_WAIT;
             if startup_counter < 10 then
                 startup_counter <= startup_counter + 1;
             else
-                if is_memory_addr then
+                if is_memory_addr and not as_n then
                     if not rw_n then
                         mem_data_write <= cpu_data_out;
+                        dsack_n <= DSACK_FINISH_LONG;
                     else
                         cpu_data_in <= mem_data_read;
+                        dsack_n <= DSACK_FINISH_LONG;
                     end if;
                 end if;
             end if;

@@ -28,10 +28,10 @@ architecture rtl of simple_memory is
 
     -- Build a 2-D array type for the RAM
     subtype word_t is std_logic_vector(DATA_WIDTH - 1 downto 0);
-    type memory_t is array(2 ** ADDR_WIDTH - 1 downto 0) of word_t;
+    type memory_type is array(2 ** ADDR_WIDTH - 1 downto 0) of word_t;
 
-    function init_ram return memory_t is 
-        variable tmp    : memory_t := (others => (others => '0'));
+    function init_ram return memory_type is 
+        variable tmp    : memory_type := (others => (others => '0'));
         variable addr   : natural := 0;
         variable i      : natural := 0;
         variable data   : word_t;
@@ -51,7 +51,7 @@ architecture rtl of simple_memory is
     -- Declare the RAM signal and specify a default value.  Quartus Prime
     -- will create a memory initialization file (.mif) based on the 
     -- default value.
-    signal ram : memory_t := init_ram;
+    signal ram : memory_type := init_ram;
 
     -- Register to hold the address 
     signal addr_reg : natural range 0 to 2 ** ADDR_WIDTH - 1;
