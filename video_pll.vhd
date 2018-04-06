@@ -1,7 +1,7 @@
 -- megafunction wizard: %ALTPLL%
 -- GENERATION: STANDARD
 -- VERSION: WM1.0
--- MODULE: altpll 
+-- MODULE: altpll
 
 -- ============================================================
 -- File Name: video_pll.vhd
@@ -19,18 +19,18 @@
 
 
 --Copyright (C) 2017  Intel Corporation. All rights reserved.
---Your use of Intel Corporation's design tools, logic functions 
---and other software and tools, and its AMPP partner logic 
---functions, and any output files from any of the foregoing 
---(including device programming or simulation files), and any 
---associated documentation or information are expressly subject 
---to the terms and conditions of the Intel Program License 
+--Your use of Intel Corporation's design tools, logic functions
+--and other software and tools, and its AMPP partner logic
+--functions, and any output files from any of the foregoing
+--(including device programming or simulation files), and any
+--associated documentation or information are expressly subject
+--to the terms and conditions of the Intel Program License
 --Subscription Agreement, the Intel Quartus Prime License Agreement,
---the Intel MegaCore Function License Agreement, or other 
---applicable license agreement, including, without limitation, 
---that your use is for the sole purpose of programming logic 
---devices manufactured by Intel and sold by Intel or its 
---authorized distributors.  Please refer to the applicable 
+--the Intel MegaCore Function License Agreement, or other
+--applicable license agreement, including, without limitation,
+--that your use is for the sole purpose of programming logic
+--devices manufactured by Intel and sold by Intel or its
+--authorized distributors.  Please refer to the applicable
 --agreement for further details.
 
 
@@ -43,10 +43,10 @@ USE altera_mf.all;
 ENTITY video_pll IS
 	PORT
 	(
-		areset		: IN STD_LOGIC  := '0';
-		inclk0		: IN STD_LOGIC  := '0';
-		c0		: OUT STD_LOGIC ;
-		locked		: OUT STD_LOGIC 
+		areset			: IN STD_LOGIC  := '0';
+		inclk0			: IN STD_LOGIC  := '0';
+		c0				: OUT STD_LOGIC ;
+		locked			: OUT STD_LOGIC
 	);
 END video_pll;
 
@@ -65,12 +65,12 @@ ARCHITECTURE SYN OF video_pll IS
 
 	COMPONENT altpll
 	GENERIC (
-		bandwidth_type		: STRING;
-		clk0_divide_by		: NATURAL;
-		clk0_duty_cycle		: NATURAL;
-		clk0_multiply_by		: NATURAL;
-		clk0_phase_shift		: STRING;
-		compensate_clock		: STRING;
+		bandwidth_type				: STRING;
+		clk0_divide_by				: NATURAL;
+		clk0_duty_cycle				: NATURAL;
+		clk0_multiply_by			: NATURAL;
+		clk0_phase_shift			: STRING;
+		compensate_clock			: STRING;
 		inclk0_input_frequency		: NATURAL;
 		intended_device_family		: STRING;
 		lpm_hint		: STRING;
@@ -125,7 +125,7 @@ ARCHITECTURE SYN OF video_pll IS
 			areset	: IN STD_LOGIC ;
 			inclk	: IN STD_LOGIC_VECTOR (1 DOWNTO 0);
 			clk	: OUT STD_LOGIC_VECTOR (4 DOWNTO 0);
-			locked	: OUT STD_LOGIC 
+			locked	: OUT STD_LOGIC
 	);
 	END COMPONENT;
 

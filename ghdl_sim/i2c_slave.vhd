@@ -16,48 +16,48 @@ entity i2c_slave is
     );
     port
     (
-        clk              : in    std_logic;
-        reset_n          : in    std_logic;
+        clk                     : in    std_logic;
+        reset_n                 : in    std_logic;
 
-        scl              : inout std_logic;
-        sda              : inout std_logic;
+        scl                     : inout std_logic;
+        sda                     : inout std_logic;
 
         -- User interface
-        read_req         : out   std_logic;
-        data_to_master   : in    std_logic_vector(7 downto 0);
-        data_valid       : out   std_logic;
-        data_from_master : out   std_logic_vector(7 downto 0)
+        read_req                : out   std_logic;
+        data_to_master          : in    std_logic_vector(7 downto 0);
+        data_valid              : out   std_logic;
+        data_from_master        : out   std_logic_vector(7 downto 0)
     );
-end entity I2C_slave;
+end entity i2c_slave;
 
 ------------------------------------------------------------
 
 architecture arch of i2c_slave is
     -- this assumes that system's clock is much faster than SCL
     constant DEBOUNCING_WAIT_CYCLES : integer   := 4;
-  
+
     type state_type is (IDLE, GET_ADDRESS_AND_CMD,
                         ANSWER_ACK_START, WRITE,
                         READ, READ_ACK_START,
                         READ_ACK_GOT_RISING, READ_STOP);
 
     -- I2C state management
-    signal state_reg          : state_type           := IDLE;
-    signal cmd_reg            : std_logic            := '0';
-    signal bits_processed_reg : integer range 0 to 8 := 0;
-    signal continue_reg       : std_logic            := '0';
+    signal state_reg            : state_type           := IDLE;
+    signal cmd_reg              : std_logic            := '0';
+    signal bits_processed_reg   : integer range 0 to 8 := 0;
+    signal continue_reg         : std_logic            := '0';
 
-    signal scl_reg                  : std_logic := '1';
-    signal sda_reg                  : std_logic := '1';
-    signal scl_debounced            : std_logic := '1';
-    signal sda_debounced            : std_logic := '1';
-  
+    signal scl_reg              : std_logic := '1';
+    signal sda_reg              : std_logic := '1';
+    signal scl_debounced        : std_logic := '1';
+    signal sda_debounced        : std_logic := '1';
+
 
     -- Helpers to figure out next state
-    signal start_reg       : std_logic := '0';
-    signal stop_reg        : std_logic := '0';
-    signal scl_rising_reg  : std_logic := '0';
-    signal scl_falling_reg : std_logic := '0';
+    signal start_reg            : std_logic := '0';
+    signal stop_reg             : std_logic := '0';
+    signal scl_rising_reg       : std_logic := '0';
+    signal scl_falling_reg      : std_logic := '0';
 
     -- Address and data received from master
     signal addr_reg             : std_logic_vector(6 downto 0) := (others => '0');
@@ -67,20 +67,20 @@ architecture arch of i2c_slave is
     signal scl_prev_reg : std_logic := '1';
 
     -- Slave writes on scl
-    signal scl_wen_reg  : std_logic := '0';
-    signal scl_o_reg    : std_logic := '0';
-    signal sda_prev_reg : std_logic := '1';
+    signal scl_wen_reg          : std_logic := '0';
+    signal scl_o_reg            : std_logic := '0';
+    signal sda_prev_reg         : std_logic := '1';
 
     -- Slave writes on sda
-    signal sda_wen_reg  : std_logic := '0';
-    signal sda_o_reg    : std_logic := '0';
-    
-    -- User interface
-    signal data_valid_reg     : std_logic                    := '0';
-    signal read_req_reg       : std_logic                    := '0';
-    signal data_to_master_reg : std_logic_vector(7 downto 0) := (others => '0');
+    signal sda_wen_reg          : std_logic := '0';
+    signal sda_o_reg            : std_logic := '0';
 
-    signal rst                : std_logic;
+    -- User interface
+    signal data_valid_reg       : std_logic                    := '0';
+    signal read_req_reg         : std_logic                    := '0';
+    signal data_to_master_reg   : std_logic_vector(7 downto 0) := (others => '0');
+
+    signal rst                  : std_logic;
 begin
     rst <= not reset_n;
 
@@ -163,7 +163,7 @@ begin
             -- User interface
             data_valid_reg <= '0';
             read_req_reg   <= '0';
-    
+
             case state_reg is
 
                 when IDLE =>
@@ -187,7 +187,7 @@ begin
                         bits_processed_reg <= 0;
                         if addr_reg = SLAVE_ADDR then  -- check req address
                             state_reg <= ANSWER_ACK_START;
-                            if cmd_reg = '1' then  -- issue READ request 
+                            if cmd_reg = '1' then  -- issue READ request
                                 read_req_reg       <= '1';
                                 data_to_master_reg <= data_to_master;
                             end if;

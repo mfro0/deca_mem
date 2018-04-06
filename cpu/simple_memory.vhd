@@ -6,20 +6,20 @@ use work.m68k_binary.all;
 
 entity simple_memory is
 
-    generic 
+    generic
     (
-        DATA_WIDTH : natural;
-        ADDR_WIDTH : natural
+        DATA_WIDTH : natural;       -- the width (in bits) of the memory data port
+        ADDR_WIDTH : natural        -- the witth (in bits) of the memory address port
     );
 
-    port 
+    port
     (
-        clk     : in std_logic;
-        reset_n : in std_logic;
-        addr_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
-        data    : in std_logic_vector(DATA_WIDTH - 1 downto 0);
-        we      : in std_logic := '1';
-        q       : out std_logic_vector(DATA_WIDTH - 1 downto 0)
+        clk             : in std_logic;
+        reset_n         : in std_logic;
+        addr_in         : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
+        data            : in std_logic_vector(DATA_WIDTH - 1 downto 0);
+        we              : in std_logic := '1';
+        q               : out std_logic_vector(DATA_WIDTH - 1 downto 0)
     );
 
 end simple_memory;
@@ -46,20 +46,20 @@ architecture rtl of simple_memory is
         end loop;
 
         return tmp;
-    end init_ram;    
+    end init_ram;
 
     -- Declare the RAM signal and specify a default value.  Quartus Prime
-    -- will create a memory initialization file (.mif) based on the 
+    -- will create a memory initialization file (.mif) based on the
     -- default value.
     signal ram : memory_type := init_ram;
 
-    -- Register to hold the address 
+    -- Register to hold the address
     signal addr_reg : natural range 0 to 2 ** ADDR_WIDTH - 1;
     signal addr     : natural range 0 to 2 ** ADDR_WIDTH - 1;
 
 begin
     addr <= to_integer(unsigned(addr_in));
-    
+
     process(all)
     begin
         if not reset_n then
