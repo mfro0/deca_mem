@@ -26,6 +26,8 @@ architecture sim of cpu_tb is
     signal uart_in_data_available   : std_logic;
     signal uart_in_data             : std_logic_vector(7 downto 0);
 
+    constant hello_world_string     : string := "Hello World!";
+
 begin
     -- reset
     p_initial : process
@@ -68,4 +70,23 @@ begin
             tx_busy			    => tx_busy,
             tx_start		    => tx_start
         );
+
+    uart_out : process(all)
+        variable str_index      : integer := 0;
+        variable c              : character;
+    begin
+        if not reset_n then
+            str_index := 1;
+            tx_start <= '0';
+        elsif rising_edge(clk_50) then
+            if not tx_busy then
+                c := hello_world_string(str_index);
+                tx_data <= std_logic_vector(to_unsigned(character'pos(c), 8));
+                tx_start <= '1';
+                str_index := str_index + 1;
+            else
+                tx_start <= '0';
+            end if;
+        end if;
+    end process uart_out;
 end architecture sim;
