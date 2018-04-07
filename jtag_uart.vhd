@@ -5,15 +5,15 @@ use ieee.numeric_std.all;
 entity jtag_uart is
     port
     (
-        clk             : in std_logic;
-        reset_n         : in std_logic; 
-        
-        rx_data         : out std_logic_vector(7 downto 0);
-        rx_data_ready   : out std_logic;
-        
-        tx_data         : in  std_logic_vector(7 downto 0);
-        tx_start        : in  std_logic;
-        tx_busy         : out std_logic
+        clk                             : in std_logic;
+        reset_n                         : in std_logic;
+
+        rx_data                         : out std_logic_vector(7 downto 0);
+        rx_data_ready                   : out std_logic;
+
+        tx_data                         : in  std_logic_vector(7 downto 0);
+        tx_start                        : in  std_logic;
+        tx_busy                         : out std_logic
      );
 end entity jtag_uart;
 
@@ -47,10 +47,10 @@ architecture rtl of jtag_uart is
     signal t_dav                        : std_logic;
     signal t_ena                        : std_logic;
     signal t_pause                      : std_logic;
-    
+
     signal is_full_reg                  : std_logic;
     signal data_reg                     : std_logic_vector(7 downto 0);
-    
+
     signal cnt                          : unsigned(24 downto 0);
 begin
     i_jtag_uart : component alt_jtag_atlantic
@@ -78,7 +78,7 @@ begin
     begin
         if not reset_n then
             null;
-            
+
         elsif rising_edge(clk) then
             if not is_full_reg then
                 if t_ena then
