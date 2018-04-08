@@ -15,7 +15,7 @@ entity vga_generator is
         v_total,
         v_sync,
         v_start,
-        v_end,
+        v_end           : in integer range 0 to 4095;
 
         vga_hs,
         vga_vs,
@@ -52,7 +52,7 @@ architecture rtl of vga_generator is
 
     signal v_active_14,
            v_active_24,
-           v_active_34     : in integer range 0 to 4095;
+           v_active_34  : integer range 0 to 4095;
 
     type color_mode_type is (RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, GRAY_GRADIENT);
     signal color_mode   : color_mode_type;
@@ -72,7 +72,7 @@ begin
     v_active_14 <= v_start + 1 * (v_end - v_start);
     v_active_24 <= v_start + 2 * (v_end - v_start);
     v_active_34 <= v_start + 3 * (v_end - v_start);
-    
+
     v_act_14 <= '1' when v_count = v_active_14 else '0';
     v_act_24 <= '1' when v_count = v_active_24 else '0';
     v_act_34 <= '1' when v_count = v_active_34 else '0';
