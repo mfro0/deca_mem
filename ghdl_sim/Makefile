@@ -66,6 +66,7 @@ run_cpu: $(CPU_MODULES)
 run_ddr: $(DDR_MODULES)
 	$(GHDL) -r $(GHDLFLAGS) ddr_tb --disp-tree $(GHDL_RUNFLAGS) --wave=ddr_tb.ghw
 
+# make sure M68K modules go into the m68k library
 $(M68K_MODULES): GHDLFLAGS += --work=m68k
 %: %.o
 	$(GHDL) -e $(GHDLFLAGS) $@
