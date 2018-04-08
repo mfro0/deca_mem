@@ -13,7 +13,7 @@ int puts(char *str)
 {
     int c;
 
-    while (c = *str++)
+    while ((c = *str++))
         putc(c);
 
     return 0;

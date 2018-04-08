@@ -2,6 +2,7 @@ package require cmdline
 
 # post_message "embed_m68k.tcl"
 
+exec /bin/bash -c "(cd m68k; make)"
 set binfile m68k/simple.bin
 set fp [open $binfile r]
 fconfigure $fp -translation binary
@@ -9,9 +10,11 @@ set bindata [read $fp]
 close $fp
 
 set filename simple.vhd
+
 set date [clock format [clock seconds] -format { %a, %Y-%m-%d, %H:%M }]
 set file [open $filename w]
 set script [info script]
+
 puts $file "library ieee;"
 puts $file "use ieee.std_logic_1164.all;"
 puts $file ""
