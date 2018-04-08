@@ -26,7 +26,7 @@ HDMI_MODULES = \
     # jtag_uart.o \
     # cpu_tb.o
 
-CPU_MODULES= \
+M68K_MODULES = \
 	wf68k30l_pkg.o \
 	wf68k30l_address_registers.o \
 	wf68k30l_alu.o \
@@ -35,8 +35,10 @@ CPU_MODULES= \
 	wf68k30l_data_registers.o \
 	wf68k30l_exception_handler.o \
 	wf68k30l_opcode_decoder.o \
-	wf68k30l_top.o \
-    simple.o \
+	wf68k30l_top.o
+
+CPU_MODULES= \
+   	simple.o \
     simple_memory.o \
     simple_m68k.o \
     jtag_uart.o \
@@ -52,7 +54,7 @@ GHDL_RUNFLAGS=--ieee-asserts=disable-at-0
 all:    hdmi
 
 hdmi: $(HDMI_MODULES) hdmi_tb
-cpu: $(CPU_MODULES) cpu_tb
+cpu: $(M68K_MODULES) $(CPU_MODULES)  cpu_tb
 ddr: $(DDR_MODULES) ddr_tb
 
 run_hdmi: $(HDMI_MODULES)
@@ -64,6 +66,7 @@ run_cpu: $(CPU_MODULES)
 run_ddr: $(DDR_MODULES)
 	$(GHDL) -r $(GHDLFLAGS) ddr_tb --disp-tree $(GHDL_RUNFLAGS) --wave=ddr_tb.ghw
 
+$(M68K_MODULES): GHDLFLAGS += --work=m68k
 %: %.o
 	$(GHDL) -e $(GHDLFLAGS) $@
 
@@ -82,4 +85,4 @@ view_ddr:
 
 .PHONY: clean
 clean:
-	rm -f *.o blitter work*.cf e*.lst *.ghw
+	rm -f *.o blitter *.cf e*.lst *.ghw

@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library m68k;
+
 entity simple_m68k is
     port
     (
@@ -85,7 +87,7 @@ architecture rtl of simple_m68k is
     constant term_data_out_addr : std_logic_vector(31 downto 0) := x"fffffff4";
     
 begin    
-    i_m68k_cpu : entity work.wf68k30l_top
+    i_m68k_cpu : entity m68k.wf68k30l_top
         port map
         (
             clk                 => clk,
