@@ -72,18 +72,22 @@ begin
         );
 
     uart_out : process(all)
-        variable str_index      : integer := 0;
+        variable str_index      : integer := hello_world_string'low;
         variable c              : character;
     begin
         if not reset_n then
-            str_index := 1;
+            str_index := hello_world_string'low;
             tx_start <= '0';
         elsif rising_edge(clk_50) then
             if not tx_busy then
-                c := hello_world_string(str_index);
-                tx_data <= std_logic_vector(to_unsigned(character'pos(c), 8));
-                tx_start <= '1';
-                str_index := str_index + 1;
+                if str_index <= hello_world_string'high then
+                    c := hello_world_string(str_index);
+                    tx_data <= std_logic_vector(to_unsigned(character'pos(c), 8));
+                    tx_start <= '1';
+                    str_index := str_index + 1;
+                else
+                    str_index := hello_world_string'low;
+                end if;
             else
                 tx_start <= '0';
             end if;

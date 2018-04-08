@@ -8,12 +8,12 @@ entity jtag_uart is
         clk                             : in std_logic;
         reset_n                         : in std_logic;
 
-        rx_data                         : out std_logic_vector(7 downto 0);
-        rx_data_ready                   : out std_logic;
+        rx_data                         : out std_logic_vector(7 downto 0);     -- received data
+        rx_data_ready                   : out std_logic;                        -- received data valid
 
-        tx_data                         : in  std_logic_vector(7 downto 0);
-        tx_start                        : in  std_logic;
-        tx_busy                         : out std_logic
+        tx_data                         : in  std_logic_vector(7 downto 0);     -- data to send
+        tx_start                        : in  std_logic;                        -- start sending data
+        tx_busy                         : out std_logic                         -- we are still busy sending
      );
 end entity jtag_uart;
 
@@ -30,6 +30,7 @@ architecture rtl of jtag_uart is
         (
             clk                         : in std_logic;
             rst_n                       : in std_logic;
+            
             r_dat                       : in std_logic_vector(7 downto 0);      -- data from FPGA
             r_val                       : in std_logic;                         -- data valid
             r_ena                       : out std_logic;                        -- can write (next) cycle or FIFO not full
@@ -65,9 +66,15 @@ begin
         (
             clk                         => clk,
             rst_n                       => reset_n,
+
+            -- this is the receiving part of alt_jtag_atlantic, the ports
+            -- we actually *send* data to
             r_dat                       => r_dat,
             r_val                       => r_val,
             r_ena                       => r_ena,
+
+            -- this is the sending part of alt_jtag_atlantic, the ports
+            -- we receive data from
             t_dat                       => t_dat,
             t_dav                       => t_dav,
             t_ena                       => t_ena,
@@ -77,8 +84,11 @@ begin
     p_doit : process(all)
     begin
         if not reset_n then
-            null;
+            is_full_reg <= '0';
+            rx_data <= (others => '0');
+            rx_data_ready <= '0';                   -- no valid data received yet
 
+            tx_busy <= '0';
         elsif rising_edge(clk) then
             if not is_full_reg then
                 if t_ena then
