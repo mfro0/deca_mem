@@ -1,18 +1,17 @@
 [*]
 [*] GTKWave Analyzer v3.3.82 (w)1999-2017 BSI
-[*] Wed Apr  4 04:29:07 2018
+[*] Sat Apr  7 16:26:13 2018
 [*]
 [dumpfile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu.ghw"
-[dumpfile_mtime] "Tue Apr  3 19:36:36 2018"
-[dumpfile_size] 113850
+[dumpfile_mtime] "Sat Apr  7 16:25:08 2018"
+[dumpfile_size] 64926
 [savefile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu_tb.gtkw"
-[timestart] 1079200000
+[timestart] 9500000000
 [size] 1262 824
 [pos] -1 -1
-*-25.461355 1422500000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-32.461357 1422500000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.cpu_tb.
-[treeopen] top.cpu_tb.i_cpu.
 [treeopen] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.
 [treeopen] top.cpu_tb.i_cpu.i_m68k_cpu.i_bus_if.
 [treeopen] top.cpu_tb.i_cpu.i_m68k_cpu.i_control.
@@ -42,11 +41,15 @@ top.cpu_tb.plls_locked
 #{top.cpu_tb.i_cpu.size[1:0]} top.cpu_tb.i_cpu.size[1] top.cpu_tb.i_cpu.size[0]
 top.cpu_tb.i_cpu.ds_n
 top.cpu_tb.i_cpu.as_n
-@29
-#{top.cpu_tb.i_cpu.dsack_n[1:0]} top.cpu_tb.i_cpu.dsack_n[1] top.cpu_tb.i_cpu.dsack_n[0]
 @22
 #{top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[31:0]} top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[31] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[30] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[29] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[28] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[27] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[26] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[25] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[24] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[23] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[22] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[21] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[20] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[19] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[18] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[17] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[16] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[15] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[14] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[13] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[12] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[11] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[10] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[9] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[8] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[7] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[6] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[5] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[4] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[3] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[2] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[1] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.usp_reg[0]
 #{top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[31:0]} top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[31] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[30] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[29] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[28] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[27] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[26] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[25] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[24] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[23] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[22] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[21] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[20] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[19] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[18] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[17] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[16] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[15] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[14] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[13] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[12] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[11] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[10] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[9] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[8] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[7] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[6] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[5] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[4] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[3] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[2] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[1] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.msp_reg[0]
 #{top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[31:0]} top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[31] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[30] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[29] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[28] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[27] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[26] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[25] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[24] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[23] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[22] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[21] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[20] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[19] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[18] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[17] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[16] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[15] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[14] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[13] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[12] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[11] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[10] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[9] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[8] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[7] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[6] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[5] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[4] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[3] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[2] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[1] top.cpu_tb.i_cpu.i_m68k_cpu.i_adressregisters.isp_reg[0]
+@200
+-UART
+@22
+#{top.cpu_tb.tx_data[7:0]} top.cpu_tb.tx_data[7] top.cpu_tb.tx_data[6] top.cpu_tb.tx_data[5] top.cpu_tb.tx_data[4] top.cpu_tb.tx_data[3] top.cpu_tb.tx_data[2] top.cpu_tb.tx_data[1] top.cpu_tb.tx_data[0]
+@23
+#{top.cpu_tb.rx_data[7:0]} top.cpu_tb.rx_data[7] top.cpu_tb.rx_data[6] top.cpu_tb.rx_data[5] top.cpu_tb.rx_data[4] top.cpu_tb.rx_data[3] top.cpu_tb.rx_data[2] top.cpu_tb.rx_data[1] top.cpu_tb.rx_data[0]
 [pattern_trace] 1
 [pattern_trace] 0
