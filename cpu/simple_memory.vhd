@@ -8,14 +8,15 @@ entity simple_memory is
 
     generic
     (
-        DATA_WIDTH : natural;       -- the width (in bits) of the memory data port
-        ADDR_WIDTH : natural        -- the witth (in bits) of the memory address port
+        DATA_WIDTH      : natural;       -- the width (in bits) of the memory data port
+        ADDR_WIDTH      : natural        -- the witth (in bits) of the memory address port
     );
 
     port
     (
         clk             : in std_logic;
         reset_n         : in std_logic;
+        
         addr_in         : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
         data            : in std_logic_vector(DATA_WIDTH - 1 downto 0);
         we              : in std_logic := '1';
@@ -30,7 +31,7 @@ architecture rtl of simple_memory is
     subtype word_t is std_logic_vector(DATA_WIDTH - 1 downto 0);
     type memory_type is array(2 ** ADDR_WIDTH - 1 downto 0) of word_t;
 
-    function init_ram return memory_type is 
+    function init_ram return memory_type is
         variable tmp    : memory_type := (others => (others => '0'));
         variable addr   : natural := 0;
         variable i      : natural := 0;
