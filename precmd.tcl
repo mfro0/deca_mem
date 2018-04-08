@@ -6,7 +6,8 @@
 
 set precmd_list { "embed_m68k.tcl" "make_datetime.tcl" }
 
+set script [info script]
 foreach item $precmd_list {
-    post_message "execute $item"
+    post_message "$script: execute $item"
     exec quartus_sh -t $item
 }
