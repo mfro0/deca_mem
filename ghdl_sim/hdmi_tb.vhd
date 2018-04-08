@@ -15,11 +15,11 @@ architecture sim of hdmi_tb is
 	-- jtag uart signals
 	signal rx_data,
 		   tx_data			    : std_logic_vector(7 downto 0);
-	signal rx_busy,
+	signal rx_data_ready,
 		   tx_busy			    : std_logic;
 	signal tx_start			    : std_logic;
 
-    
+
     -- HDMI signals
     signal hdmi_i2c_scl         : std_logic := '0';
     signal hdmi_i2c_sda         : std_logic := '0';
@@ -42,7 +42,7 @@ architecture sim of hdmi_tb is
            i2c_read_response_valid  : std_logic;
     signal i2c_read_response,
            i2c_write_data       : std_logic_vector(7 downto 0);
-    
+
 begin
     hdmi_i2c_scl <= 'H';
     hdmi_i2c_sda <= 'H';                                -- add pull-ups to i2c signals
@@ -93,7 +93,7 @@ begin
         (
             clk_50              => clk_50,
             reset_n             => reset_n,
-            
+
             -- HDMI chip config
             hdmi_i2c_scl        => hdmi_i2c_scl,
             hdmi_i2c_sda        => hdmi_i2c_sda,
@@ -125,7 +125,7 @@ begin
 
             -- clocks
             clk_1536k           => clk_1536k,
-            
+
             locked              => plls_locked
         );
 
@@ -137,7 +137,7 @@ begin
             clk				    => clk_50,
             reset_n             => reset_n,
             rx_data			    => rx_data,
-            rx_busy			    => rx_busy,
+            rx_data_ready	    => rx_data_ready,
             tx_data			    => tx_data,
             tx_busy			    => tx_busy,
             tx_start		    => tx_start
