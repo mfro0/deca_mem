@@ -7,7 +7,7 @@ entity vpg is
     (
         clk_50              : in std_logic;
         reset_n             : in std_logic;
-    
+
         vpg_pclk_out        : out std_logic;
         vpg_de              : out std_logic;
         vpg_hs              : out std_logic;
@@ -20,7 +20,7 @@ end entity vpg;
 
 architecture rtl of vpg is
     signal vpg_pclk         : std_logic;
-    
+
     subtype v_int is integer range 0 to 4095;       -- 12 bits
     type video_timing_type is record
         h_total,
@@ -36,7 +36,7 @@ architecture rtl of vpg is
         v_active_34         : v_int;
     end record video_timing_type;
     type video_timings_array_type is array(natural range <>) of video_timing_type;
-    
+
     -- h_total : total - 1
     -- h_sync : sync - 1
     -- h_start : sync + back porch - 1 - 2 (delay)
@@ -50,7 +50,7 @@ architecture rtl of vpg is
     -- v_active_34 : v_start + 3/4 active
     constant video_timings  : video_timings_array_type :=
     (
-        ( 
+        (
             -- 640x480@60 25.175 MHZ
             h_total => 799, h_sync => 95, h_start => 141, h_end => 781,
             v_total => 524, v_sync => 1, v_start => 54, v_end => 741,
@@ -61,13 +61,13 @@ architecture rtl of vpg is
             h_total => 857, h_sync => 61, h_start => 119, h_end => 839,
             v_total => 524, v_sync => 5, v_start => 35, v_end => 515,
             v_active_14 => 155, v_active_24 => 275, v_active_34 => 395
-        ), 
+        ),
         (
             -- 1024x768@60 65MHZ (XGA)
             h_total => 1343, h_sync => 135, h_start => 293, h_end => 1317,
             v_total => 805, v_sync => 5, v_start => 34, v_end => 802,
             v_active_14 => 226, v_active_24 => 418, v_active_34 => 610
-        ),  
+        ),
         (
             -- 1280x1024@60   108MHZ (SXGA)
             h_total => 1687, h_sync => 111, h_start => 357, h_end => 1637,
@@ -88,7 +88,7 @@ architecture rtl of vpg is
         )
     );
     constant v          : video_timing_type := video_timings(5);        -- select 1600x1200
-    
+
     -- cut timing path for reset_n in pixel clock domain
     signal synced_reset             : std_logic_vector(1 downto 0);
     attribute altera_attribute      : string;
@@ -108,14 +108,14 @@ begin
             c0              => vpg_pclk
         );
     vpg_pclk_out <= not vpg_pclk;
-    
+
     -- synchronize reset signal into pixel clk domain
     p_sync_reset : process
     begin
         wait until rising_edge(vpg_pclk);
         synced_reset <= synced_reset(0) & reset_n;
     end process p_sync_reset;
-    
+
     i_vga_generator : entity work.vga_generator
         port map
         (
@@ -129,9 +129,6 @@ begin
             v_sync          => v.v_sync,
             v_start         => v.v_start,
             v_end           => v.v_end,
-            v_active_14     => v.v_active_14,
-            v_active_24     => v.v_active_24,
-            v_active_34     => v.v_active_34,
             vga_hs          => vpg_hs,
             vga_vs          => vpg_vs,
             vga_de          => vpg_de,
