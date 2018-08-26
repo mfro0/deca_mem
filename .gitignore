@@ -12,3 +12,4 @@ output_files/
 *.cnx
 datetime.vhd
 simple.vhd
+*.qws
