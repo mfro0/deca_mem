@@ -81,15 +81,15 @@ begin
             t_pause                     => t_pause
         );
 
-    p_doit : process(all)
+    p_doit : process
     begin
+        wait until rising_edge(clk);
         if not reset_n then
             is_full_reg <= '0';
             rx_data <= (others => '0');
             rx_data_ready <= '0';                   -- no valid data received yet
-
             tx_busy <= '0';
-        elsif rising_edge(clk) then
+			else
             if not is_full_reg then
                 if t_ena then
                     data_reg <= t_dat;
