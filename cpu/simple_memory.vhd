@@ -61,11 +61,12 @@ architecture rtl of simple_memory is
 begin
     addr <= to_integer(unsigned(addr_in));
 
-    process(all)
+    process
     begin
+        wait until rising_edge(clk);
         if not reset_n then
             null;
-        elsif rising_edge(clk) then
+        else
             if we then
                 ram(addr) <= data;
             end if;

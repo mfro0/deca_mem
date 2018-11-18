@@ -1,10 +1,10 @@
 [*]
 [*] GTKWave Analyzer v3.3.82 (w)1999-2017 BSI
-[*] Sat Apr  7 16:26:13 2018
+[*] Sun Apr  8 09:22:05 2018
 [*]
 [dumpfile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu.ghw"
-[dumpfile_mtime] "Sat Apr  7 16:25:08 2018"
-[dumpfile_size] 64926
+[dumpfile_mtime] "Sun Apr  8 09:21:33 2018"
+[dumpfile_size] 89502
 [savefile] "/home/mfro/Dokumente/Development/vhdl/deca_mem/ghdl_sim/cpu_tb.gtkw"
 [timestart] 9500000000
 [size] 1262 824
@@ -49,7 +49,11 @@ top.cpu_tb.i_cpu.as_n
 -UART
 @22
 #{top.cpu_tb.tx_data[7:0]} top.cpu_tb.tx_data[7] top.cpu_tb.tx_data[6] top.cpu_tb.tx_data[5] top.cpu_tb.tx_data[4] top.cpu_tb.tx_data[3] top.cpu_tb.tx_data[2] top.cpu_tb.tx_data[1] top.cpu_tb.tx_data[0]
-@23
 #{top.cpu_tb.rx_data[7:0]} top.cpu_tb.rx_data[7] top.cpu_tb.rx_data[6] top.cpu_tb.rx_data[5] top.cpu_tb.rx_data[4] top.cpu_tb.rx_data[3] top.cpu_tb.rx_data[2] top.cpu_tb.rx_data[1] top.cpu_tb.rx_data[0]
+@28
+top.cpu_tb.tx_start
+top.cpu_tb.tx_busy
+@29
+top.cpu_tb.rx_data_ready
 [pattern_trace] 1
 [pattern_trace] 0
