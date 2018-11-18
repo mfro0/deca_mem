@@ -209,35 +209,36 @@ begin
     i_blinker : entity work.blinker
         generic map
         (
-            COUNTER_MAX     => 50000000
+            CLK_FREQUENCY       => 50_000_000,
+            BLINKS_PER_SECOND   => 2
         )
         port map
         (
-            clk             => MAX10_CLK1_50,
-            reset_n         => reset_n,
-            led             => blinker
+            clk                 => MAX10_CLK1_50,
+            reset_n             => reset_n,
+            led                 => blinker
         );
         
     i_reset_circuit : entity work.deca_reset
         generic map
         (
-            WAIT_TICKS      => 1000
+            WAIT_TICKS          => 1000
         )
         port map
         (
-            clk             => MAX10_CLK1_50,
-            reset_n         => reset_n,
-            reset_button_n  => button_reset_n,
-            lock_pll        => pll_locked
+            clk                 => MAX10_CLK1_50,
+            reset_n             => reset_n,
+            reset_button_n      => button_reset_n,
+            lock_pll            => pll_locked
         );
         
     i_clocks : entity work.deca_clocks
         port map
         (
-            clk             => MAX10_CLK1_50,
-            reset_n         => reset_n,
-            clk_1536k       => clk_1536k,
-            locked          => pll_locked
+            clk                 => MAX10_CLK1_50,
+            reset_n             => reset_n,
+            clk_1536k           => clk_1536k,
+            locked              => pll_locked
         );
 
 	i_ddr3_memory : entity ddr3_mem.ddr3_mem

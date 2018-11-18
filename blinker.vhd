@@ -4,7 +4,8 @@ use ieee.std_logic_1164.all;
 entity blinker is
     generic
     (
-        COUNTER_MAX     : integer := 50000000 / 2   -- blink every half second at 50 MHz clock
+        CLK_FREQUENCY       : integer := 50000000;
+        BLINKS_PER_SECOND   : integer := 2          -- blink every half second at 50 MHz clock
     );
     port
     (
@@ -17,6 +18,7 @@ end entity blinker;
 architecture rtl of blinker is
     signal counter      : integer := 0;
     signal led_out      : std_logic := '0';
+    constant COUNTER_MAX    : integer := CLK_FREQUENCY / BLINKS_PER_SECOND;
 begin
     p_blink : process(all)
     begin
