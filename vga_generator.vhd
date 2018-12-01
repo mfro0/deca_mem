@@ -78,17 +78,15 @@ begin
     v_act_34 <= '1' when v_count = v_active_34 else '0';
 
     -- horizontal control signals
-    p_horiz : process
+    p_horiz : process(all)
     begin
-        wait until rising_edge(clk);
-        
         if not reset_n then
             h_act_d <= '0';
             h_count <= 0;
             pixel_x <= 0;
             vga_hs <= '1';
             h_act <= '0';
-        else
+        elsif rising_edge(clk) then
             h_act_d <= h_act;
             if h_max then
                 h_count <= 0;
@@ -117,17 +115,15 @@ begin
     end process p_horiz;
 
     -- vertical control signals
-    p_vert : process
+    p_vert : process(all)
     begin
-        wait until rising_edge(clk);
-        
         if not reset_n then
             v_act_d <= '0';
             v_count <= 0;
             vga_vs <= '1';
             v_act <= '0';
             color_mode <= RED_GRADIENT;
-        else
+        elsif rising_edge(clk) then
             if h_max then
                 v_act_d <= v_act;
 
@@ -162,20 +158,24 @@ begin
         end if;
     end process p_vert;
 
-    border <= '1' when (not h_act_d and h_act) or hr_end or (not v_act_d and v_act) or vr_end else '0';
-    
     -- pattern generator and display enable
-    p_pattern : process
+    p_pattern : process(all)
         variable p_x    : std_logic_vector(7 downto 0);
     begin
-        wait until rising_edge(clk);
         if not reset_n then
             vga_de <= '0';
             pre_vga_de <= '0';
-        else
+            border <= '0';
+        elsif rising_edge(clk) then
             vga_de <= pre_vga_de;
             pre_vga_de <= v_act and h_act;
 
+            if (not h_act_d and h_act) or hr_end or
+               (not v_act_d and v_act) or vr_end then
+                border <= '1';
+            else
+                border <= '0';
+            end if;
             if border then
                 vga_r <= x"ff";
                 vga_g <= x"ff";
@@ -183,22 +183,18 @@ begin
             else
                 p_x := std_logic_vector(to_unsigned(pixel_x, 8));
                 case color_mode is
-                
                     when RED_GRADIENT =>
                         vga_r <= p_x;
                         vga_g <= 8x"0";
                         vga_b <= 8x"0";
-                
                     when GREEN_GRADIENT =>
                         vga_r <= 8x"0";
                         vga_g <= p_x;
                         vga_b <= 8x"0";
-                    
                     when BLUE_GRADIENT =>
                         vga_r <= 8x"0";
                         vga_g <= 8x"0";
                         vga_b <= p_x;
-                    
                     when GRAY_GRADIENT =>
                         vga_r <= p_x;
                         vga_g <= p_x;
