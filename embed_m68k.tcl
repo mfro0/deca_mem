@@ -1,6 +1,6 @@
 package require cmdline
 
-# post_message "embed_m68k.tcl"
+post_message "embed_m68k.tcl"
 
 exec /bin/bash -c "(cd m68k; make)"
 set binfile m68k/simple.bin
