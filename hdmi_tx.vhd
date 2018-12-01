@@ -45,10 +45,13 @@ begin
         (
             clk_50                  => clk_50,
             reset_n                 => reset_n,
+            
             vpg_pclk_out            => hdmi_tx_clk,                 -- pixel clock
+            
             vpg_de                  => hdmi_tx_de,                  -- display enable
             vpg_hs                  => hdmi_tx_hs,                  -- horizontal sync
             vpg_vs                  => hdmi_tx_vs,                  -- vertical sync
+            
             vpg_r                   => hdmi_tx_d(23 downto 16),     -- red pixel data
             vpg_g                   => hdmi_tx_d(15 downto 8),      -- green pixel data
             vpg_b                   => hdmi_tx_d(7 downto 0)        -- blue pixel data
