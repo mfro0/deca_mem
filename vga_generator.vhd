@@ -95,7 +95,11 @@ begin
             end if;
 
             if h_act_d then
-                pixel_x <= (pixel_x + 1) mod 255;
+                if pixel_x < byte'high then
+                    pixel_x <= (pixel_x + 1) ; --mod 255;
+                else
+                    pixel_x <= 0;
+                end if;
             else
                 pixel_x <= 0;
             end if;
