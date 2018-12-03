@@ -780,6 +780,7 @@ set_location_assignment PIN_U17 -to termination_blk0~_rdn_pad
 
 
 
+set_global_assignment -name SDC_FILE deca_mem.sdc
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_top.vhd -library m68k
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_pkg.vhd -library m68k
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_opcode_decoder.vhd -library m68k
@@ -793,7 +794,6 @@ set_global_assignment -name VHDL_FILE simple.vhd
 set_global_assignment -name VHDL_FILE datetime.vhd
 set_global_assignment -name VHDL_FILE jtag_uart.vhd
 set_global_assignment -name VHDL_FILE i2c_master.vhd
-set_global_assignment -name SDC_FILE ddr3_mem.sdc
 set_global_assignment -name QIP_FILE ddr3_mem.qip
 set_global_assignment -name VHDL_FILE deca_clocks.vhd
 set_global_assignment -name VHDL_FILE deca_mem.vhd
