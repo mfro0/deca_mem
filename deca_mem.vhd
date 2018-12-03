@@ -318,6 +318,11 @@ begin
         );
 
     i_hdmi_audio : entity work.hdmi_audio
+        generic map
+        (
+            clk_frequency       => 50_000_000,
+            sclk_frequency      => 50_000_000 / 16
+        )
         port map
         (
             clk                 => clk_1536k,
