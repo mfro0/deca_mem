@@ -3,6 +3,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity hdmi_audio is
+    generic
+    (
+        clk_frequency,
+        sclk_frequency  : natural
+    );
     port
     (
         clk             : in std_logic;
@@ -41,7 +46,7 @@ begin
             lrclk_i <= '0';
             sclk_count <= 0;
         elsif falling_edge(clk) then
-            if sclk_count > 15 then
+            if sclk_count > clk_frequency / sclk_frequency - 1 then
                 sclk_count <= 0;
                 lrclk_i <= not lrclk_i;
             else
