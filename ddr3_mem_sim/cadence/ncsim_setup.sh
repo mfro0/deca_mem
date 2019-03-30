@@ -1,5 +1,5 @@
 
-# (C) 2001-2018 Altera Corporation. All rights reserved.
+# (C) 2001-2019 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 17.0 602 win32 2018.03.26.14:29:32
+# ACDS 18.1 625 linux 2019.03.30.14:58:36
 
 # ----------------------------------------
 # ncsim - auto-generated simulation script
@@ -106,12 +106,12 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 17.0 602 win32 2018.03.26.14:29:32
+# ACDS 18.1 625 linux 2019.03.30.14:58:36
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="ddr3_mem"
 QSYS_SIMDIR="./../"
-QUARTUS_INSTALL_DIR="C:/opt/intelfpga_lite/17.0/quartus/"
+QUARTUS_INSTALL_DIR="/opt/intelFPGA_lite/18.1/quartus/"
 SKIP_FILE_COPY=0
 SKIP_DEV_COM=0
 SKIP_COM=0
@@ -158,7 +158,6 @@ mkdir -p ./libraries/altera_ver/
 mkdir -p ./libraries/lpm_ver/
 mkdir -p ./libraries/sgate_ver/
 mkdir -p ./libraries/altera_mf_ver/
-mkdir -p ./libraries/altera_lnsim_ver/
 mkdir -p ./libraries/fiftyfivenm_ver/
 mkdir -p ./libraries/altera/
 mkdir -p ./libraries/lpm/
@@ -177,28 +176,28 @@ fi
 # ----------------------------------------
 # compile device library files
 if [ $SKIP_DEV_COM -eq 0 ]; then
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.v"                -work altera_ver      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.v"                         -work lpm_ver         
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.v"                            -work sgate_ver       
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.v"                        -work altera_mf_ver   
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim.sv"                    -work altera_lnsim_ver
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.v"                -work fiftyfivenm_ver 
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/cadence/fiftyfivenm_atoms_ncrypt.v" -work fiftyfivenm_ver 
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd"          -work altera          
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_standard_functions.vhd"      -work altera          
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/alt_dspbuilder_package.vhd"         -work altera          
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_europa_support_lib.vhd"      -work altera          
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives_components.vhd"   -work altera          
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.vhd"              -work altera          
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/220pack.vhd"                        -work lpm             
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.vhd"                       -work lpm             
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate_pack.vhd"                     -work sgate           
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.vhd"                          -work sgate           
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf_components.vhd"           -work altera_mf       
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.vhd"                      -work altera_mf       
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim_components.vhd"        -work altera_lnsim    
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.vhd"              -work fiftyfivenm     
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_components.vhd"         -work fiftyfivenm     
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.v"                -work altera_ver     
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.v"                         -work lpm_ver        
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.v"                            -work sgate_ver      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.v"                        -work altera_mf_ver  
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.v"                -work fiftyfivenm_ver
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd"          -work altera         
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_standard_functions.vhd"      -work altera         
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/alt_dspbuilder_package.vhd"         -work altera         
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_europa_support_lib.vhd"      -work altera         
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives_components.vhd"   -work altera         
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_primitives.vhd"              -work altera         
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/220pack.vhd"                        -work lpm            
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/220model.vhd"                       -work lpm            
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate_pack.vhd"                     -work sgate          
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/sgate.vhd"                          -work sgate          
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf_components.vhd"           -work altera_mf      
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_mf.vhd"                      -work altera_mf      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim.sv"                    -work altera_lnsim   
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/altera_lnsim_components.vhd"        -work altera_lnsim   
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QUARTUS_INSTALL_DIR/eda/sim_lib/cadence/fiftyfivenm_atoms_ncrypt.v" -work fiftyfivenm    
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_atoms.vhd"              -work fiftyfivenm    
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QUARTUS_INSTALL_DIR/eda/sim_lib/fiftyfivenm_components.vhd"         -work fiftyfivenm    
 fi
 
 # ----------------------------------------
@@ -242,43 +241,47 @@ if [ $SKIP_COM -eq 0 ]; then
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS -incdir "$QSYS_SIMDIR/ddr3_mem/" "$QSYS_SIMDIR/ddr3_mem/alt_mem_if_nextgen_ddr3_controller_core.sv"                         -work ng0      -cdslib ./cds_libs/ng0.cds.lib     
   ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                    "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_c0.vhd"                                                    -work c0       -cdslib ./cds_libs/c0.cds.lib      
   ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                    "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0.vhd"                                                    -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/altera_avalon_sc_fifo.v"                                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/altera_mem_if_sequencer_rst.sv"                                     -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/altera_merlin_arbitrator.sv"                                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/altera_merlin_master_translator.sv"                                 -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                    "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0.vhd"                                  -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                    "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter.vhd"                -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv" -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_cmd_demux.sv"                         -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_cmd_mux.sv"                           -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_router.sv"                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_router_001.sv"                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_rsp_demux.sv"                         -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_rsp_mux.sv"                           -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_ac_ROM_reg.v"                                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_bitcheck.v"                                              -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/rw_manager_core.sv"                                                 -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_datamux.v"                                               -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_data_broadcast.v"                                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_data_decoder.v"                                          -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_ddr3.v"                                                  -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_di_buffer.v"                                             -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_di_buffer_wrap.v"                                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_dm_decoder.v"                                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/rw_manager_generic.sv"                                              -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_inst_ROM_reg.v"                                          -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_jumplogic.v"                                             -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_lfsr12.v"                                                -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_lfsr36.v"                                                -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_rsp_mux.sv"                           -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_cmd_demux.sv"                         -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_lfsr72.v"                                                -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/sequencer_phy_mgr.sv"                                               -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/altera_merlin_master_translator.sv"                                 -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_pattern_fifo.v"                                          -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_ram.v"                                                   -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_ddr3.v"                                                  -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_ram_csr.v"                                               -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_read_datapath.v"                                         -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_write_decoder.v"                                         -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/sequencer_m10.sv"                                                   -work s0       -cdslib ./cds_libs/s0.cds.lib      
-  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/sequencer_phy_mgr.sv"                                               -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_bitcheck.v"                                              -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_read_datapath.v"                                         -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_cmd_mux.sv"                           -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_rsp_demux.sv"                         -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/rw_manager_core.sv"                                                 -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/altera_avalon_sc_fifo.v"                                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_lfsr12.v"                                                -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                    "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0.vhd"                                  -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_jumplogic.v"                                             -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_di_buffer.v"                                             -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_inst_ROM_reg.v"                                          -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_lfsr36.v"                                                -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/rw_manager_generic.sv"                                              -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/sequencer_pll_mgr.sv"                                               -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_data_decoder.v"                                          -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv" -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/altera_merlin_arbitrator.sv"                                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_router_001.sv"                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/altera_mem_if_sequencer_rst.sv"                                     -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_router.sv"                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_ram.v"                                                   -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_datamux.v"                                               -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_data_broadcast.v"                                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_di_buffer_wrap.v"                                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                    "$QSYS_SIMDIR/ddr3_mem/ddr3_mem_s0_mm_interconnect_0_avalon_st_adapter.vhd"                -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_ac_ROM_reg.v"                                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/cadence/altera_merlin_slave_translator.sv"                          -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/cadence/altera_merlin_master_agent.sv"                              -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/cadence/altera_merlin_slave_agent.sv"                               -work s0       -cdslib ./cds_libs/s0.cds.lib      
+  ncvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                  "$QSYS_SIMDIR/ddr3_mem/cadence/altera_merlin_burst_uncompressor.sv"                        -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_m10_ac_ROM.v"                                            -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/rw_manager_m10_inst_ROM.v"                                          -work s0       -cdslib ./cds_libs/s0.cds.lib      
   ncvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS                                      "$QSYS_SIMDIR/ddr3_mem/afi_mux_ddr3_ddrx.v"                                                -work m0       -cdslib ./cds_libs/m0.cds.lib      
