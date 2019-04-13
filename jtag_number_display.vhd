@@ -2,6 +2,30 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+entity jtag_string_display is
+    generic
+    (
+        STRING_WIDTH                : natural
+    );
+    port
+    (
+        signal clk                  : in std_ulogic;
+        signal reset_n              : in std_ulogic;
+        
+        signal str                  : in string(1 to STRING_WIDTH);
+        signal valid                : in std_ulogic;
+        signal busy                 : out std_ulogic := '0'
+    );
+end entity jtag_string_display;
+
+architecture rtl of jtag_string_display is
+begin
+end architecture rtl;
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 entity jtag_number_display is
     generic
     (
