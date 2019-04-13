@@ -358,7 +358,7 @@ begin
             uart_in_data        => uart_in_data
         );
 
-    i_uart : entity work.jtag_terminal
+    i_uart : entity work.jtag_number_display
         generic map
         (
             VALUE_WIDTH         => i2c_read_data'length
