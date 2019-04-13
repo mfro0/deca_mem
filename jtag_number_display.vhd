@@ -12,9 +12,9 @@ entity jtag_string_display is
         signal clk                  : in std_ulogic;
         signal reset_n              : in std_ulogic;
         
-        signal str                  : in string(1 to STRING_WIDTH);
-        signal valid                : in std_ulogic;
-        signal busy                 : out std_ulogic := '0'
+        signal str                  : in string(1 to STRING_WIDTH); -- string to send
+        signal valid                : in std_ulogic;                -- start output
+        signal busy                 : out std_ulogic := '0'         -- when not busy
     );
 end entity jtag_string_display;
 
@@ -37,8 +37,8 @@ entity jtag_number_display is
         signal reset_n              : in std_ulogic;
         
         signal val                  : in std_ulogic_vector(VALUE_WIDTH - 1 downto 0);
-        signal valid                : in std_ulogic;
-        signal busy                 : out std_ulogic := '0'
+        signal valid                : in std_ulogic;                                    -- val is valid, start output
+        signal busy                 : out std_ulogic := '0'                             -- if not busy
     );
 end entity jtag_number_display;
 
