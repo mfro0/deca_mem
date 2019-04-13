@@ -3,7 +3,7 @@ ifeq ($(OS),Windows_NT)
 	ALTPATH=c:/opt/intelFPGA_lite/17.0/quartus/bin64
 	ALTOPT=
 else
-	ALTPATH=/opt/intelFPGA_lite/17.0/quartus/bin
+	ALTPATH=/opt/intelFPGA_lite/18.1/quartus/bin
 	ALTOPT=--64bit
 endif
 BITSTREAM=output_files/$(PROJ).sof
