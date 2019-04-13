@@ -755,7 +755,7 @@ set_instance_assignment -name FAST_INPUT_REGISTER ON -to FAST_IO
 set_instance_assignment -name FAST_OUTPUT_ENABLE_REGISTER ON -to FAST_IO
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to FAST_IO
 set_global_assignment -name TIMING_ANALYZER_DO_REPORT_TIMING ON
-set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name USE_SIGNALTAP_FILE deca_mem.stp
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name OCP_HW_EVAL DISABLE
