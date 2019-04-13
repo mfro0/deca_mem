@@ -14,9 +14,9 @@ architecture sim of hdmi_tb is
 
 	-- jtag uart signals
 	signal rx_data,
-		   tx_data			    : std_logic_vector(7 downto 0);
-	signal rx_data_ready,
-		   tx_busy			    : std_logic;
+		   tx_data			    : character;
+	signal rx_data_req,
+		   tx_idle			    : std_logic;
 	signal tx_start			    : std_logic;
 
 
@@ -132,14 +132,19 @@ begin
 
     -- add our jtag uart
     i_jtag_uart : entity work.jtag_uart
+        generic map
+        (
+            LOG2_RXFIFO_DEPTH   => 0,
+            LOG2_TXFIFO_DEPTH   => 0
+        )
         port map
         (
             clk				    => clk_50,
             reset_n             => reset_n,
             rx_data			    => rx_data,
-            rx_data_ready	    => rx_data_ready,
+            rx_data_req  	    => rx_data_req,
             tx_data			    => tx_data,
-            tx_busy			    => tx_busy,
+            tx_idle			    => tx_idle,
             tx_start		    => tx_start
         );
 end architecture sim;

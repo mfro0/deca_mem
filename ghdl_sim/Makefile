@@ -6,6 +6,8 @@ HDMI_MODULES = \
     vga_generator.o \
     vpg.o \
     debounce.o \
+    jtag_uart.o \
+    jtag_number_display.o \
     i2c_slave.o \
     i2c_master.o \
     i2c_hdmi_config.o \
@@ -13,7 +15,6 @@ HDMI_MODULES = \
 	hdmi_tx.o \
     pll.o \
     deca_clocks.o \
-    jtag_uart.o \
 	hdmi_tb.o
 
 # CPU_MODULES = \
