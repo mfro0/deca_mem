@@ -16,8 +16,8 @@ entity blinker is
 end entity blinker;
 
 architecture rtl of blinker is
-    signal counter      : integer := 0;
-    signal led_out      : std_logic := '0';
+    signal counter          : integer := 0;
+    signal led_out          : std_logic := '0';
     constant COUNTER_MAX    : integer := CLK_FREQUENCY / BLINKS_PER_SECOND;
 begin
     p_blink : process(all)

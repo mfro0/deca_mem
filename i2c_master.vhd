@@ -5,24 +5,24 @@ use ieee.numeric_std.all;
 entity i2c_master is
     generic
     (
-        CLK_FREQUENCY   : integer;                          --  input clock speed from user logic in Hz
-        I2C_FREQUENCY   : integer                           --  speed the i2c bus (scl) will run at in Hz
+        CLK_FREQUENCY   : integer;                              --  input clock speed from user logic in Hz
+        I2C_FREQUENCY   : integer                               --  speed the i2c bus (scl) will run at in Hz
     );                    
     port
     (
-        clk       : in     std_logic;                       -- system clock
-        reset_n   : in     std_logic;                       -- active low reset
+        clk             : in     std_logic;                     -- system clock
+        reset_n         : in     std_logic;                     -- active low reset
         
-        ena       : in     std_logic;                       -- latch in command
-        addr      : in     std_logic_vector(6 downto 0);    -- address of target slave
-        rw        : in     std_logic;                       -- '0' is write, '1' is read
-        data_wr   : in     std_logic_vector(7 downto 0);    -- data to write to slave
-        busy      : out    std_logic;                       -- indicates transaction in progress
-        data_rd   : out    std_logic_vector(7 downto 0);    -- data read from slave
-        ack_error : out    std_logic;                       -- flag if improper acknowledge from slave
+        ena             : in     std_logic;                     -- latch in command
+        addr            : in     std_logic_vector(6 downto 0);  -- address of target slave
+        rw              : in     std_logic;                     -- '0' is write, '1' is read
+        data_wr         : in     std_logic_vector(7 downto 0);  -- data to write to slave
+        busy            : out    std_logic;                     -- indicates transaction in progress
+        data_rd         : out    std_logic_vector(7 downto 0);  -- data read from slave
+        ack_error       : out    std_logic;                     -- flag if improper acknowledge from slave
         
-        sda       : inout  std_logic;                       -- serial data output of i2c bus
-        scl       : inout  std_logic                        -- serial clock output of i2c bus
+        sda             : inout  std_logic;                     -- serial data output of i2c bus
+        scl             : inout  std_logic                      -- serial clock output of i2c bus
     );
 end i2c_master;
 
@@ -47,7 +47,7 @@ begin
     
     -- generate the timing for the bus clock (scl_clk) and the data clock (data_clk)
     process(all)
-        variable count      :  integer range 0 to divider * 4;  -- timing for clock generation
+        variable count      :  integer range 0 to divider * 4 - 1;  -- timing for clock generation
     begin
         if not reset_n then                                 -- reset asserted
             stretch <= '0';

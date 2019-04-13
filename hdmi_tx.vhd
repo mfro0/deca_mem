@@ -17,8 +17,8 @@ entity hdmi_tx is
         hdmi_i2c_sda        : inout std_logic;                      -- i2c data
         
         -- HDMI inter-IC sound bus
-        hdmi_i2s            : inout std_logic_vector(3 downto 0);  --  
-        hdmi_lrclk          : inout std_logic;                     -- i2s lrclk
+        hdmi_i2s            : inout std_logic_vector(3 downto 0);   --  
+        hdmi_lrclk          : inout std_logic;                      -- i2s lrclk
         hdmi_mclk           : inout std_logic;
         hdmi_sclk           : inout std_logic;
         
@@ -34,6 +34,7 @@ entity hdmi_tx is
 
         -- DEBUG
         ack_error           : out std_logic;
+        i2c_busy            : out std_ulogic;
         reset_button_n      : in std_logic
     );
 end entity hdmi_tx;
@@ -74,7 +75,8 @@ begin
             
             -- debug
             ack_error               => ack_error,
-            reset_button_n          => reset_button_n
+            reset_button_n          => reset_button_n,
+            i2c_busy                => i2c_busy
         );
 end architecture rtl;
         
