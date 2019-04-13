@@ -205,6 +205,9 @@ architecture rtl of deca_mem is
     signal uart_in_data_available   : std_logic;
     signal uart_in_data             : std_logic_vector(7 downto 0);
     
+    signal terminal_busy            : std_ulogic;
+    signal i2c_read_data            : std_ulogic_vector(7 downto 0);
+    
 begin
     i_blinker : entity work.blinker
         generic map
@@ -355,18 +358,18 @@ begin
             uart_in_data        => uart_in_data
         );
 
-    i_uart : entity work.jtag_uart
+    i_uart : entity work.jtag_terminal
+        generic map
+        (
+            VALUE_WIDTH         => i2c_read_data'length
+        )
         port map
         (
             clk                 => MAX10_CLK1_50,
             reset_n             => reset_n,
             
-            rx_data             => uart_in_data,
-            rx_data_ready       => uart_in_data_available,
-            
-            tx_data             => uart_out_data,
-            tx_start            => uart_out_start,
-            tx_busy             => uart_out_busy
+            busy                => terminal_busy,
+            val                 => i2c_read_data
         );
         
     LED(0) <= button_reset_n;
