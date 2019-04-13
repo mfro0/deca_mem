@@ -154,4 +154,32 @@ begin
             sda             => i2c_sdat,
             scl             => i2c_sclk
         );
+    
+    i2c_verifier : block
+        signal uart_out_ready           : std_logic := '0';
+        signal uart_out_start           : std_logic := '0';
+        signal uart_out_busy            : std_logic := '0';
+        signal uart_out_data            : std_logic_vector(7 downto 0);
+        signal uart_in_data_available   : std_logic;
+        signal uart_in_data             : std_logic_vector(7 downto 0);
+        
+        signal terminal_busy            : std_ulogic;
+        signal i2c_read_data            : std_ulogic_vector(7 downto 0);
+        signal i2c_read_data_valid      : std_ulogic;
+    begin
+        i_uart : entity work.jtag_number_display
+            generic map
+            (
+                VALUE_WIDTH         => i2c_read_data'length
+            )
+            port map
+            (
+                clk                 => clk,
+                reset_n             => reset_n,
+                
+                busy                => terminal_busy,
+                valid               => i2c_read_data_valid,
+                val                 => i2c_read_data
+            );
+    end block i2c_verifier;
 end architecture rtl;

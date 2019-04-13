@@ -198,17 +198,6 @@ architecture rtl of deca_mem is
     signal blinker                  : std_logic := '0';
     signal i2c_ack_err              : std_logic := '0';
     
-    signal uart_out_ready           : std_logic := '0';
-    signal uart_out_start           : std_logic := '0';
-    signal uart_out_busy            : std_logic := '0';
-    signal uart_out_data            : std_logic_vector(7 downto 0);
-    signal uart_in_data_available   : std_logic;
-    signal uart_in_data             : std_logic_vector(7 downto 0);
-    
-    signal terminal_busy            : std_ulogic;
-    signal i2c_read_data            : std_ulogic_vector(7 downto 0);
-    signal i2c_read_data_valid      : std_ulogic;
-    
 begin
     i_blinker : entity work.blinker
         generic map
@@ -345,6 +334,7 @@ begin
             reset_out_n         => button_reset_n
         );
 
+    /*
     i_cpu : entity work.simple_m68k
         port map
         (
@@ -358,22 +348,8 @@ begin
             uart_in_data_available  => uart_in_data_available,
             uart_in_data        => uart_in_data
         );
-
-    i_uart : entity work.jtag_number_display
-        generic map
-        (
-            VALUE_WIDTH         => i2c_read_data'length
-        )
-        port map
-        (
-            clk                 => MAX10_CLK1_50,
-            reset_n             => reset_n,
-            
-            busy                => terminal_busy,
-            valid               => i2c_read_data_valid,
-            val                 => i2c_read_data
-        );
-        
+    */
+    
     LED(0) <= button_reset_n;
     LED(1) <= reset_n;
     LED(2) <= not ddr3_cal_success;
