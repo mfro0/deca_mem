@@ -111,7 +111,7 @@ begin
         -- start string write if previous write string finished
         str_out_start <= '1' when busy = '0' and valid = '1' else '0';
 
-        ws : process(all)
+        writestring : process(all)
         begin
             if not reset_n then
                 null;
@@ -155,6 +155,6 @@ begin
                         end if;
                 end case;
             end if; -- if rising_edge(clk)
-        end process ws;
+        end process writestring;
     end block terminal_out;
 end architecture rtl;
