@@ -207,6 +207,7 @@ architecture rtl of deca_mem is
     
     signal terminal_busy            : std_ulogic;
     signal i2c_read_data            : std_ulogic_vector(7 downto 0);
+    signal i2c_read_data_valid      : std_ulogic;
     
 begin
     i_blinker : entity work.blinker
@@ -369,6 +370,7 @@ begin
             reset_n             => reset_n,
             
             busy                => terminal_busy,
+            valid               => i2c_read_data_valid,
             val                 => i2c_read_data
         );
         

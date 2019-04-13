@@ -13,6 +13,7 @@ entity jtag_number_display is
         signal reset_n              : in std_ulogic;
         
         signal val                  : in std_ulogic_vector(VALUE_WIDTH - 1 downto 0);
+        signal valid                : in std_ulogic;
         signal busy                 : out std_ulogic := '0'
     );
 end entity jtag_number_display;
@@ -27,6 +28,7 @@ architecture rtl of jtag_number_display is
     signal uart_in_data             : character;
     signal uart_in_paused           : std_ulogic;
     
+    -- convert an unsigned number into its hexadecimal string equivalent using len digits
     function to_hstring(num : unsigned; len : natural) return string is
         variable str        : string(1 to len);
         variable nibble     : integer;
@@ -42,11 +44,13 @@ architecture rtl of jtag_number_display is
         return str;
     end function to_hstring;
     
+    -- the same for std_ulogic_vector types
     function to_hstring(num : std_ulogic_vector; len : natural) return string is
         variable uns        : unsigned(num'range);
     begin
         return to_hstring(uns, len);
     end function to_hstring;
+    
 begin 
     i_uart : entity work.jtag_uart
         generic map
@@ -81,7 +85,7 @@ begin
         signal index            : integer := 0;
     begin
         -- start string write if previous write string finished
-        str_out_start <= '1' when not busy else '0';
+        str_out_start <= '1' when busy = '0' and valid = '1' else '0';
 
         ws : process(all)
         begin
