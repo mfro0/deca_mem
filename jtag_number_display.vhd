@@ -22,6 +22,8 @@ architecture rtl of jtag_string_display is
 begin
 end architecture rtl;
 
+--------------------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -76,28 +78,6 @@ architecture rtl of jtag_number_display is
     end function to_hstring;
     
 begin 
-    i_uart : entity work.jtag_uart
-        generic map
-        (
-            -- disable FIFO to make sure we detect overruns
-            LOG2_RXFIFO_DEPTH   => 0,
-            LOG2_TXFIFO_DEPTH   => 0
-        )
-        port map
-        (
-            clk                 => clk,
-            reset_n             => reset_n,
-            
-            rx_data             => uart_in_data,
-            rx_ready            => uart_in_data_available,
-            rx_data_req         => uart_in_data_req,
-            rx_paused           => uart_in_paused,
-            
-            tx_data             => uart_out_data,
-            tx_start            => uart_out_start,
-            tx_idle             => uart_out_idle
-        );
-
     terminal_out : block
         signal c                : character := '+';
 
@@ -157,4 +137,27 @@ begin
             end if; -- if rising_edge(clk)
         end process writestring;
     end block terminal_out;
+
+    i_uart : entity work.jtag_uart
+        generic map
+        (
+            -- disable FIFO to make sure we detect overruns
+            LOG2_RXFIFO_DEPTH   => 0,
+            LOG2_TXFIFO_DEPTH   => 0
+        )
+        port map
+        (
+            clk                 => clk,
+            reset_n             => reset_n,
+            
+            rx_data             => uart_in_data,
+            rx_ready            => uart_in_data_available,
+            rx_data_req         => uart_in_data_req,
+            rx_paused           => uart_in_paused,
+            
+            tx_data             => uart_out_data,
+            tx_start            => uart_out_start,
+            tx_idle             => uart_out_idle
+        );
+
 end architecture rtl;

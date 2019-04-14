@@ -74,7 +74,6 @@ architecture rtl of i2c_hdmi_config is
         ( x"de", x"10" ),           -- must be set to default value
         ( x"e4", x"60" ),           -- must be set to default value
         ( x"fa", x"7d" ),           -- number of times to look for good phase
-        ( x"98", x"03" ),
         ( x"98", x"03" )
     );
 
