@@ -5,21 +5,21 @@ use ieee.numeric_std.all;
 entity i2c_master is
     generic
     (
-        CLK_FREQUENCY   : integer;                              --  input clock speed from user logic in Hz
-        I2C_FREQUENCY   : integer                               --  speed the i2c bus (scl) will run at in Hz
+        CLK_FREQUENCY   : natural;                             --  input clock speed from user logic in Hz
+        I2C_FREQUENCY   : natural                              --  speed the i2c bus (scl) will run at in Hz
     );                    
     port
     (
-        clk             : in     std_logic;                     -- system clock
-        reset_n         : in     std_logic;                     -- active low reset
+        clk             : in     std_ulogic;                    -- system clock
+        reset_n         : in     std_ulogic;                    -- active low reset
         
-        ena             : in     std_logic;                     -- latch in command
-        addr            : in     std_logic_vector(6 downto 0);  -- address of target slave
-        rw              : in     std_logic;                     -- '0' is write, '1' is read
-        data_wr         : in     std_logic_vector(7 downto 0);  -- data to write to slave
-        busy            : out    std_logic;                     -- indicates transaction in progress
-        data_rd         : out    std_logic_vector(7 downto 0);  -- data read from slave
-        ack_error       : out    std_logic;                     -- flag if improper acknowledge from slave
+        ena             : in     std_ulogic;                    -- latch in command
+        addr            : in     std_ulogic_vector(6 downto 0); -- address of target slave
+        rw              : in     std_ulogic;                    -- '0' is write, '1' is read
+        data_wr         : in     std_ulogic_vector(7 downto 0); -- data to write to slave
+        busy            : out    std_ulogic;                    -- indicates transaction in progress
+        data_rd         : out    std_ulogic_vector(7 downto 0); -- data read from slave
+        ack_error       : out    std_ulogic;                    -- flag if improper acknowledge from slave
         
         sda             : inout  std_logic;                     -- serial data output of i2c bus
         scl             : inout  std_logic                      -- serial clock output of i2c bus
@@ -27,21 +27,21 @@ entity i2c_master is
 end i2c_master;
 
 architecture logic of i2c_master is
-    constant divider        :  integer := (CLK_FREQUENCY / I2C_FREQUENCY) / 4;  -- number of clocks in 1/4 cycle of scl
+    constant divider        :  natural := (CLK_FREQUENCY / I2C_FREQUENCY) / 4;  -- number of clocks in 1/4 cycle of scl
     type i2c_state is (READY, START, COMMAND, SLV_ACK1, WR, RD, SLV_ACK2, MSTR_ACK, STOP); -- needed states
-    signal state            : i2c_state;                    -- state machine
-    signal data_clk         : std_logic;                    -- data clock for sda
-    signal data_clk_prev    : std_logic;                    -- data clock during previous system clock
-    signal scl_clk          : std_logic;                    -- constantly running internal scl
-    signal scl_ena          : std_logic := '0';             -- enables internal scl to output
-    signal sda_int          : std_logic := '1';             -- internal sda
-    signal sda_ena_n        : std_logic;                    -- enables internal sda to output
-    signal addr_rw          : std_logic_vector(7 downto 0); -- latched in address and read/write
-    signal data_tx          : std_logic_vector(7 downto 0); -- latched in data to write to slave
-    signal data_rx          : std_logic_vector(7 downto 0); -- data received from slave
-    signal bit_cnt          : integer range 0 to 7 := 7;    -- tracks bit number in transaction
-    signal stretch          : std_logic := '0';             -- identifies if slave is stretching scl
-    signal ack_error_i      : std_logic := '0';             -- internal ack_error to get rid of the buffer argument
+    signal state            : i2c_state;                        -- state machine
+    signal data_clk         : std_ulogic;                       -- data clock for sda
+    signal data_clk_prev    : std_ulogic;                       -- data clock during previous system clock
+    signal scl_clk          : std_ulogic;                       -- constantly running internal scl
+    signal scl_ena          : std_ulogic := '0';                -- enables internal scl to output
+    signal sda_int          : std_ulogic := '1';                -- internal sda
+    signal sda_ena_n        : std_ulogic;                       -- enables internal sda to output
+    signal addr_rw          : std_ulogic_vector(7 downto 0);    -- latched in address and read/write
+    signal data_tx          : std_ulogic_vector(7 downto 0);    -- latched in data to write to slave
+    signal data_rx          : std_ulogic_vector(7 downto 0);    -- data received from slave
+    signal bit_cnt          : integer range 0 to 7 := 7;        -- tracks bit number in transaction
+    signal stretch          : std_ulogic := '0';                -- identifies if slave is stretching scl
+    signal ack_error_i      : std_ulogic := '0';                -- internal ack_error to get rid of the buffer argument
 begin
     ack_error <= ack_error_i;
     

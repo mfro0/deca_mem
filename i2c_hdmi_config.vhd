@@ -25,12 +25,12 @@ entity i2c_hdmi_config is
 end entity i2c_hdmi_config;
 
 architecture rtl of i2c_hdmi_config is
-    signal i2c_ena          : std_logic := '0';
-    signal i2c_addr         : std_logic_vector(6 downto 0);
-    signal i2c_rw           : std_logic := '0';
-    signal i2c_data_rd      : std_logic_vector(7 downto 0);
-    signal i2c_data_wr      : std_logic_vector(7 downto 0);
-    signal i2c_ack_err      : std_logic := '0';
+    signal i2c_ena          : std_ulogic := '0';
+    signal i2c_addr         : std_ulogic_vector(6 downto 0);
+    signal i2c_rw           : std_ulogic := '0';
+    signal i2c_data_rd      : std_ulogic_vector(7 downto 0);
+    signal i2c_data_wr      : std_ulogic_vector(7 downto 0);
+    signal i2c_ack_err      : std_ulogic := '0';
 
     signal index            : natural;
 
@@ -97,7 +97,7 @@ begin
                         i2c_ena <= '1';
                         i2c_addr <= 7x"39";
                         i2c_rw <= '0';                      -- write
-                        i2c_data_wr <= std_logic_vector(config_data(index).reg);
+                        i2c_data_wr <= std_ulogic_vector(config_data(index).reg);
                         state <= STATE1;
                         
                      when STATE1 =>
@@ -108,7 +108,7 @@ begin
                     
                     when STATE2 =>
                         if not i2c_busy then
-                            i2c_data_wr <= std_logic_vector(config_data(index).val);
+                            i2c_data_wr <= std_ulogic_vector(config_data(index).val);
                             index <= index + 1;
                             state <= STATE3;
                         end if;
