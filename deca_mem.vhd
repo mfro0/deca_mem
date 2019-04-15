@@ -74,12 +74,12 @@ entity deca_mem is
         HDMI_LRCLK          : inout std_logic;
         HDMI_MCLK           : inout std_logic;
         HDMI_SCLK           : inout std_logic;
-        HDMI_TX_CLK         : out std_logic;
-        HDMI_TX_D           : out std_logic_vector(23 downto 0);
-        HDMI_TX_DE          : out std_logic;
-        HDMI_TX_HS          : out std_logic;
-        HDMI_TX_INT         : in std_logic;
-        HDMI_TX_VS          : out std_logic;
+        HDMI_TX_CLK         : out std_ulogic;
+        HDMI_TX_D           : out std_ulogic_vector(23 downto 0);
+        HDMI_TX_DE          : out std_ulogic;
+        HDMI_TX_HS          : out std_ulogic;
+        HDMI_TX_INT         : in std_ulogic;
+        HDMI_TX_VS          : out std_ulogic;
         
         -- light sensor
         LIGHT_I2C_SCL       : out std_logic;

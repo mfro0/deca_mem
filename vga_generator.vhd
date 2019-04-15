@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity vga_generator is
     port
     (
-        clk             : in std_logic;
-        reset_n         : in std_logic;
+        clk             : in std_ulogic;
+        reset_n         : in std_ulogic;
 
         h_total,
         h_sync,
@@ -19,11 +19,11 @@ entity vga_generator is
 
         vga_hs,
         vga_vs,
-        vga_de          : out std_logic;
+        vga_de          : out std_ulogic;
 
         vga_r,
         vga_g,
-        vga_b           : out std_logic_vector(7 downto 0)
+        vga_b           : out std_ulogic_vector(7 downto 0)
     );
 end entity vga_generator;
 
@@ -164,7 +164,7 @@ begin
 
     -- pattern generator and display enable
     p_pattern : process(all)
-        variable p_x    : std_logic_vector(7 downto 0);
+        variable p_x    : std_ulogic_vector(7 downto 0);
     begin
         if not reset_n then
             vga_de <= '0';
@@ -185,7 +185,7 @@ begin
                 vga_g <= x"ff";
                 vga_b <= x"ff";
             else
-                p_x := std_logic_vector(to_unsigned(pixel_x, 8));
+                p_x := std_ulogic_vector(to_unsigned(pixel_x, 8));
                 case color_mode is
                     when RED_GRADIENT =>
                         vga_r <= p_x;

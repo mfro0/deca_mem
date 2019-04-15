@@ -9,8 +9,8 @@ entity hdmi_tx is
     );
     port
     (
-        clk_50              : in std_logic;
-        reset_n             : in std_logic;
+        clk_50              : in std_ulogic;
+        reset_n             : in std_ulogic;
         
         -- HDMI chip config
         hdmi_i2c_scl        : inout std_logic;                      -- i2c clock
@@ -23,19 +23,19 @@ entity hdmi_tx is
         hdmi_sclk           : inout std_logic;
         
         -- HDMI video
-        hdmi_tx_clk         : out std_logic;
-        hdmi_tx_d           : out std_logic_vector(23 downto 0);
-        hdmi_tx_de          : out std_logic;
-        hdmi_tx_hs          : out std_logic;
+        hdmi_tx_clk         : out std_ulogic;
+        hdmi_tx_d           : out std_ulogic_vector(23 downto 0);
+        hdmi_tx_de          : out std_ulogic;
+        hdmi_tx_hs          : out std_ulogic;
         
         -- HDMI interrupt
-        hdmi_tx_int         : in std_logic;
-        hdmi_tx_vs          : out std_logic;
+        hdmi_tx_int         : in std_ulogic;
+        hdmi_tx_vs          : out std_ulogic;
 
         -- DEBUG
-        ack_error           : out std_logic;
+        ack_error           : out std_ulogic;
         i2c_busy            : out std_ulogic;
-        reset_button_n      : in std_logic
+        reset_button_n      : in std_ulogic
     );
 end entity hdmi_tx;
 
