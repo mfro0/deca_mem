@@ -20,6 +20,7 @@ entity i2c_hdmi_config is
         -- debug
         ack_error           : out std_ulogic;
         i2c_busy            : out std_ulogic;
+        verify_start        : in std_ulogic;
         reset_button_n      : in std_ulogic
     );
 end entity i2c_hdmi_config;
@@ -154,6 +155,10 @@ begin
             scl             => i2c_sclk
         );
     
+    --
+    -- verify i2c configuration
+    -- read registers
+    --
     i2c_verifier : block
         signal uart_out_ready           : std_logic := '0';
         signal uart_out_start           : std_logic := '0';
@@ -165,7 +170,69 @@ begin
         signal terminal_busy            : std_ulogic;
         signal i2c_read_data            : std_ulogic_vector(7 downto 0);
         signal i2c_read_data_valid      : std_ulogic;
+        
+        type config_verify_state_type is (STATE0, STATE1, STATE2, STATE3, STATE4, STATE5, STATE6);
+        signal config_verify_state      : config_verify_state_type := STATE0;
+        signal index                    : integer := 0;
+        signal data                     : std_ulogic_vector(7 downto 0);
     begin
+        p_verify_config : process(all)
+        begin
+            if not my_reset_n then
+                null;
+            elsif rising_edge(clk) then
+                case config_verify_state is
+                
+                    when STATE0 =>
+                        -- caller wants us to start verification process
+                        if verify_start then
+                            config_verify_state <= STATE1;
+                        end if;
+                        
+                    when STATE1 =>
+                        -- start reading i2c data
+                        i2c_ena <= '1';
+                        i2c_addr <= 7x"39";
+                        i2c_rw <= '0';                      -- write
+                        i2c_data_wr <= std_ulogic_vector(config_data(index).reg);
+                        state <= STATE2;
+                    
+                    when STATE2 =>
+                        -- wait until i2c_busy becomes active
+                        if i2c_busy then
+                            config_verify_state <= STATE3;
+                        end if;
+                        
+                    when STATE3 =>
+                        -- wait until i2c_busy becomes inactive again (to read the data)
+                        if not i2c_busy then
+                            i2c_rw <= '1';                  -- read
+                            data <= i2c_data_rd;
+                            index <= index + 1;
+                            config_verify_state <= STATE4;
+                        end if;
+                        
+                    when STATE4 =>
+                        if not uart_out_busy then
+                            i2c_read_data_valid <= '1';
+                            config_verify_state <= STATE5;
+                        end if;
+                        
+                    when STATE5 =>
+                        if i2c_busy then
+                            i2c_read_data_valid <= '0';
+                            config_verify_state <= STATE6;
+                        end if;
+                        
+                    when STATE6 =>
+                        if not i2c_busy then
+                            config_verify_state <= STATE0;
+                        end if;
+                        
+                end case; /* config_verify_state */
+            end if;
+        end process P_verify_config;
+        
         i_uart : entity work.jtag_number_display
             generic map
             (

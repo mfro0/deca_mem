@@ -35,6 +35,7 @@ entity hdmi_tx is
         -- DEBUG
         ack_error           : out std_ulogic;
         i2c_busy            : out std_ulogic;
+        i2c_verify_start    : in std_ulogic;
         reset_button_n      : in std_ulogic
     );
 end entity hdmi_tx;
@@ -76,7 +77,8 @@ begin
             -- debug
             ack_error               => ack_error,
             reset_button_n          => reset_button_n,
-            i2c_busy                => i2c_busy
+            i2c_busy                => i2c_busy,
+            verify_start            => i2c_verify_start
         );
 end architecture rtl;
         
