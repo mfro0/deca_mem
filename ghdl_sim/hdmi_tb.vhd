@@ -42,6 +42,8 @@ architecture sim of hdmi_tb is
            i2c_read_response_valid  : std_logic;
     signal i2c_read_response,
            i2c_write_data       : std_logic_vector(7 downto 0);
+    
+    signal i2c_verify_start     : std_ulogic := '0';
 
 begin
     hdmi_i2c_scl <= 'H';
@@ -113,6 +115,7 @@ begin
             -- HDMI interrupt
             hdmi_tx_int         => hdmi_tx_int,
             hdmi_tx_vs          => hdmi_tx_vs,
+            i2c_verify_start    => i2c_verify_start,
             reset_button_n      => reset_button_n
         );
 
