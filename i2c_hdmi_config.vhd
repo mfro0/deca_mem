@@ -173,7 +173,7 @@ begin
         
         type config_verify_state_type is (STATE0, STATE1, STATE2, STATE3, STATE4, STATE5, STATE6);
         signal config_verify_state      : config_verify_state_type := STATE0;
-        signal index                    : integer := 0;
+        signal index                    : natural := 0;
         signal data                     : std_ulogic_vector(7 downto 0);
     begin
         p_verify_config : process(all)
