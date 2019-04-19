@@ -187,12 +187,11 @@ begin
         type config_verify_state_type is (S0, S1, S2, S3, S4, S5, S6);
         signal config_verify_state      : config_verify_state_type := S0;
         signal index                    : natural := 0;
-        signal data                     : std_ulogic_vector(7 downto 0);
     begin
         p_verify_config : process(all)
         begin
             if not my_reset_n then
-                null;
+                index <= 0;
             elsif rising_edge(clk) then
                 case config_verify_state is
                 
@@ -220,13 +219,13 @@ begin
                         -- wait until i2c_busy becomes inactive again (to read the data)
                         if not i2c_busy then
                             v_i2c_rw <= '1';                  -- read
-                            data <= i2c_data_rd;
-                            index <= index + 1;
+                            i2c_read_data <= i2c_data_rd;
                             config_verify_state <= S4;
                         end if;
                         
                     when S4 =>
                         if not terminal_busy then
+                            index <= index + 1;
                             i2c_read_data_valid <= '1';
                             config_verify_state <= S5;
                         end if;
@@ -239,7 +238,12 @@ begin
                         
                     when S6 =>
                         if not i2c_busy then
-                            config_verify_state <= S0;
+                            v_i2c_ena <= '0';
+                            if index <= config_data'high then
+                                config_verify_state <= S1;
+                            else
+                                config_verify_state <= S0;
+                            end if;
                         end if;
                         
                 end case; -- config_verify_state
