@@ -781,7 +781,8 @@ set_location_assignment PIN_U17 -to termination_blk0~_rdn_pad
 
 
 set_global_assignment -name SDC_FILE deca_mem.sdc
-set_global_assignment -name VHDL_FILE jtag_number_display.vhd
+set_global_assignment -name VHDL_FILE jtag_utils.vhd
+set_global_assignment -name VHDL_FILE jtag_string_display.vhd
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_top.vhd -library m68k
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_pkg.vhd -library m68k
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_opcode_decoder.vhd -library m68k
