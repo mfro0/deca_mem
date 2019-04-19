@@ -160,13 +160,6 @@ begin
     -- read registers
     --
     i2c_verifier : block
-        signal uart_out_ready           : std_logic := '0';
-        signal uart_out_start           : std_logic := '0';
-        signal uart_out_busy            : std_logic := '0';
-        signal uart_out_data            : std_logic_vector(7 downto 0);
-        signal uart_in_data_available   : std_logic;
-        signal uart_in_data             : std_logic_vector(7 downto 0);
-        
         signal terminal_busy            : std_ulogic;
         signal i2c_read_data            : std_ulogic_vector(7 downto 0);
         signal i2c_read_data_valid      : std_ulogic;
@@ -213,7 +206,7 @@ begin
                         end if;
                         
                     when STATE4 =>
-                        if not uart_out_busy then
+                        if not terminal_busy then
                             i2c_read_data_valid <= '1';
                             config_verify_state <= STATE5;
                         end if;
