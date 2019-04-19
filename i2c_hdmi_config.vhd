@@ -248,7 +248,7 @@ begin
                         
                 end case; -- config_verify_state
             end if;
-        end process P_verify_config;
+        end process p_verify_config;
         i_uart : entity work.jtag_number_display
             generic map
             (
