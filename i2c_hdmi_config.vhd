@@ -26,11 +26,15 @@ entity i2c_hdmi_config is
 end entity i2c_hdmi_config;
 
 architecture rtl of i2c_hdmi_config is
-    signal i2c_ena          : std_ulogic := '0';
-    signal i2c_addr         : std_ulogic_vector(6 downto 0);
-    signal i2c_rw           : std_ulogic := '0';
+    signal i2c_ena,
+           v_i2c_ena        : std_ulogic := '0';
+    signal i2c_addr,
+           v_i2c_addr       : std_ulogic_vector(6 downto 0);
+    signal i2c_rw,
+           v_i2c_rw         : std_ulogic := '0';
     signal i2c_data_rd      : std_ulogic_vector(7 downto 0);
-    signal i2c_data_wr      : std_ulogic_vector(7 downto 0);
+    signal i2c_data_wr,
+           v_i2c_data_wr    : std_ulogic_vector(7 downto 0);
     signal i2c_ack_err      : std_ulogic := '0';
 
     signal index            : natural;
@@ -80,7 +84,7 @@ architecture rtl of i2c_hdmi_config is
 
     type config_setup_type is (STATE0, STATE1, STATE2, STATE3, STATE4);
     signal state                : config_setup_type := STATE0;
-    
+    signal configured           : std_ulogic := '0';
     signal my_reset_n           : std_logic;
 begin
     my_reset_n <= reset_n and reset_button_n;
@@ -128,44 +132,60 @@ begin
                 end case;
             else
                 i2c_ena <= '0';
+                configured <= '1';
             end if;
         end if;
     end process p_i2c_send_data;
     
     ack_error <= i2c_ack_err;
 
-    i_i2c_master : entity work.i2c_master
-        generic map
-        (
-            CLK_FREQUENCY   => CLK_FREQUENCY,           --  input clock speed from user logic in Hz
-            I2C_FREQUENCY   => I2C_FREQUENCY            --  speed the i2c bus (scl) will run at in Hz
-        )
-        port map
-        (
-            clk             => clk,
-            reset_n         => my_reset_n,
-            ena             => i2c_ena,
-            busy            => i2c_busy,
-            addr            => i2c_addr,
-            rw              => i2c_rw,
-            data_wr         => i2c_data_wr,
-            data_rd         => i2c_data_rd,
-            ack_error       => i2c_ack_err,
-            sda             => i2c_sdat,
-            scl             => i2c_sclk
-        );
     
+    i2c_mux : block
+        signal mi2c_ena         : std_ulogic;
+        signal mi2c_addr        : std_ulogic_vector(6 downto 0);
+        signal mi2c_rw          : std_ulogic;
+        signal mi2c_data_wr     : std_ulogic_vector(7 downto 0);
+        
+    begin
+        
+        mi2c_ena <= i2c_ena when not configured else v_i2c_ena;
+        mi2c_addr <= i2c_addr when not configured else v_i2c_addr;
+        mi2c_rw <= i2c_rw when not configured else v_i2c_rw;
+        mi2c_data_wr <= i2c_data_wr when not configured else v_i2c_data_wr;
+        
+        i_i2c_master : entity work.i2c_master
+            generic map
+            (
+                CLK_FREQUENCY   => CLK_FREQUENCY,           --  input clock speed from user logic in Hz
+                I2C_FREQUENCY   => I2C_FREQUENCY            --  speed the i2c bus (scl) will run at in Hz
+            )
+            port map
+            (
+                clk             => clk,
+                reset_n         => my_reset_n,
+                ena             => mi2c_ena,
+                busy            => i2c_busy,
+                addr            => mi2c_addr,
+                rw              => mi2c_rw,
+                data_wr         => mi2c_data_wr,
+                data_rd         => i2c_data_rd,
+                ack_error       => i2c_ack_err,
+                sda             => i2c_sdat,
+                scl             => i2c_sclk
+            );
+    end block i2c_mux;
     --
     -- verify i2c configuration
     -- read registers
     --
+    
     i2c_verifier : block
         signal terminal_busy            : std_ulogic;
         signal i2c_read_data            : std_ulogic_vector(7 downto 0);
         signal i2c_read_data_valid      : std_ulogic;
         
-        type config_verify_state_type is (STATE0, STATE1, STATE2, STATE3, STATE4, STATE5, STATE6);
-        signal config_verify_state      : config_verify_state_type := STATE0;
+        type config_verify_state_type is (S0, S1, S2, S3, S4, S5, S6);
+        signal config_verify_state      : config_verify_state_type := S0;
         signal index                    : natural := 0;
         signal data                     : std_ulogic_vector(7 downto 0);
     begin
@@ -176,56 +196,55 @@ begin
             elsif rising_edge(clk) then
                 case config_verify_state is
                 
-                    when STATE0 =>
+                    when S0 =>
                         -- caller wants us to start verification process
                         if verify_start then
-                            config_verify_state <= STATE1;
+                            config_verify_state <= S1;
                         end if;
                         
-                    when STATE1 =>
+                    when S1 =>
                         -- start reading i2c data
-                        i2c_ena <= '1';
-                        i2c_addr <= 7x"39";
-                        i2c_rw <= '0';                      -- write
-                        i2c_data_wr <= std_ulogic_vector(config_data(index).reg);
-                        state <= STATE2;
+                        v_i2c_ena <= '1';
+                        v_i2c_addr <= 7x"39";
+                        v_i2c_rw <= '0';                      -- write
+                        v_i2c_data_wr <= std_ulogic_vector(config_data(index).reg);
+                        config_verify_state <= S2;
                     
-                    when STATE2 =>
+                    when S2 =>
                         -- wait until i2c_busy becomes active
                         if i2c_busy then
-                            config_verify_state <= STATE3;
+                            config_verify_state <= S3;
                         end if;
                         
-                    when STATE3 =>
+                    when S3 =>
                         -- wait until i2c_busy becomes inactive again (to read the data)
                         if not i2c_busy then
-                            i2c_rw <= '1';                  -- read
+                            v_i2c_rw <= '1';                  -- read
                             data <= i2c_data_rd;
                             index <= index + 1;
-                            config_verify_state <= STATE4;
+                            config_verify_state <= S4;
                         end if;
                         
-                    when STATE4 =>
+                    when S4 =>
                         if not terminal_busy then
                             i2c_read_data_valid <= '1';
-                            config_verify_state <= STATE5;
+                            config_verify_state <= S5;
                         end if;
                         
-                    when STATE5 =>
+                    when S5 =>
                         if i2c_busy then
                             i2c_read_data_valid <= '0';
-                            config_verify_state <= STATE6;
+                            config_verify_state <= S6;
                         end if;
                         
-                    when STATE6 =>
+                    when S6 =>
                         if not i2c_busy then
-                            config_verify_state <= STATE0;
+                            config_verify_state <= S0;
                         end if;
                         
-                end case; /* config_verify_state */
+                end case; -- config_verify_state
             end if;
         end process P_verify_config;
-        
         i_uart : entity work.jtag_number_display
             generic map
             (
