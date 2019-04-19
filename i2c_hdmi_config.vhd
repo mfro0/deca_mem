@@ -114,10 +114,10 @@ begin
                         end if;
                     
                     when STATE2 =>
+                        i2c_data_wr <= std_ulogic_vector(config_data(index).val);
                         if not i2c_busy then
-                            i2c_data_wr <= std_ulogic_vector(config_data(index).val);
-                            index <= index + 1;
                             state <= STATE3;
+                            index <= index + 1;
                         end if;
                         
                     when STATE3 =>
