@@ -209,7 +209,7 @@ begin
                         v_i2c_ena <= '1';
                         v_i2c_addr <= 7x"39";
                         v_i2c_rw <= '0';                      -- write
-                        v_i2c_data_wr <= std_ulogic_vector(config_data(index).reg);
+                        v_i2c_data_wr <= std_ulogic_vector(config_data(index).reg); -- write register number to i2c
                         config_verify_state <= S2;
                     
                     when S2 =>
@@ -261,7 +261,7 @@ begin
                     when S9 =>
                         if not terminal_busy then
                             index <= index + 1;
-                            config_verify_state <= S10;
+                            config_verify_state <= S11;
                         end if;
                         
                     when S10 =>
