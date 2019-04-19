@@ -96,8 +96,8 @@ architecture rtl of jtag_number_display is
     end function to_hstring;
 
     function to_hstring(value : natural) return string is
-        constant VALUE_WIDTH    : integer := integer(ceil(log2(real(value'high))));
-        variable uns            : unsigned (VALUE_WIDTH - 1 downto 0) := (others => '0');
+        constant WIDTH          : integer := integer(ceil(log2(real(value'high))));
+        variable uns            : unsigned(WIDTH - 1 downto 0) := (others => '0');
     begin
         uns := to_unsigned(value, uns'length);
         return to_hstring(std_ulogic_vector(uns));
@@ -112,7 +112,7 @@ begin
     terminal_out : block
         signal c                : character := '+';
 
-        signal str              : string(1 to 3);
+        signal str              : string(1 to integer(ceil(log2(real(VALUE_WIDTH)))));
         type out_status_type is (IDLE, START, REQ, SEND);
         signal out_status       : out_status_type := IDLE;
 
