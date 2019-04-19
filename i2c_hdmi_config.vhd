@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use work.jtag_utils.all;
+
 entity i2c_hdmi_config is
     generic
     (
@@ -184,9 +186,10 @@ begin
         signal i2c_read_data            : std_ulogic_vector(7 downto 0);
         signal i2c_read_data_valid      : std_ulogic;
         
-        type config_verify_state_type is (S0, S1, S2, S3, S4, S5, S6);
+        type config_verify_state_type is (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11);
         signal config_verify_state      : config_verify_state_type := S0;
-        signal index                    : natural := 0;
+        signal index                    : natural range 0 to 255 := 0;
+        signal i2c_data_string          : string(1 to 80);
     begin
         p_verify_config : process(all)
         begin
@@ -222,21 +225,52 @@ begin
                             i2c_read_data <= i2c_data_rd;
                             config_verify_state <= S4;
                         end if;
-                        
-                    when S4 =>
+                    
+                    when S4 => 
                         if not terminal_busy then
-                            index <= index + 1;
+                            i2c_data_string(1 to 8) <= to_hstring(index);
+                            i2c_data_string(9 to 12) <= " = " & character'val(0);
                             i2c_read_data_valid <= '1';
                             config_verify_state <= S5;
                         end if;
                         
                     when S5 =>
-                        if i2c_busy then
-                            i2c_read_data_valid <= '0';
+                        
+                        if terminal_busy then
                             config_verify_state <= S6;
+                            i2c_read_data_valid <= '0';
                         end if;
                         
                     when S6 =>
+                        if not terminal_busy then
+                            i2c_data_string <= (others => ' ');
+                            config_verify_state <= S7;
+                        end if;
+                        
+                    when S7 => 
+                        i2c_data_string(1 to 4) <= to_hstring(i2c_read_data) & character'val(10) & character'val(0);
+                        i2c_read_data_valid <= '1';
+                        config_verify_state <= S8;
+                        
+                    when S8 =>
+                        if terminal_busy then
+                            config_verify_state <= S9;
+                            i2c_read_data_valid <= '0';
+                        end if;
+                        
+                    when S9 =>
+                        if not terminal_busy then
+                            index <= index + 1;
+                            config_verify_state <= S10;
+                        end if;
+                        
+                    when S10 =>
+                        if i2c_busy then
+                            i2c_read_data_valid <= '0';
+                            config_verify_state <= S11;
+                        end if;
+                        
+                    when S11 =>
                         if not i2c_busy then
                             v_i2c_ena <= '0';
                             if index <= config_data'high then
@@ -249,10 +283,11 @@ begin
                 end case; -- config_verify_state
             end if;
         end process p_verify_config;
-        i_uart : entity work.jtag_number_display
+        
+        i_uart : entity work.jtag_string_display
             generic map
             (
-                VALUE_WIDTH         => i2c_read_data'length
+                STRING_WIDTH         => i2c_data_string'length
             )
             port map
             (
@@ -261,7 +296,7 @@ begin
                 
                 busy                => terminal_busy,
                 valid               => i2c_read_data_valid,
-                val                 => i2c_read_data
+                str                 => i2c_data_string
             );
     end block i2c_verifier;
 end architecture rtl;
