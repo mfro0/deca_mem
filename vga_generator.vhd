@@ -50,7 +50,7 @@ architecture rtl of vga_generator is
            v_act_34     : std_logic;
     signal border       : std_logic;
 
-    type colour_mode_type is (RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, GRAY_GRADIENT);
+    type colour_mode_type is (RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, YELLOW_GRADIENT, CYAN_GRADIENT, MAGENTA_GRADIENT, GRAY_GRADIENT);
     signal colour_mode   : colour_mode_type;
 
 
@@ -140,8 +140,8 @@ begin
                 end if;
             end if;
 
-            -- set colour mode at 1/4, 2/4, 3/4 and 4/4 of screen height (red, green, blue or gray colour ramp)            
-            colour_mode <= colour_mode_type'val(v_count / (v_total / 4));
+            -- set colour mode     
+            colour_mode <= colour_mode_type'val(v_count / (v_total / colour_mode_type'pos(colour_mode'high)));
         end if;
     end process p_vert;
 
@@ -186,6 +186,21 @@ begin
                         vga_g <= 8x"0";
                         vga_b <= p_x;
                         
+                    when YELLOW_GRADIENT =>
+                        vga_r <= p_x;
+                        vga_g <= p_x;
+                        vga_b <= 8x"0";
+                    
+                    when CYAN_GRADIENT =>
+                        vga_r <= 8x"0";
+                        vga_g <= p_x;
+                        vga_b <= p_x;
+                    
+                    when MAGENTA_GRADIENT =>
+                        vga_r <= p_x;
+                        vga_g <= 8x"0";
+                        vga_b <= p_x;
+                    
                     when GRAY_GRADIENT =>
                         vga_r <= p_x;
                         vga_g <= p_x;
