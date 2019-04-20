@@ -50,12 +50,8 @@ architecture rtl of vga_generator is
            v_act_34     : std_logic;
     signal border       : std_logic;
 
-    signal v_active_14,
-           v_active_24,
-           v_active_34  : integer range 0 to 4095;
-
-    type color_mode_type is (RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, GRAY_GRADIENT);
-    signal color_mode   : color_mode_type;
+    type colour_mode_type is (RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, GRAY_GRADIENT);
+    signal colour_mode   : colour_mode_type;
 
 
 begin
@@ -69,13 +65,6 @@ begin
     vr_start <= '1' when v_count = v_start else '0';
     vr_end <= '1' when v_count = v_end else '0';
 
-    v_active_14 <= v_start + 1 * (v_end - v_start);
-    v_active_24 <= v_start + 2 * (v_end - v_start);
-    v_active_34 <= v_start + 3 * (v_end - v_start);
-
-    v_act_14 <= '1' when v_count = v_active_14 else '0';
-    v_act_24 <= '1' when v_count = v_active_24 else '0';
-    v_act_34 <= '1' when v_count = v_active_34 else '0';
 
     -- horizontal control signals
     p_horiz : process(all)
@@ -115,6 +104,7 @@ begin
             elsif hr_end then
                 h_act <= '0';
             end if;
+            
         end if;
     end process p_horiz;
 
@@ -126,7 +116,7 @@ begin
             v_count <= 0;
             vga_vs <= '1';
             v_act <= '0';
-            color_mode <= RED_GRADIENT;
+            colour_mode <= BLUE_GRADIENT;
         elsif rising_edge(clk) then
             if h_max then
                 v_act_d <= v_act;
@@ -148,17 +138,10 @@ begin
                 elsif vr_end then
                     v_act <= '0';
                 end if;
-
-                if vr_start then
-                    color_mode <= RED_GRADIENT;
-                elsif v_act_14 then
-                    color_mode <= GREEN_GRADIENT;
-                elsif v_act_24 then
-                    color_mode <= BLUE_GRADIENT;
-                elsif v_act_34 then
-                    color_mode <= GRAY_GRADIENT;
-                end if;
             end if;
+
+            -- set colour mode at 1/4, 2/4, 3/4 and 4/4 of screen height (red, green, blue or gray colour ramp)            
+            colour_mode <= colour_mode_type'val(v_count / (v_total / 4));
         end if;
     end process p_vert;
 
@@ -186,24 +169,28 @@ begin
                 vga_b <= x"ff";
             else
                 p_x := std_ulogic_vector(to_unsigned(pixel_x, 8));
-                case color_mode is
+                
+                case colour_mode is
                     when RED_GRADIENT =>
                         vga_r <= p_x;
                         vga_g <= 8x"0";
                         vga_b <= 8x"0";
+                        
                     when GREEN_GRADIENT =>
                         vga_r <= 8x"0";
                         vga_g <= p_x;
                         vga_b <= 8x"0";
+
                     when BLUE_GRADIENT =>
                         vga_r <= 8x"0";
                         vga_g <= 8x"0";
                         vga_b <= p_x;
+                        
                     when GRAY_GRADIENT =>
                         vga_r <= p_x;
                         vga_g <= p_x;
                         vga_b <= p_x;
-                end case;
+                end case; 
             end if;
         end if;
     end process p_pattern;
