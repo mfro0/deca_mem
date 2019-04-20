@@ -30,10 +30,7 @@ architecture rtl of vpg is
         v_total,
         v_sync,
         v_start,
-        v_end,
-        v_active_14,
-        v_active_24,
-        v_active_34         : v_int;
+        v_end           : v_int;
     end record video_timing_type;
     type video_timings_array_type is array(natural range <>) of video_timing_type;
 
@@ -45,49 +42,47 @@ architecture rtl of vpg is
     -- v_sync : sync - 1
     -- v_start : sync + back porch - 1
     -- v_end : v_start + active
-    -- v_active_14 : v_start + 1/4 active
-    -- v_active_24 : v_start + 2/4 active
-    -- v_active_34 : v_start + 3/4 active
     constant video_timings  : video_timings_array_type :=
     (
         (
             -- 640x480@60 25.175 MHZ
             h_total => 799, h_sync => 95, h_start => 141, h_end => 781,
-            v_total => 524, v_sync => 1, v_start => 54, v_end => 741,
-            v_active_14 => 154, v_active_24 => 274, v_active_34 => 394
+            v_total => 524, v_sync => 1, v_start => 54, v_end => 741
         ),
         (
             -- 720x480@60 27MHZ (VIC=3, 480P)
             h_total => 857, h_sync => 61, h_start => 119, h_end => 839,
-            v_total => 524, v_sync => 5, v_start => 35, v_end => 515,
-            v_active_14 => 155, v_active_24 => 275, v_active_34 => 395
+            v_total => 524, v_sync => 5, v_start => 35, v_end => 515
         ),
         (
             -- 1024x768@60 65MHZ (XGA)
             h_total => 1343, h_sync => 135, h_start => 293, h_end => 1317,
-            v_total => 805, v_sync => 5, v_start => 34, v_end => 802,
-            v_active_14 => 226, v_active_24 => 418, v_active_34 => 610
+            v_total => 805, v_sync => 5, v_start => 34, v_end => 802
         ),
         (
             -- 1280x1024@60   108MHZ (SXGA)
             h_total => 1687, h_sync => 111, h_start => 357, h_end => 1637,
-            v_total => 1065, v_sync => 2, v_start => 40, v_end => 1064,
-            v_active_14 => 296, v_active_24 => 552, v_active_34 => 808
+            v_total => 1065, v_sync => 2, v_start => 40, v_end => 1064
         ),
         (
             -- 1920x1080p60 148.5MHZ
             h_total => 2199, h_sync => 43, h_start => 189, h_end => 2109,
-            v_total => 1124, v_sync => 4, v_start => 40, v_end => 1120,
-            v_active_14 => 310, v_active_24 => 580, v_active_34 => 850
+            v_total => 1124, v_sync => 4, v_start => 40, v_end => 1120
         ),
+        /*
+        (
+            -- 1920x1080p60 148.5MHZ
+            h_total => 2199, h_sync => 88, h_start => 191, h_end => 2109,
+            v_total => 1124, v_sync => 4, v_start => 45, v_end => 1120
+        ),
+        */
         (
             -- 1600x1200p60 162MHZ (VESA)
             h_total => 2159, h_sync => 191, h_start => 493, h_end => 2093,
-            v_total => 1249, v_sync => 2, v_start => 48, v_end => 1248,
-            v_active_14 => 348, v_active_24 => 648, v_active_34 => 948
+            v_total => 1249, v_sync => 2, v_start => 48, v_end => 1248
         )
     );
-    constant v          : video_timing_type := video_timings(5);        -- select 1600x1200
+    constant v          : video_timing_type := video_timings(5);        -- select 1920 x 1080
 
     -- cut timing path for reset_n in pixel clock domain
     signal synced_reset             : std_ulogic_vector(1 downto 0);
@@ -95,7 +90,7 @@ architecture rtl of vpg is
     attribute altera_attribute of synced_reset : signal is "-name SDC_STATEMENT ""set_false_path " &
                                                            "-from [get_registers *reset_n*] " &
                                                            "-to [get_registers *synced_reset[*]*];""";
-    signal reset                    : std_logic;
+    signal reset                    : std_ulogic;
 
 begin
     reset <= not reset_n;
