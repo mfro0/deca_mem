@@ -97,6 +97,7 @@ begin
             index <= config_data'low;
             state <= STATE0;
             i2c_ena <= '0';
+            configured <= '0';
         elsif rising_edge(clk) then
             if index <= config_data'high then
                 case state is
@@ -114,6 +115,7 @@ begin
                         end if;
                     
                     when STATE2 =>
+                        -- write next command before busy deasserts!
                         i2c_data_wr <= std_ulogic_vector(config_data(index).val);
                         if not i2c_busy then
                             state <= STATE3;
@@ -215,15 +217,16 @@ begin
                     when S2 =>
                         -- wait until i2c_busy becomes active
                         if i2c_busy then
+                            v_i2c_rw <= '1';                  -- read
                             config_verify_state <= S3;
                         end if;
                         
                     when S3 =>
                         -- wait until i2c_busy becomes inactive again (to read the data)
                         if not i2c_busy then
-                            v_i2c_rw <= '1';                  -- read
                             i2c_read_data <= i2c_data_rd;
                             config_verify_state <= S4;
+                            v_i2c_ena <= '0';               -- end command
                         end if;
                     
                     when S4 => 

@@ -45,9 +45,6 @@ architecture rtl of vga_generator is
            vs_end,
            vr_start,
            vr_end       : std_logic;
-    signal v_act_14,
-           v_act_24,
-           v_act_34     : std_logic;
     signal border       : std_logic;
 
     type colour_mode_type is (RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, YELLOW_GRADIENT, CYAN_GRADIENT, MAGENTA_GRADIENT, GRAY_GRADIENT);
@@ -116,7 +113,7 @@ begin
             v_count <= 0;
             vga_vs <= '1';
             v_act <= '0';
-            colour_mode <= BLUE_GRADIENT;
+            colour_mode <= RED_GRADIENT;
         elsif rising_edge(clk) then
             if h_max then
                 v_act_d <= v_act;
