@@ -63,12 +63,14 @@ derive_clock_uncertainty
 # Set False Path
 #**************************************************************
 
+# we do not care if this multiplication takes a little longer than a single clock cycle ...
+set_false_path -from hdmi_tx:i_hdmi_tx|vpg:i_video_pattern_generator|vga_generator:i_vga_generator|lpm_divide:Div1|* \
+               -to hdmi_tx:i_hdmi_tx|vpg:i_video_pattern_generator|vga_generator:i_vga_generator|colour_mode.*
 
 
 #**************************************************************
 # Set Multicycle Path
 #**************************************************************
-
 
 
 #**************************************************************
