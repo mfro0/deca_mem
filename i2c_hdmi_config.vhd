@@ -188,7 +188,7 @@ begin
         signal i2c_read_data            : std_ulogic_vector(7 downto 0);
         signal i2c_read_data_valid      : std_ulogic;
         
-        type config_verify_state_type is (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11);
+        type config_verify_state_type is (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9);
         signal config_verify_state      : config_verify_state_type := S0;
         signal index                    : natural range 0 to 255 := 0;
         signal i2c_data_string          : string(1 to 80);
@@ -229,51 +229,42 @@ begin
                             v_i2c_ena <= '0';               -- end command
                         end if;
                     
-                    when S4 => 
-                        if not terminal_busy then
-                            i2c_data_string(1 to 8) <= to_hstring(index);
-                            i2c_data_string(9 to 12) <= " = " & character'val(0);
-                            i2c_read_data_valid <= '1';
+                    when S4 =>
+                        if i2c_busy then                    -- wait for busy
                             config_verify_state <= S5;
                         end if;
                         
                     when S5 =>
-                        
-                        if terminal_busy then
+                        if not i2c_busy then                -- and end busy
                             config_verify_state <= S6;
-                            i2c_read_data_valid <= '0';
                         end if;
                         
                     when S6 =>
+                        i2c_data_string(1 to 26) <= to_hstring(index) &
+                                                   " => " &
+                                                   "reg(" & to_hstring(config_data(index).reg) & ") = " & to_hstring(i2c_read_data) & character'val(10) & character'val(0);
                         if not terminal_busy then
-                            i2c_data_string <= (others => ' ');
+                            i2c_read_data_valid <= '1';
                             config_verify_state <= S7;
                         end if;
-                        
-                    when S7 => 
-                        i2c_data_string(1 to 4) <= to_hstring(i2c_read_data) & character'val(10) & character'val(0);
-                        i2c_read_data_valid <= '1';
-                        config_verify_state <= S8;
+                                                
+                    when S7 =>
+                        i2c_read_data_valid <= '0';
+                        if not terminal_busy then
+                            config_verify_state <= S8;
+                        end if;
                         
                     when S8 =>
-                        if terminal_busy then
+                        if i2c_ack_err then 
+                            config_verify_state <= S0;
+                        end if;
+                        
+                        if not terminal_busy then
+                            index <= index + 1;
                             config_verify_state <= S9;
-                            i2c_read_data_valid <= '0';
                         end if;
                         
                     when S9 =>
-                        if not terminal_busy then
-                            index <= index + 1;
-                            config_verify_state <= S11;
-                        end if;
-                        
-                    when S10 =>
-                        if i2c_busy then
-                            i2c_read_data_valid <= '0';
-                            config_verify_state <= S11;
-                        end if;
-                        
-                    when S11 =>
                         if not i2c_busy then
                             v_i2c_ena <= '0';
                             if index <= config_data'high then
