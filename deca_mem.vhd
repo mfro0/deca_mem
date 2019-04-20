@@ -346,7 +346,7 @@ begin
             button_out_n        => i2c_verify_button
         );
 
-        /*
+    /*
     i_cpu : entity work.simple_m68k
         port map
         (
