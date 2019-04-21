@@ -67,6 +67,9 @@ derive_clock_uncertainty
 set_false_path -from hdmi_tx:i_hdmi_tx|vpg:i_video_pattern_generator|vga_generator:i_vga_generator|lpm_divide:Div1|* \
                -to hdmi_tx:i_hdmi_tx|vpg:i_video_pattern_generator|vga_generator:i_vga_generator|colour_mode.*
 
+# HDMI audio not critical               
+set_false_path -from deca_reset:i_reset_circuit|reset_n \
+               -to hdmi_audio:i_hdmi_audio|*               
 
 #**************************************************************
 # Set Multicycle Path
