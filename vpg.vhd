@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library altera_mf;
+use altera_mf.all;
+
 entity vpg is
     port
     (
@@ -131,4 +134,63 @@ begin
             vga_g           => vpg_g,
             vga_b           => vpg_b
         );
+    
+    b_video_reconfig : block
+        signal reconfig_busy                : std_ulogic;
+        signal reconfig_counter_param       : std_ulogic_vector(2 downto 0);
+        signal reconfig_counter_type        : std_ulogic_vector(3 downto 0);
+        signal reconfig_data                : std_ulogic_vector(8 downto 0);
+        signal reconfig_data_out            : std_ulogic_vector(8 downto 0);
+        signal reconfig_pll_areset          : std_ulogic;
+        signal reconfig_pll_areset_in       : std_ulogic;
+        signal reconfig_pll_configupdate    : std_ulogic;
+        signal reconfig_pll_scanaclr        : std_ulogic;
+        signal reconfig_pll_scanclk         : std_ulogic;
+        signal reconfig_pll_scanclkena      : std_ulogic;
+        signal reconfig_pll_scandata        : std_ulogic;
+        signal reconfig_pll_scandataout     : std_ulogic;
+        signal reconfig_pll_scandone        : std_ulogic;
+        signal reconfig_pll_scanread        : std_ulogic;
+        signal reconfig_pll_scanwrite       : std_ulogic;
+        signal reconfig_read_param          : std_ulogic;
+        signal reconfig                     : std_ulogic;
+        signal reset                        : std_ulogic;
+    begin
+        i_video_reconfig : component altera_mf_components.altpll_reconfig
+            generic map
+            (
+                null
+            )   
+            port map
+            (
+                clock               => clk_50,
+                busy                => reconfig_busy,
+                counter_param       => std_logic_vector(reconfig_counter_param),
+                counter_type        => std_logic_vector(reconfig_counter_type),
+                data_in             => std_logic_vector(reconfig_data),
+                std_ulogic_vector(data_out)            => reconfig_data_out,
+                pll_areset          => reconfig_pll_areset,
+                pll_areset_in       => reconfig_pll_areset_in,
+                pll_configupdate    => reconfig_pll_configupdate,
+                pll_scanaclr        => reconfig_pll_scanaclr,
+                pll_scanclk         => reconfig_pll_scanclk,
+                pll_scanclkena      => reconfig_pll_scanclkena,
+                pll_scandata        => reconfig_pll_scandata,
+                pll_scandataout     => reconfig_pll_scandataout,
+                pll_scandone        => reconfig_pll_scandone,
+                pll_scanread        => reconfig_pll_scanread,
+                pll_scanwrite       => reconfig_pll_scanwrite,
+                read_param          => reconfig_read_param,
+                reconfig            => reconfig,
+                reset               => reset,
+                reset_rom_address   => open,
+                rom_address_out     => open,
+                rom_data_in         => open,
+                write_from_rom      => open,
+                write_param         => open,
+                write_rom_ena       => open
+            );
+        -- now connect our pll reconfig entity to the relevant signals 
+    end block b_video_reconfig;
+    
 end architecture rtl;

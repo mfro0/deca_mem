@@ -43,9 +43,19 @@ ENTITY video_pll IS
 	PORT
 	(
 		areset		: IN STD_LOGIC  := '0';
+		configupdate		: IN STD_LOGIC  := '0';
 		inclk0		: IN STD_LOGIC  := '0';
+		phasecounterselect		: IN STD_LOGIC_VECTOR (2 DOWNTO 0) :=  (OTHERS => '0');
+		phasestep		: IN STD_LOGIC  := '0';
+		phaseupdown		: IN STD_LOGIC  := '0';
+		scanclk		: IN STD_LOGIC  := '1';
+		scanclkena		: IN STD_LOGIC  := '0';
+		scandata		: IN STD_LOGIC  := '0';
 		c0		: OUT STD_LOGIC ;
-		locked		: OUT STD_LOGIC 
+		locked		: OUT STD_LOGIC ;
+		phasedone		: OUT STD_LOGIC ;
+		scandataout		: OUT STD_LOGIC ;
+		scandone		: OUT STD_LOGIC 
 	);
 END video_pll;
 
@@ -56,9 +66,12 @@ ARCHITECTURE SYN OF video_pll IS
 	SIGNAL sub_wire1	: STD_LOGIC ;
 	SIGNAL sub_wire2	: STD_LOGIC ;
 	SIGNAL sub_wire3	: STD_LOGIC ;
-	SIGNAL sub_wire4	: STD_LOGIC_VECTOR (1 DOWNTO 0);
-	SIGNAL sub_wire5_bv	: BIT_VECTOR (0 DOWNTO 0);
-	SIGNAL sub_wire5	: STD_LOGIC_VECTOR (0 DOWNTO 0);
+	SIGNAL sub_wire4	: STD_LOGIC ;
+	SIGNAL sub_wire5	: STD_LOGIC ;
+	SIGNAL sub_wire6	: STD_LOGIC ;
+	SIGNAL sub_wire7	: STD_LOGIC_VECTOR (1 DOWNTO 0);
+	SIGNAL sub_wire8_bv	: BIT_VECTOR (0 DOWNTO 0);
+	SIGNAL sub_wire8	: STD_LOGIC_VECTOR (0 DOWNTO 0);
 
 
 
@@ -118,24 +131,41 @@ ARCHITECTURE SYN OF video_pll IS
 		port_extclk2		: STRING;
 		port_extclk3		: STRING;
 		self_reset_on_loss_lock		: STRING;
-		width_clock		: NATURAL
+		vco_frequency_control		: STRING;
+		vco_phase_shift_step		: NATURAL;
+		width_clock		: NATURAL;
+		width_phasecounterselect		: NATURAL;
+		scan_chain_mif_file		: STRING
 	);
 	PORT (
 			areset	: IN STD_LOGIC ;
+			configupdate	: IN STD_LOGIC ;
 			inclk	: IN STD_LOGIC_VECTOR (1 DOWNTO 0);
+			phasecounterselect	: IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+			phasestep	: IN STD_LOGIC ;
+			phaseupdown	: IN STD_LOGIC ;
+			scanclk	: IN STD_LOGIC ;
+			scanclkena	: IN STD_LOGIC ;
+			scandata	: IN STD_LOGIC ;
 			clk	: OUT STD_LOGIC_VECTOR (4 DOWNTO 0);
-			locked	: OUT STD_LOGIC 
+			locked	: OUT STD_LOGIC ;
+			phasedone	: OUT STD_LOGIC ;
+			scandataout	: OUT STD_LOGIC ;
+			scandone	: OUT STD_LOGIC 
 	);
 	END COMPONENT;
 
 BEGIN
-	sub_wire5_bv(0 DOWNTO 0) <= "0";
-	sub_wire5    <= To_stdlogicvector(sub_wire5_bv);
+	sub_wire8_bv(0 DOWNTO 0) <= "0";
+	sub_wire8    <= To_stdlogicvector(sub_wire8_bv);
 	sub_wire1    <= sub_wire0(0);
 	c0    <= sub_wire1;
 	locked    <= sub_wire2;
-	sub_wire3    <= inclk0;
-	sub_wire4    <= sub_wire5(0 DOWNTO 0) & sub_wire3;
+	phasedone    <= sub_wire3;
+	scandataout    <= sub_wire4;
+	scandone    <= sub_wire5;
+	sub_wire6    <= inclk0;
+	sub_wire7    <= sub_wire8(0 DOWNTO 0) & sub_wire6;
 
 	altpll_component : altpll
 	GENERIC MAP (
@@ -157,23 +187,23 @@ BEGIN
 		port_clkbad1 => "PORT_UNUSED",
 		port_clkloss => "PORT_UNUSED",
 		port_clkswitch => "PORT_UNUSED",
-		port_configupdate => "PORT_UNUSED",
+		port_configupdate => "PORT_USED",
 		port_fbin => "PORT_UNUSED",
 		port_inclk0 => "PORT_USED",
 		port_inclk1 => "PORT_UNUSED",
 		port_locked => "PORT_USED",
 		port_pfdena => "PORT_UNUSED",
-		port_phasecounterselect => "PORT_UNUSED",
-		port_phasedone => "PORT_UNUSED",
-		port_phasestep => "PORT_UNUSED",
-		port_phaseupdown => "PORT_UNUSED",
+		port_phasecounterselect => "PORT_USED",
+		port_phasedone => "PORT_USED",
+		port_phasestep => "PORT_USED",
+		port_phaseupdown => "PORT_USED",
 		port_pllena => "PORT_UNUSED",
 		port_scanaclr => "PORT_UNUSED",
-		port_scanclk => "PORT_UNUSED",
-		port_scanclkena => "PORT_UNUSED",
-		port_scandata => "PORT_UNUSED",
-		port_scandataout => "PORT_UNUSED",
-		port_scandone => "PORT_UNUSED",
+		port_scanclk => "PORT_USED",
+		port_scanclkena => "PORT_USED",
+		port_scandata => "PORT_USED",
+		port_scandataout => "PORT_USED",
+		port_scandone => "PORT_USED",
 		port_scanread => "PORT_UNUSED",
 		port_scanwrite => "PORT_UNUSED",
 		port_clk0 => "PORT_USED",
@@ -193,13 +223,27 @@ BEGIN
 		port_extclk2 => "PORT_UNUSED",
 		port_extclk3 => "PORT_UNUSED",
 		self_reset_on_loss_lock => "OFF",
-		width_clock => 5
+		vco_frequency_control => "MANUAL_PHASE",
+		vco_phase_shift_step => 1,
+		width_clock => 5,
+		width_phasecounterselect => 3,
+		scan_chain_mif_file => "video_pll.mif"
 	)
 	PORT MAP (
 		areset => areset,
-		inclk => sub_wire4,
+		configupdate => configupdate,
+		inclk => sub_wire7,
+		phasecounterselect => phasecounterselect,
+		phasestep => phasestep,
+		phaseupdown => phaseupdown,
+		scanclk => scanclk,
+		scanclkena => scanclkena,
+		scandata => scandata,
 		clk => sub_wire0,
-		locked => sub_wire2
+		locked => sub_wire2,
+		phasedone => sub_wire3,
+		scandataout => sub_wire4,
+		scandone => sub_wire5
 	);
 
 
@@ -248,6 +292,8 @@ END SYN;
 -- Retrieval info: PRIVATE: LVDS_MODE_DATA_RATE STRING "Not Available"
 -- Retrieval info: PRIVATE: LVDS_MODE_DATA_RATE_DIRTY NUMERIC "0"
 -- Retrieval info: PRIVATE: LVDS_PHASE_SHIFT_UNIT0 STRING "deg"
+-- Retrieval info: PRIVATE: MANUAL_PHASE_SHIFT_STEP_EDIT STRING "1.00000000"
+-- Retrieval info: PRIVATE: MANUAL_PHASE_SHIFT_STEP_UNIT STRING "ps"
 -- Retrieval info: PRIVATE: MIG_DEVICE_SPEED_GRADE STRING "Any"
 -- Retrieval info: PRIVATE: MIRROR_CLK0 STRING "0"
 -- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "95"
@@ -256,9 +302,9 @@ END SYN;
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "1"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT0 STRING "MHz"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_FEATURE_ENABLED STRING "1"
--- Retrieval info: PRIVATE: PHASE_RECONFIG_INPUTS_CHECK STRING "0"
+-- Retrieval info: PRIVATE: PHASE_RECONFIG_INPUTS_CHECK STRING "1"
 -- Retrieval info: PRIVATE: PHASE_SHIFT0 STRING "0.00000000"
--- Retrieval info: PRIVATE: PHASE_SHIFT_STEP_ENABLED_CHECK STRING "0"
+-- Retrieval info: PRIVATE: PHASE_SHIFT_STEP_ENABLED_CHECK STRING "1"
 -- Retrieval info: PRIVATE: PHASE_SHIFT_UNIT0 STRING "deg"
 -- Retrieval info: PRIVATE: PLL_ADVANCED_PARAM_CHECK STRING "0"
 -- Retrieval info: PRIVATE: PLL_ARESET_CHECK STRING "1"
@@ -271,7 +317,7 @@ END SYN;
 -- Retrieval info: PRIVATE: PLL_TARGET_HARCOPY_CHECK NUMERIC "0"
 -- Retrieval info: PRIVATE: PRIMARY_CLK_COMBO STRING "inclk0"
 -- Retrieval info: PRIVATE: RECONFIG_FILE STRING "video_pll.mif"
--- Retrieval info: PRIVATE: SACN_INPUTS_CHECK STRING "0"
+-- Retrieval info: PRIVATE: SACN_INPUTS_CHECK STRING "1"
 -- Retrieval info: PRIVATE: SCAN_FEATURE_ENABLED STRING "1"
 -- Retrieval info: PRIVATE: SELF_RESET_LOCK_LOSS STRING "0"
 -- Retrieval info: PRIVATE: SHORT_SCAN_RADIO STRING "0"
@@ -311,23 +357,23 @@ END SYN;
 -- Retrieval info: CONSTANT: PORT_CLKBAD1 STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_CLKLOSS STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_CLKSWITCH STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_CONFIGUPDATE STRING "PORT_UNUSED"
+-- Retrieval info: CONSTANT: PORT_CONFIGUPDATE STRING "PORT_USED"
 -- Retrieval info: CONSTANT: PORT_FBIN STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_INCLK0 STRING "PORT_USED"
 -- Retrieval info: CONSTANT: PORT_INCLK1 STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_LOCKED STRING "PORT_USED"
 -- Retrieval info: CONSTANT: PORT_PFDENA STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_PHASECOUNTERSELECT STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_PHASEDONE STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_PHASESTEP STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_PHASEUPDOWN STRING "PORT_UNUSED"
+-- Retrieval info: CONSTANT: PORT_PHASECOUNTERSELECT STRING "PORT_USED"
+-- Retrieval info: CONSTANT: PORT_PHASEDONE STRING "PORT_USED"
+-- Retrieval info: CONSTANT: PORT_PHASESTEP STRING "PORT_USED"
+-- Retrieval info: CONSTANT: PORT_PHASEUPDOWN STRING "PORT_USED"
 -- Retrieval info: CONSTANT: PORT_PLLENA STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_SCANACLR STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_SCANCLK STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_SCANCLKENA STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_SCANDATA STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_SCANDATAOUT STRING "PORT_UNUSED"
--- Retrieval info: CONSTANT: PORT_SCANDONE STRING "PORT_UNUSED"
+-- Retrieval info: CONSTANT: PORT_SCANCLK STRING "PORT_USED"
+-- Retrieval info: CONSTANT: PORT_SCANCLKENA STRING "PORT_USED"
+-- Retrieval info: CONSTANT: PORT_SCANDATA STRING "PORT_USED"
+-- Retrieval info: CONSTANT: PORT_SCANDATAOUT STRING "PORT_USED"
+-- Retrieval info: CONSTANT: PORT_SCANDONE STRING "PORT_USED"
 -- Retrieval info: CONSTANT: PORT_SCANREAD STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_SCANWRITE STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_clk0 STRING "PORT_USED"
@@ -347,23 +393,48 @@ END SYN;
 -- Retrieval info: CONSTANT: PORT_extclk2 STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_extclk3 STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: SELF_RESET_ON_LOSS_LOCK STRING "OFF"
+-- Retrieval info: CONSTANT: VCO_FREQUENCY_CONTROL STRING "MANUAL_PHASE"
+-- Retrieval info: CONSTANT: VCO_PHASE_SHIFT_STEP NUMERIC "1"
 -- Retrieval info: CONSTANT: WIDTH_CLOCK NUMERIC "5"
+-- Retrieval info: CONSTANT: WIDTH_PHASECOUNTERSELECT NUMERIC "3"
+-- Retrieval info: CONSTANT: scan_chain_mif_file STRING "video_pll.mif"
 -- Retrieval info: USED_PORT: @clk 0 0 5 0 OUTPUT_CLK_EXT VCC "@clk[4..0]"
 -- Retrieval info: USED_PORT: @inclk 0 0 2 0 INPUT_CLK_EXT VCC "@inclk[1..0]"
 -- Retrieval info: USED_PORT: areset 0 0 0 0 INPUT GND "areset"
 -- Retrieval info: USED_PORT: c0 0 0 0 0 OUTPUT_CLK_EXT VCC "c0"
+-- Retrieval info: USED_PORT: configupdate 0 0 0 0 INPUT GND "configupdate"
 -- Retrieval info: USED_PORT: inclk0 0 0 0 0 INPUT_CLK_EXT GND "inclk0"
 -- Retrieval info: USED_PORT: locked 0 0 0 0 OUTPUT GND "locked"
+-- Retrieval info: USED_PORT: phasecounterselect 0 0 3 0 INPUT GND "phasecounterselect[2..0]"
+-- Retrieval info: USED_PORT: phasedone 0 0 0 0 OUTPUT GND "phasedone"
+-- Retrieval info: USED_PORT: phasestep 0 0 0 0 INPUT GND "phasestep"
+-- Retrieval info: USED_PORT: phaseupdown 0 0 0 0 INPUT GND "phaseupdown"
+-- Retrieval info: USED_PORT: scanclk 0 0 0 0 INPUT_CLK_EXT VCC "scanclk"
+-- Retrieval info: USED_PORT: scanclkena 0 0 0 0 INPUT GND "scanclkena"
+-- Retrieval info: USED_PORT: scandata 0 0 0 0 INPUT GND "scandata"
+-- Retrieval info: USED_PORT: scandataout 0 0 0 0 OUTPUT VCC "scandataout"
+-- Retrieval info: USED_PORT: scandone 0 0 0 0 OUTPUT VCC "scandone"
 -- Retrieval info: CONNECT: @areset 0 0 0 0 areset 0 0 0 0
+-- Retrieval info: CONNECT: @configupdate 0 0 0 0 configupdate 0 0 0 0
 -- Retrieval info: CONNECT: @inclk 0 0 1 1 GND 0 0 0 0
 -- Retrieval info: CONNECT: @inclk 0 0 1 0 inclk0 0 0 0 0
+-- Retrieval info: CONNECT: @phasecounterselect 0 0 3 0 phasecounterselect 0 0 3 0
+-- Retrieval info: CONNECT: @phasestep 0 0 0 0 phasestep 0 0 0 0
+-- Retrieval info: CONNECT: @phaseupdown 0 0 0 0 phaseupdown 0 0 0 0
+-- Retrieval info: CONNECT: @scanclk 0 0 0 0 scanclk 0 0 0 0
+-- Retrieval info: CONNECT: @scanclkena 0 0 0 0 scanclkena 0 0 0 0
+-- Retrieval info: CONNECT: @scandata 0 0 0 0 scandata 0 0 0 0
 -- Retrieval info: CONNECT: c0 0 0 0 0 @clk 0 0 1 0
 -- Retrieval info: CONNECT: locked 0 0 0 0 @locked 0 0 0 0
+-- Retrieval info: CONNECT: phasedone 0 0 0 0 @phasedone 0 0 0 0
+-- Retrieval info: CONNECT: scandataout 0 0 0 0 @scandataout 0 0 0 0
+-- Retrieval info: CONNECT: scandone 0 0 0 0 @scandone 0 0 0 0
 -- Retrieval info: GEN_FILE: TYPE_NORMAL video_pll.vhd TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL video_pll.ppf TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL video_pll.inc FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL video_pll.cmp FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL video_pll.bsf FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL video_pll_inst.vhd FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL video_pll.mif TRUE
 -- Retrieval info: LIB_FILE: altera_mf
 -- Retrieval info: CBX_MODULE_PREFIX: ON
