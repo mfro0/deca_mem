@@ -94,4 +94,4 @@ package body utils is
     begin
         return to_hstring(std_ulogic_vector(value));
     end function to_hstring;
-end package body jtag_utils;
+end package body utils;
