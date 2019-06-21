@@ -945,9 +945,9 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
 # end ENTITY(deca_mem)
 # --------------------
+set_global_assignment -name VHDL_FILE utils.vhd
 set_global_assignment -name TCL_SCRIPT_FILE precmd.tcl
 set_global_assignment -name SDC_FILE deca_mem.sdc
-set_global_assignment -name VHDL_FILE jtag_utils.vhd
 set_global_assignment -name VHDL_FILE jtag_string_display.vhd
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_top.vhd -library m68k
 set_global_assignment -name VHDL_FILE m68030/wf68k30l_pkg.vhd -library m68k
