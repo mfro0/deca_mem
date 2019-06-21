@@ -1,3 +1,0 @@
-v 4
-file / "/home/opt/altera/13.1/quartus/eda/sim_lib/altera_lnsim_components.vhd" "c1f66cedfc82f9e9528bcacf49bc962db25bfd97" "20190413192752.927":
-  package altera_lnsim_components at 24( 1357) + 0 on 12;
