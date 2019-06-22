@@ -169,10 +169,10 @@ BEGIN
 
 	altpll_component : altpll
 	GENERIC MAP (
-		bandwidth_type => "AUTO",
-		clk0_divide_by => 25,
+		bandwidth_type => "LOW",
+		clk0_divide_by => 70,
 		clk0_duty_cycle => 50,
-		clk0_multiply_by => 81,
+		clk0_multiply_by => 227,
 		clk0_phase_shift => "0",
 		compensate_clock => "CLK0",
 		inclk0_input_frequency => 20000,
@@ -258,8 +258,8 @@ END SYN;
 -- Retrieval info: PRIVATE: BANDWIDTH_FEATURE_ENABLED STRING "1"
 -- Retrieval info: PRIVATE: BANDWIDTH_FREQ_UNIT STRING "MHz"
 -- Retrieval info: PRIVATE: BANDWIDTH_PRESET STRING "Low"
--- Retrieval info: PRIVATE: BANDWIDTH_USE_AUTO STRING "1"
--- Retrieval info: PRIVATE: BANDWIDTH_USE_PRESET STRING "0"
+-- Retrieval info: PRIVATE: BANDWIDTH_USE_AUTO STRING "0"
+-- Retrieval info: PRIVATE: BANDWIDTH_USE_PRESET STRING "1"
 -- Retrieval info: PRIVATE: CLKBAD_SWITCHOVER_CHECK STRING "0"
 -- Retrieval info: PRIVATE: CLKLOSS_CHECK STRING "0"
 -- Retrieval info: PRIVATE: CLKSWITCH_CHECK STRING "0"
@@ -269,9 +269,9 @@ END SYN;
 -- Retrieval info: PRIVATE: CUR_DEDICATED_CLK STRING "c0"
 -- Retrieval info: PRIVATE: CUR_FBIN_CLK STRING "c0"
 -- Retrieval info: PRIVATE: DEVICE_SPEED_GRADE STRING "Any"
--- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "32"
+-- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "70"
 -- Retrieval info: PRIVATE: DUTY_CYCLE0 STRING "50.00000000"
--- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "162.000000"
+-- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "162.142853"
 -- Retrieval info: PRIVATE: EXPLICIT_SWITCHOVER_COUNTER STRING "0"
 -- Retrieval info: PRIVATE: EXT_FEEDBACK_RADIO STRING "0"
 -- Retrieval info: PRIVATE: GLOCKED_COUNTER_EDIT_CHANGED STRING "1"
@@ -296,10 +296,10 @@ END SYN;
 -- Retrieval info: PRIVATE: MANUAL_PHASE_SHIFT_STEP_UNIT STRING "ps"
 -- Retrieval info: PRIVATE: MIG_DEVICE_SPEED_GRADE STRING "Any"
 -- Retrieval info: PRIVATE: MIRROR_CLK0 STRING "0"
--- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "95"
+-- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "227"
 -- Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "1"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "162.00000000"
--- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "1"
+-- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "0"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT0 STRING "MHz"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_FEATURE_ENABLED STRING "1"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_INPUTS_CHECK STRING "1"
@@ -340,10 +340,10 @@ END SYN;
 -- Retrieval info: PRIVATE: USE_MIL_SPEED_GRADE NUMERIC "0"
 -- Retrieval info: PRIVATE: ZERO_DELAY_RADIO STRING "0"
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
--- Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
--- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "25"
+-- Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "LOW"
+-- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "70"
 -- Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
--- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "81"
+-- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "227"
 -- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "0"
 -- Retrieval info: CONSTANT: COMPENSATE_CLOCK STRING "CLK0"
 -- Retrieval info: CONSTANT: INCLK0_INPUT_FREQUENCY NUMERIC "20000"
