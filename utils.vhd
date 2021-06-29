@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use ieee.math_real.log2;
 use ieee.math_real.ceil;
 
-package jtag_utils is
+package utils is
     function to_string(value : std_ulogic_vector) return string;
     function to_string(value : natural) return string;
     function to_string(value : unsigned) return string;
@@ -12,10 +12,10 @@ package jtag_utils is
     function to_hstring(value  : std_ulogic_vector) return string;
     function to_hstring(value : natural) return string;
     function to_hstring(value : unsigned) return string;
-end package jtag_utils;
+end package utils;
 
 
-package body jtag_utils is
+package body utils is
     function to_string(value : std_ulogic_vector) return string is
         constant RESULT_LENGTH  : natural := (value'length + 2) / 3;
         variable result         : string(1 to RESULT_LENGTH);
@@ -94,4 +94,4 @@ package body jtag_utils is
     begin
         return to_hstring(std_ulogic_vector(value));
     end function to_hstring;
-end package body jtag_utils;
+end package body utils;

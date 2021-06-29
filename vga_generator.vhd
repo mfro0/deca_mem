@@ -138,7 +138,7 @@ begin
             end if;
 
             -- set colour mode     
-            colour_mode <= colour_mode_type'val(v_count / (v_total / (colour_mode_type'pos(colour_mode'high) + 1)));
+            colour_mode <= colour_mode_type'val(v_count / (v_total / (colour_mode_type'pos(colour_mode_type'high) + 1)));
         end if;
     end process p_vert;
 
