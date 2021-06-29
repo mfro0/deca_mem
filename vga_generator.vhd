@@ -47,7 +47,7 @@ architecture rtl of vga_generator is
            vr_end       : std_logic;
     signal border       : std_logic;
 
-    type colour_mode_type is (RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, YELLOW_GRADIENT, CYAN_GRADIENT, MAGENTA_GRADIENT, GRAY_GRADIENT);
+    type colour_mode_type is (GRAY_GRADIENT, RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, YELLOW_GRADIENT, CYAN_GRADIENT, MAGENTA_GRADIENT);
     signal colour_mode   : colour_mode_type;
 
 

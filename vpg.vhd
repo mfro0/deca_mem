@@ -69,20 +69,18 @@ architecture rtl of vpg is
             h_total => 2199, h_sync => 43, h_start => 189, h_end => 2109,
             v_total => 1124, v_sync => 4, v_start => 40, v_end => 1120
         ),
-        /*
         (
             -- 1920x1080p60 148.5MHZ
             h_total => 2199, h_sync => 88, h_start => 191, h_end => 2109,
             v_total => 1124, v_sync => 4, v_start => 45, v_end => 1120
         ),
-        */
         (
             -- 1600x1200p60 162MHZ (VESA)
             h_total => 2159, h_sync => 191, h_start => 493, h_end => 2093,
             v_total => 1249, v_sync => 2, v_start => 48, v_end => 1248
         )
     );
-    constant v          : video_timing_type := video_timings(5);        -- select 1920 x 1080
+    constant v          : video_timing_type := video_timings(4);        -- select 1920 x 1080
 
     -- cut timing path for reset_n in pixel clock domain
     signal synced_reset             : std_ulogic_vector(1 downto 0);

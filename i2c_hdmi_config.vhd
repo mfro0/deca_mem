@@ -201,8 +201,9 @@ begin
                 case config_verify_state is
                 
                     when S0 =>
-                        -- caller wants us to start verification process
+                        
                         if verify_start then
+                            -- caller wants us to start verification process
                             config_verify_state <= S1;
                         end if;
                         
