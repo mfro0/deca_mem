@@ -18,6 +18,7 @@ entity i2c_hdmi_config is
         i2c_sclk            : inout std_logic;
         i2c_sdat            : inout std_logic;
         hdmi_tx_int         : in std_ulogic;
+        configured          : out std_ulogic;
         
         -- debug
         ack_error           : out std_ulogic;
@@ -86,7 +87,6 @@ architecture rtl of i2c_hdmi_config is
 
     type config_setup_type is (STATE0, STATE1, STATE2, STATE3, STATE4);
     signal state                : config_setup_type := STATE0;
-    signal configured           : std_ulogic := '0';
     signal my_reset_n           : std_logic;
 begin
     my_reset_n <= reset_n and reset_button_n;

@@ -103,7 +103,7 @@ begin
             areset          => reset,
             c0              => vpg_pclk
         );
-    vpg_pclk_out <= not vpg_pclk;
+    vpg_pclk_out <= not vpg_pclk;               -- FIXME: no idea why this is?
 
     -- synchronize reset signal into pixel clk domain
     p_sync_reset : process
