@@ -7,7 +7,7 @@ SRCS=simple_asm.S \
      puts.c
 
 CFLAGS=-Wall -Os -fomit-frame-pointer -nostdlib -ffreestanding -nostartfiles
-LDFLAGS=-Wl,-T simple.lk
+LDFLAGS=-Wl,-bbinary -Wl,-T simple.lk
 
 all: simple_asm.o puts.o
 	$(CC) $(LDFLAGS) $(CFLAGS) -Osrec -o simple.srec $^
@@ -15,7 +15,7 @@ all: simple_asm.o puts.o
 
 .PHONY: clean
 clean:
-	- rm -f *.o simple.out simple.elf
+	- rm -f *.o simple.out simple.bin
     
 dump:
 	$(OBJDUMP) -bbinary --architecture=m68k:68020 -D simple.bin
