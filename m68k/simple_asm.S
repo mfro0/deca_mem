@@ -12,7 +12,7 @@ _start:         .long   initialstack
 
 initialpc:
 loop:           lea     hello_world,%sp
-                bsr     puts
+                bsr     _puts
                 bra.s   loop
 
 
