@@ -7,15 +7,15 @@ library m68k;
 entity simple_m68k is
     port
     (
-        clk                     : in std_logic;
-        reset_n                 : in std_logic;
+        clk                     : in std_ulogic;
+        reset_n                 : in std_ulogic;
         
-        uart_out_ready          : in std_logic;
-        uart_out_data           : out std_logic_vector(7 downto 0);
-        uart_out_start          : out std_logic;
+        uart_out_ready          : in std_ulogic;
+        uart_out_data           : out std_ulogic_vector(7 downto 0);
+        uart_out_start          : out std_ulogic;
         
         uart_in_data_available  : in std_logic;
-        uart_in_data            : in std_logic_vector(7 downto 0)
+        uart_in_data            : in std_ulogic_vector(7 downto 0)
     );
 end entity simple_m68k;
 

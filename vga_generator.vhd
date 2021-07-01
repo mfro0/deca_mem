@@ -113,7 +113,7 @@ begin
             v_count <= 0;
             vga_vs <= '1';
             v_act <= '0';
-            colour_mode <= RED_GRADIENT;
+            colour_mode <= GRAY_GRADIENT;
         elsif rising_edge(clk) then
             if h_max then
                 v_act_d <= v_act;
@@ -137,7 +137,7 @@ begin
                 end if;
             end if;
 
-            -- set colour mode     
+            -- set next colour mode     
             colour_mode <= colour_mode_type'val(v_count / (v_total / (colour_mode_type'pos(colour_mode_type'high) + 1)));
         end if;
     end process p_vert;
@@ -145,27 +145,38 @@ begin
     -- pattern generator and display enable
     p_pattern : process(all)
         variable p_x    : std_ulogic_vector(7 downto 0);
+        variable shift  : integer range 0 to 2047;
+        variable fc     : integer range 0 to 511;
     begin
         if not reset_n then
             vga_de <= '0';
             pre_vga_de <= '0';
             border <= '0';
+            shift := 0;
+            fc := 0;
         elsif rising_edge(clk) then
             vga_de <= pre_vga_de;
             pre_vga_de <= v_act and h_act;
-
+            
             if (not h_act_d and h_act) or hr_end or
                (not v_act_d and v_act) or vr_end then
                 border <= '1';
             else
                 border <= '0';
             end if;
+            if vr_end then
+                fc := fc + 1;
+                if fc = 127 then
+                    fc := 0;
+                    shift := shift + 1; -- shift pattern every 512 frames
+                end if;
+            end if;
             if border then
                 vga_r <= x"ff";
                 vga_g <= x"ff";
                 vga_b <= x"ff";
             else
-                p_x := std_ulogic_vector(to_unsigned(pixel_x, 8));
+                p_x := std_ulogic_vector(to_unsigned(pixel_x + shift, 8));
                 
                 case colour_mode is
                     when RED_GRADIENT =>

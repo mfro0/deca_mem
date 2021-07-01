@@ -376,22 +376,29 @@ begin
             );
     end block b_video_fifo;
 
-    /*
-    i_cpu : entity work.simple_m68k
-        port map
-        (
-            clk                 => MAX10_CLK1_50,
-            reset_n             => reset_n,
-
-            uart_out_ready      => uart_out_ready,
-            uart_out_data       => uart_out_data,
-            uart_out_start      => uart_out_start,
-
-            uart_in_data_available  => uart_in_data_available,
-            uart_in_data        => uart_in_data
-        );
-    */
-
+    b_cpu : block
+        signal uart_out_ready       : std_ulogic;
+        signal uart_out_data        : std_ulogic_vector(7 downto 0);
+        signal uart_out_start       : std_ulogic;
+        
+        signal uart_in_data_available   : std_ulogic;
+        signal uart_in_data             : std_ulogic_vector(7 downto 0);
+    begin
+        i_cpu : entity work.simple_m68k
+            port map
+            (
+                clk                 => MAX10_CLK1_50,
+                reset_n             => reset_n,
+    
+                uart_out_ready      => uart_out_ready,
+                uart_out_data       => uart_out_data,
+                uart_out_start      => uart_out_start,
+    
+                uart_in_data_available  => uart_in_data_available,
+                uart_in_data        => uart_in_data
+            );
+    end block b_cpu;
+    
     i2c_verify_start <= not i2c_verify_button;
 
     LED(0) <= button_reset_n;
