@@ -7,33 +7,33 @@ entity deca_mem is
     port
     (
         -- clocks
-        ADC_CLK_10          : in std_logic;
-        MAX10_CLK1_50       : in std_logic;
-        MAX10_CLK2_50       : in std_logic;
+        ADC_CLK_10          : in std_ulogic;
+        MAX10_CLK1_50       : in std_ulogic;
+        MAX10_CLK2_50       : in std_ulogic;
 
         -- keys
-        KEY                 : in std_logic_vector(1 downto 0);
+        KEY                 : in std_ulogic_vector(1 downto 0);
 
         -- LEDs
-        LED                 : out std_logic_vector(7 downto 0);
+        LED                 : out std_ulogic_vector(7 downto 0);
 
         -- CapSense button
-        CAP_SENSE_I2C_SCL   : inout std_logic;
-        CAP_SENSE_I2C_SDA   : inout std_logic;
+        CAP_SENSE_I2C_SCL   : inout std_ulogic;
+        CAP_SENSE_I2C_SDA   : inout std_ulogic;
 
         -- Audio
-        AUDIO_BCLK          : inout std_logic;
-        AUDIO_DIN_MFP1      : out std_logic;
-        AUDIO_DOUT_MFP2     : in std_logic;
-        AUDIO_GPIO_MFP5     : inout std_logic;
-        AUDIO_MCLK          : out std_logic;
-        AUDIO_MISO_MFP4     : in std_logic;
-        AUDIO_RESET_n       : in std_logic;
-        AUDIO_SCL_SS_n      : out std_logic;
-        AUDIO_SCLK_MFP3     : out std_logic;
-        AUDIO_SDA_MOSI      : inout std_logic;
-        AUDIO_SPI_SELECT    : out std_logic;
-        AUDIO_WCLK          : inout std_logic;
+        AUDIO_BCLK          : inout std_ulogic;
+        AUDIO_DIN_MFP1      : out std_ulogic;
+        AUDIO_DOUT_MFP2     : in std_ulogic;
+        AUDIO_GPIO_MFP5     : inout std_ulogic;
+        AUDIO_MCLK          : out std_ulogic;
+        AUDIO_MISO_MFP4     : in std_ulogic;
+        AUDIO_RESET_n       : in std_ulogic;
+        AUDIO_SCL_SS_n      : out std_ulogic;
+        AUDIO_SCLK_MFP3     : out std_ulogic;
+        AUDIO_SDA_MOSI      : inout std_ulogic;
+        AUDIO_SPI_SELECT    : out std_ulogic;
+        AUDIO_WCLK          : inout std_ulogic;
 
         -- SDRAM
         DDR3_A              : out std_ulogic_vector(14 downto 0);
@@ -60,20 +60,20 @@ entity deca_mem is
         FLASH_RESET_n       : out std_logic;
 
         -- G-Sensor
-        G_SENSOR_CS_n       : out std_logic;
-        G_SENSOR_INT1       : in std_logic;
-        G_SENSOR_INT2       : in std_logic;
-        G_SENSOR_SCLK       : inout std_logic;
-        G_SENSOR_SDI        : inout std_logic;
-        G_SENSOR_SDO        : inout std_logic;
+        G_SENSOR_CS_n       : out std_ulogic;
+        G_SENSOR_INT1       : in std_ulogic;
+        G_SENSOR_INT2       : in std_ulogic;
+        G_SENSOR_SCLK       : inout std_ulogic;
+        G_SENSOR_SDI        : inout std_ulogic;
+        G_SENSOR_SDO        : inout std_ulogic;
 
         -- HDMI TX
-        HDMI_I2C_SCL        : inout std_logic;
-        HDMI_I2C_SDA        : inout std_logic;
+        HDMI_I2C_SCL        : inout std_ulogic;
+        HDMI_I2C_SDA        : inout std_ulogic;
         HDMI_I2S            : inout std_logic_vector(3 downto 0);
-        HDMI_LRCLK          : inout std_logic;
-        HDMI_MCLK           : inout std_logic;
-        HDMI_SCLK           : inout std_logic;
+        HDMI_LRCLK          : inout std_ulogic;
+        HDMI_MCLK           : inout std_ulogic;
+        HDMI_SCLK           : inout std_ulogic;
         HDMI_TX_CLK         : out std_ulogic;
         HDMI_TX_D           : out std_ulogic_vector(23 downto 0);
         HDMI_TX_DE          : out std_ulogic;
