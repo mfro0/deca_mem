@@ -51,6 +51,8 @@ architecture rtl of vga_generator is
     type colour_mode_type is (GRAY_GRADIENT, RED_GRADIENT, GREEN_GRADIENT, BLUE_GRADIENT, YELLOW_GRADIENT, CYAN_GRADIENT, MAGENTA_GRADIENT);
     signal colour_mode   : colour_mode_type;
 
+    signal video_wrrq       : std_ulogic;
+
 
 begin
     h_max <= '1' when h_count = h_total else '0';
@@ -148,6 +150,9 @@ begin
         variable p_x    : std_ulogic_vector(7 downto 0);
         variable shift  : integer range 0 to 2047;
         variable fc     : integer range 0 to 127;
+        variable red,
+                 green,
+                 blue   : std_ulogic_vector(7 downto 0);
     begin
         if not reset_n then
             vga_de <= '0';
@@ -173,56 +178,59 @@ begin
                 end if;
             end if;
             if border then
-                vga_r <= x"ff";
-                vga_g <= x"ff";
-                vga_b <= x"ff";
+                red := x"ff";
+                green := x"ff";
+                blue := x"ff";
             else
                 p_x := std_ulogic_vector(to_unsigned(pixel_x + shift, 8));
                 
                 case colour_mode is
                     when RED_GRADIENT =>
-                        vga_r <= p_x;
-                        vga_g <= 8x"0";
-                        vga_b <= 8x"0";
+                        red := p_x;
+                        green := 8x"0";
+                        blue := 8x"0";
                         
                     when GREEN_GRADIENT =>
-                        vga_r <= 8x"0";
-                        vga_g <= p_x;
-                        vga_b <= 8x"0";
+                        red := 8x"0";
+                        green := p_x;
+                        blue := 8x"0";
 
                     when BLUE_GRADIENT =>
-                        vga_r <= 8x"0";
-                        vga_g <= 8x"0";
-                        vga_b <= p_x;
+                        red := 8x"0";
+                        green := 8x"0";
+                        blue := p_x;
                         
                     when YELLOW_GRADIENT =>
-                        vga_r <= p_x;
-                        vga_g <= p_x;
-                        vga_b <= 8x"0";
+                        red := p_x;
+                        green := p_x;
+                        blue := 8x"0";
                     
                     when CYAN_GRADIENT =>
-                        vga_r <= 8x"0";
-                        vga_g <= p_x;
-                        vga_b <= p_x;
+                        red := 8x"0";
+                        green := p_x;
+                        blue := p_x;
                     
                     when MAGENTA_GRADIENT =>
-                        vga_r <= p_x;
-                        vga_g <= 8x"0";
-                        vga_b <= p_x;
+                        red := p_x;
+                        green := 8x"0";
+                        blue := p_x;
                     
                     when GRAY_GRADIENT =>
-                        vga_r <= p_x;
-                        vga_g <= p_x;
-                        vga_b <= p_x;
+                        red := p_x;
+                        green := p_x;
+                        blue := p_x;
                 end case; 
             end if;
+            vga_r <= red;
+            vga_g <= green;
+            vga_b <= blue;
         end if;
     end process p_pattern;
     
     b_video_fifo : block
         signal video_fifo_aclr  : std_ulogic;
         signal video_rdrq       : std_ulogic;
-        signal video_wrclk      : std_ulogic;
+        signal video_wrrq       : std_ulogic;
         signal video_data       : std_ulogic_vector(23 downto 0);
         signal video_fifo_rdata : std_ulogic_vector(23 downto 0);
         signal video_fifo_empty : std_ulogic;
@@ -237,7 +245,7 @@ begin
                 rdclk               => pixel_clk,
                 rdreq               => video_rdrq,
                 wrclk               => clk,                 -- FIXME: is this supposed to be the afi_clk?
-                wrreq               => video_wrclk,
+                wrreq               => video_wrrq,
                 std_ulogic_vector(q)=> video_data,
                 rdempty             => video_fifo_empty,
                 wrfull              => video_fifo_full
