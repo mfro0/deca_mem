@@ -350,31 +350,6 @@ begin
             button_out_n        => i2c_verify_button
         );
 
-    b_video_fifo : block
-        signal video_fifo_aclr  : std_ulogic;
-        signal video_clk        : std_ulogic;
-        signal video_rdrq       : std_ulogic;
-        signal video_wrclk      : std_ulogic;
-        signal video_data       : std_ulogic_vector(23 downto 0);
-        signal video_fifo_rdata : std_ulogic_vector(23 downto 0);
-        signal video_fifo_empty : std_ulogic;
-        signal video_fifo_full  : std_ulogic;
-
-    begin
-        i_video_fifo : entity work.video_fifo
-            port map
-            (
-                aclr                => video_fifo_aclr,
-                data                => std_logic_vector(video_fifo_rdata),
-                rdclk               => video_clk,
-                rdreq               => video_rdrq,
-                wrclk               => afi_clk,
-                wrreq               => video_wrclk,
-                std_ulogic_vector(q)=> video_data,
-                rdempty             => video_fifo_empty,
-                wrfull              => video_fifo_full
-            );
-    end block b_video_fifo;
 
     b_cpu : block
         signal uart_out_ready       : std_ulogic;

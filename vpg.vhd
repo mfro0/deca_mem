@@ -115,7 +115,8 @@ begin
     i_vga_generator : entity work.vga_generator
         port map
         (
-            clk             => vpg_pclk,
+            clk             => clk_50,
+            pixel_clk       => vpg_pclk,
             reset_n         => synced_reset(1),
             h_total         => v.h_total,
             h_sync          => v.h_sync,

@@ -6,6 +6,7 @@ entity vga_generator is
     port
     (
         clk             : in std_ulogic;
+        pixel_clk       : in std_ulogic;
         reset_n         : in std_ulogic;
 
         h_total,
@@ -72,7 +73,7 @@ begin
             pixel_x <= 0;
             vga_hs <= '1';
             h_act <= '0';
-        elsif rising_edge(clk) then
+        elsif rising_edge(pixel_clk) then
             h_act_d <= h_act;
             if h_max then
                 h_count <= 0;
@@ -114,7 +115,7 @@ begin
             vga_vs <= '1';
             v_act <= '0';
             colour_mode <= GRAY_GRADIENT;
-        elsif rising_edge(clk) then
+        elsif rising_edge(pixel_clk) then
             if h_max then
                 v_act_d <= v_act;
 
@@ -146,7 +147,7 @@ begin
     p_pattern : process(all)
         variable p_x    : std_ulogic_vector(7 downto 0);
         variable shift  : integer range 0 to 2047;
-        variable fc     : integer range 0 to 511;
+        variable fc     : integer range 0 to 127;
     begin
         if not reset_n then
             vga_de <= '0';
@@ -154,7 +155,7 @@ begin
             border <= '0';
             shift := 0;
             fc := 0;
-        elsif rising_edge(clk) then
+        elsif rising_edge(pixel_clk) then
             vga_de <= pre_vga_de;
             pre_vga_de <= v_act and h_act;
             
@@ -168,7 +169,7 @@ begin
                 fc := fc + 1;
                 if fc = 127 then
                     fc := 0;
-                    shift := shift + 1; -- shift pattern every 512 frames
+                    shift := shift + 1; -- shift pattern every 96 frames
                 end if;
             end if;
             if border then
@@ -217,4 +218,42 @@ begin
             end if;
         end if;
     end process p_pattern;
+    
+    b_video_fifo : block
+        signal video_fifo_aclr  : std_ulogic;
+        signal video_rdrq       : std_ulogic;
+        signal video_wrclk      : std_ulogic;
+        signal video_data       : std_ulogic_vector(23 downto 0);
+        signal video_fifo_rdata : std_ulogic_vector(23 downto 0);
+        signal video_fifo_empty : std_ulogic;
+        signal video_fifo_full  : std_ulogic;
+
+    begin
+        i_video_fifo : entity work.video_fifo
+            port map
+            (
+                aclr                => video_fifo_aclr,
+                data                => std_logic_vector(video_fifo_rdata),
+                rdclk               => pixel_clk,
+                rdreq               => video_rdrq,
+                wrclk               => clk,                 -- FIXME: is this supposed to be the afi_clk?
+                wrreq               => video_wrclk,
+                std_ulogic_vector(q)=> video_data,
+                rdempty             => video_fifo_empty,
+                wrfull              => video_fifo_full
+            );
+            
+        p_video_out : process(all)
+        begin
+            if not reset_n then
+            elsif rising_edge(pixel_clk) then
+                -- no need to observe empty or rdempty as the FIFO isn't allowed to drain by definition
+                video_rdrq <= '1';
+                --vga_r <= video_data(23 downto 16);
+                --vga_b <= video_data(15 downto 8);
+                --vga_g <= video_data(7 downto 0);
+            end if;
+        end process p_video_out;
+    end block b_video_fifo;
+
 end architecture rtl;
