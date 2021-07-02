@@ -4,8 +4,8 @@
 # meant to be used with the PRE_FLOW_SCRIPT_FILE quartus assignment
 # that allows to evaluate a tcl script before analysis starts
 
-# set precmd_list { "embed_m68k.tcl" "make_datetime.tcl" }
-set precmd_list { "make_datetime.tcl" }
+set precmd_list { "embed_m68k.tcl" "make_datetime.tcl" }
+#set precmd_list { "make_datetime.tcl" }
 
 set script [info script]
 foreach item $precmd_list {
