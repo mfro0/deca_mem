@@ -188,7 +188,7 @@ parameter SEQ_BURST_COUNT_WIDTH = 1;
 // The DLL offset control width
 parameter DLL_OFFSET_CTRL_WIDTH = 6;
 
-parameter MEM_CLK_FREQ = 800.0;
+parameter MEM_CLK_FREQ = 300.0;
 parameter DELAY_BUFFER_MODE = "HIGH";
 parameter DQS_DELAY_CHAIN_PHASE_SETTING = 2;
 parameter DQS_PHASE_SHIFT = 9000;
@@ -199,7 +199,7 @@ parameter CALIB_REG_WIDTH = 8;
 
 
 parameter TB_PROTOCOL       = "DDR3";
-parameter TB_MEM_CLK_FREQ   = "800.0";
+parameter TB_MEM_CLK_FREQ   = "300.0";
 parameter TB_RATE           = "HALF";
 parameter TB_MEM_DQ_WIDTH   = "16";
 parameter TB_MEM_DQS_WIDTH  = "2";

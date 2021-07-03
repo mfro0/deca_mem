@@ -20,6 +20,7 @@ set adc_period [expr roundto(1000000.0 / 10000.0, 3)]
 create_clock -period $adc_period [get_ports ADC_CLK_10]
 create_clock -period $period [get_ports MAX10_CLK1_50]
 create_clock -period $period [get_ports MAX10_CLK2_50]
+create_clock -period $period [get_ports DDR3_CLK_50]
 
 #**************************************************************
 # Create Generated Clock

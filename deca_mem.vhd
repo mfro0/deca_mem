@@ -162,6 +162,7 @@ entity deca_mem is
 end entity deca_mem;
 
 architecture rtl of deca_mem is
+    signal clk                      : std_ulogic;
     signal reset_n                  : std_ulogic := '0';
     signal ddr3_pll_locked          : std_ulogic;
     signal ddr3_local_init_done     : std_ulogic;
@@ -206,12 +207,12 @@ begin
     i_blinker : entity work.blinker
         generic map
         (
-            CLK_FREQUENCY       => 50_000_000,
+            CLK_FREQUENCY       => 150_000_000,
             BLINKS_PER_SECOND   => 5
         )
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             reset_n             => reset_n,
             led                 => blinker
         );
@@ -223,7 +224,7 @@ begin
         )
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             reset_n             => reset_n,
             reset_button_n      => button_reset_n,
             lock_pll            => pll_locked
@@ -235,13 +236,14 @@ begin
             clk                 => MAX10_CLK1_50,
             reset_n             => reset_n,
             clk_1536k           => clk_1536k,
+            clk_150             => clk,
             locked              => pll_locked
         );
 
 	i_ddr3_memory : entity ddr3_mem.ddr3_mem
 		port map
 		(
-            pll_ref_clk         => MAX10_CLK1_50,
+            pll_ref_clk         => DDR3_CLK_50,
             global_reset_n      => reset_n,
             soft_reset_n        => reset_n,
             afi_clk             => afi_clk,
@@ -290,12 +292,12 @@ begin
     i_hdmi_tx : entity work.hdmi_tx
         generic map
         (
-            CLK_FREQUENCY       => 50_000_000,
+            CLK_FREQUENCY       => 150_000_000,
             I2C_FREQUENCY       =>    400_000
         )
         port map
         (
-            clk_50              => MAX10_CLK1_50,
+            clk_50              => clk,
             reset_n             => reset_n,
 
             hdmi_i2c_scl        => HDMI_I2C_SCL,
@@ -336,7 +338,7 @@ begin
     i_reset_button : entity work.sync_button
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             button              => KEY(0),
             button_out_n        => button_reset_n
         );
@@ -345,7 +347,7 @@ begin
     i_i2c_verify_button : entity work.sync_button
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             button              => KEY(1),
             button_out_n        => i2c_verify_button
         );
@@ -362,7 +364,7 @@ begin
         i_cpu : entity work.simple_m68k
             port map
             (
-                clk                 => MAX10_CLK1_50,
+                clk                 => clk,
                 reset_n             => reset_n,
     
                 uart_out_ready      => uart_out_ready,

@@ -52,17 +52,17 @@ parameter PLL_WRITE_CLK_DIV         = 1;
 parameter PLL_CAP0_CLK_DIV          = 1;
 parameter PLL_CAP1_CLK_DIV          = 1;
 
-parameter PLL_AFI_CLK_MULT          = 8;
-parameter PLL_MEM_CLK_MULT          = 16;
-parameter PLL_WRITE_CLK_MULT        = 16;
-parameter PLL_CAP0_CLK_MULT         = 16;
-parameter PLL_CAP1_CLK_MULT         = 16;
+parameter PLL_AFI_CLK_MULT          = 3;
+parameter PLL_MEM_CLK_MULT          = 6;
+parameter PLL_WRITE_CLK_MULT        = 6;
+parameter PLL_CAP0_CLK_MULT         = 6;
+parameter PLL_CAP1_CLK_MULT         = 6;
 
 parameter PLL_AFI_CLK_PHASE_PS      = "0";
 parameter PLL_MEM_CLK_PHASE_PS      = "0";
-parameter PLL_WRITE_CLK_PHASE_PS    = "937";
+parameter PLL_WRITE_CLK_PHASE_PS    = "2500";
 parameter PLL_CAP0_CLK_PHASE_PS     = "0";
-parameter PLL_CAP1_CLK_PHASE_PS     = "937";
+parameter PLL_CAP1_CLK_PHASE_PS     = "2500";
 
 // END PARAMETER SECTION
 // ******************************************************************************************************************************** 
