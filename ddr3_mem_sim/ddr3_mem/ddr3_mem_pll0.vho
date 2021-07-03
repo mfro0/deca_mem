@@ -1,10 +1,10 @@
 --IP Functional Simulation Model
---VERSION_BEGIN 18.1 cbx_mgl 2018:09:12:14:15:07:SJ cbx_simgen 2018:09:12:13:04:09:SJ  VERSION_END
+--VERSION_BEGIN 18.1 cbx_mgl 2019:04:11:18:00:57:SJ cbx_simgen 2019:04:11:16:03:28:SJ  VERSION_END
 
 
--- Copyright (C) 2018  Intel Corporation. All rights reserved.
+-- Copyright (C) 2019  Intel Corporation. All rights reserved.
 -- Your use of Intel Corporation's design tools, logic functions 
--- and other software and tools, and its AMPP partner logic 
+-- and other software and tools, and any partner logic 
 -- functions, and any output files from any of the foregoing 
 -- (including device programming or simulation files), and any 
 -- associated documentation or information are expressly subject 
@@ -14,7 +14,8 @@
 -- agreement, including, without limitation, that your use is for
 -- the sole purpose of programming logic devices manufactured by
 -- Intel and sold by Intel or its authorized distributors.  Please
--- refer to the applicable agreement for further details.
+-- refer to the applicable agreement for further details, at
+-- https://fpgasoftware.intel.com/eula.
 
 -- You may only use these simulation model output files for simulation
 -- purposes and expressly not for synthesis or any other purposes (in which
@@ -161,7 +162,7 @@
 		CLK0_COUNTER => "G0",
 		CLK0_DIVIDE_BY => 1,
 		CLK0_DUTY_CYCLE => 50,
-		CLK0_MULTIPLY_BY => 6,
+		CLK0_MULTIPLY_BY => 16,
 		CLK0_OUTPUT_FREQUENCY => 0,
 		CLK0_PHASE_SHIFT => "0",
 		CLK0_TIME_DELAY => "0",
@@ -170,16 +171,16 @@
 		CLK1_COUNTER => "G0",
 		CLK1_DIVIDE_BY => 1,
 		CLK1_DUTY_CYCLE => 50,
-		CLK1_MULTIPLY_BY => 6,
+		CLK1_MULTIPLY_BY => 16,
 		CLK1_OUTPUT_FREQUENCY => 0,
-		CLK1_PHASE_SHIFT => "2500",
+		CLK1_PHASE_SHIFT => "937",
 		CLK1_TIME_DELAY => "0",
 		CLK1_USE_EVEN_COUNTER_MODE => "OFF",
 		CLK1_USE_EVEN_COUNTER_VALUE => "OFF",
 		CLK2_COUNTER => "G0",
 		CLK2_DIVIDE_BY => 1,
 		CLK2_DUTY_CYCLE => 50,
-		CLK2_MULTIPLY_BY => 6,
+		CLK2_MULTIPLY_BY => 16,
 		CLK2_OUTPUT_FREQUENCY => 0,
 		CLK2_PHASE_SHIFT => "0",
 		CLK2_TIME_DELAY => "0",
@@ -188,15 +189,15 @@
 		CLK3_COUNTER => "G0",
 		CLK3_DIVIDE_BY => 1,
 		CLK3_DUTY_CYCLE => 50,
-		CLK3_MULTIPLY_BY => 6,
-		CLK3_PHASE_SHIFT => "2500",
+		CLK3_MULTIPLY_BY => 16,
+		CLK3_PHASE_SHIFT => "937",
 		CLK3_TIME_DELAY => "0",
 		CLK3_USE_EVEN_COUNTER_MODE => "OFF",
 		CLK3_USE_EVEN_COUNTER_VALUE => "OFF",
 		CLK4_COUNTER => "G0",
 		CLK4_DIVIDE_BY => 1,
 		CLK4_DUTY_CYCLE => 50,
-		CLK4_MULTIPLY_BY => 3,
+		CLK4_MULTIPLY_BY => 8,
 		CLK4_PHASE_SHIFT => "0",
 		CLK4_TIME_DELAY => "0",
 		CLK4_USE_EVEN_COUNTER_MODE => "OFF",

@@ -1,4 +1,4 @@
-# (C) 2001-2018 Intel Corporation. All rights reserved.
+# (C) 2001-2019 Intel Corporation. All rights reserved.
 # Your use of Intel Corporation's design tools, logic functions and other 
 # software and tools, and its AMPP partner logic functions, and any output 
 # files from any of the foregoing (including device programming or simulation 
@@ -33,7 +33,7 @@ package require ::quartus::ddr_timing_model
 ###################
 
 # Interface Clock Period
-set t(CK) 3.333
+set t(CK) 1.25
 
 # Reference Clock Period
 set t(refCK) 20.0
