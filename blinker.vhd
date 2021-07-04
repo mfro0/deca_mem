@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity blinker is
     generic
     (
-        CLK_FREQUENCY       : integer := 50000000;
+        CLK_FREQUENCY       : integer := 150_000_000;
         BLINKS_PER_SECOND   : integer := 2          -- blink every half second at 50 MHz clock
     );
     port

@@ -3,60 +3,50 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 -- v.2.0
 entity sdcard_controller is
-	port (
-		clock		: in  std_logic;
-		reset    : in  std_logic;
-		sck		: out std_logic 		:= '0';
-		cmd      : inout  std_logic   := '1';
-		dat0     : inout  std_logic   := '1';
-		dat1     : inout  std_logic  	:= '1';
-		dat2     : inout  std_logic   := '1';
-		dat3     : inout  std_logic 	:= '1';
-		ready		: out std_logic := '0';
-		read_addr : in std_logic_vector(31 downto 0);
-		read_enable : in std_logic;
-		data		: out std_logic_vector(7 downto 0) := (others => '0');
-		data_ready : out std_logic := '0';
-		debug_cmd_timeout : out std_logic := '0';
-		debug_data_timeout : out std_logic := '0';
-		debug_crc_error : out std_logic := '0';
-		debug_card_error : out std_logic := '0'
+	port
+    (
+		clock	            : in  std_ulogic;
+		reset               : in  std_ulogic;
+		sck		            : out std_ulogic 		:= '0';
+		cmd                 : inout  std_ulogic   := '1';
+		dat0                : inout  std_ulogic   := '1';
+		dat1                : inout  std_ulogic  	:= '1';
+		dat2                : inout  std_ulogic   := '1';
+		dat3                : inout  std_ulogic 	:= '1';
+		ready		        : out std_ulogic := '0';
+		read_addr           : in std_ulogic_vector(31 downto 0);
+		read_enable         : in std_ulogic;
+		data		        : out std_ulogic_vector(7 downto 0) := (others => '0');
+		data_ready          : out std_ulogic := '0';
+		debug_cmd_timeout   : out std_ulogic := '0';
+		debug_data_timeout  : out std_ulogic := '0';
+		debug_crc_error     : out std_ulogic := '0';
+		debug_card_error    : out std_ulogic := '0'
 	);
 end entity sdcard_controller;
 
 architecture rtl of sdcard_controller is
-
-	component crc7 is
-		port(
-			clk : in std_logic;
-			reset : in std_logic;
-			enable : in std_logic;
-			input : in std_logic;
-			crc : out std_logic_vector(6 downto 0)
-		);
-	end component crc7;
-	
---	signal crc_r_enable : std_logic := '0';
---	signal crc_r_reset : std_logic := '0';
---	signal crc_r_output : std_logic_vector(6 downto 0) := (others => '0');
---	signal crc_r_input : std_logic := '0';
+--	signal crc_r_enable : std_ulogic := '0';
+--	signal crc_r_reset : std_ulogic := '0';
+--	signal crc_r_output : std_ulogic_vector(6 downto 0) := (others => '0');
+--	signal crc_r_input : std_ulogic := '0';
 --	
---	signal crc_s_enable : std_logic := '0';
---	signal crc_s_reset : std_logic := '0';
---	signal crc_s_input : std_logic := '0';
---	signal crc_s_output : std_logic_vector(6 downto 0) := (others => '0');
+--	signal crc_s_enable : std_ulogic := '0';
+--	signal crc_s_reset : std_ulogic := '0';
+--	signal crc_s_input : std_ulogic := '0';
+--	signal crc_s_output : std_ulogic_vector(6 downto 0) := (others => '0');
 	
-	signal crc_enable : std_logic := '0';
-	signal crc_reset : std_logic := '0';
-	signal crc_input : std_logic := '0';
-	signal crc_output : std_logic_vector(6 downto 0) := (others => '0');
+	signal crc_enable : std_ulogic := '0';
+	signal crc_reset : std_ulogic := '0';
+	signal crc_input : std_ulogic := '0';
+	signal crc_output : std_ulogic_vector(6 downto 0) := (others => '0');
 
 	constant CLOCK_DIV_INIT : natural range 0 to 124 := 123; -- we assume clock is 100MHz and we want a card_clock of ~400KHz so we invert the card_clock signal every 125 clocks
 	signal clock_div_counter :natural range 0 to CLOCK_DIV_INIT := 0;
-	signal card_clock : std_logic := '0';
-	signal toggle_clock : std_logic := '0';
-	signal clockstate :std_logic_vector(1 downto 0) := (others => '0');
-	signal clock_enable : std_logic_vector(1 downto 0) := "00";
+	signal card_clock : std_ulogic := '0';
+	signal toggle_clock : std_ulogic := '0';
+	signal clockstate :std_ulogic_vector(1 downto 0) := (others => '0');
+	signal clock_enable : std_ulogic_vector(1 downto 0) := "00";
 	
 	type Tcontrollerstate is (card_inserted, card_initialization, card_ready, card_start_read_data, card_read_data, card_error);
 	signal controllerstate : Tcontrollerstate := card_inserted;
@@ -68,44 +58,46 @@ architecture rtl of sdcard_controller is
 	signal counter1 : natural range 0 to 255 := 0;
 	signal counter3 : natural range 0 to 65535 := 0;
 
-	constant CMD0 : std_logic_vector(39 downto 0)   := "01"&"000000"&"00000000"&"00000000"&"00000000"&"00000000";
-	constant CMD8 : std_logic_vector(39 downto 0)   := "01"&"001000"&"00000000"&"00000000"&"00000001"&"10101010";
-	constant RESP8 : std_logic_vector(47 downto 0)  := "00"&"001000"&"00000000"&"00000000"&"00000001"&"10101010"&"0001001"&"1";
-	constant CMD55 : std_logic_vector(39 downto 0)  := "01"&"110111"&"00000000"&"00000000"&"00000000"&"00000000";
-	constant RESP55 : std_logic_vector(7 downto 0)  := "00"&"110111";
-	constant CMD41 : std_logic_vector(39 downto 0)  := "01"&"101001"&"01000000"&"00010000"&"00000000"&"00000000";
-	constant CMD2 : std_logic_vector(39 downto 0)   := "01"&"000010"&"00000000"&"00000000"&"00000000"&"00000000";
-	constant CMD3 : std_logic_vector(39 downto 0)   := "01"&"000011"&"00000000"&"00000000"&"00000000"&"00000000";
-	constant CMD9 : std_logic_vector(7 downto 0)    := "01"&"001001";
-	constant CMD7 : std_logic_vector(7 downto 0)    := "01"&"000111";
-	constant CMD42 : std_logic_vector(7 downto 0)   := "01"&"101010";
-	constant CMD6 : std_logic_vector(7 downto 0)    := "01"&"000110";
-	constant CMD16 : std_logic_vector(39 downto 0)  := "01"&"010000"&"00000000"&"00000000"&"00000010"&"00000000";
-	constant CMD17 : std_logic_vector(7 downto 0)   := "01"&"010001";
+	constant CMD0 : std_ulogic_vector(39 downto 0)   := "01"&"000000"&"00000000"&"00000000"&"00000000"&"00000000";
+	constant CMD8 : std_ulogic_vector(39 downto 0)   := "01"&"001000"&"00000000"&"00000000"&"00000001"&"10101010";
+	constant RESP8 : std_ulogic_vector(47 downto 0)  := "00"&"001000"&"00000000"&"00000000"&"00000001"&"10101010"&"0001001"&"1";
+	constant CMD55 : std_ulogic_vector(39 downto 0)  := "01"&"110111"&"00000000"&"00000000"&"00000000"&"00000000";
+	constant RESP55 : std_ulogic_vector(7 downto 0)  := "00"&"110111";
+	constant CMD41 : std_ulogic_vector(39 downto 0)  := "01"&"101001"&"01000000"&"00010000"&"00000000"&"00000000";
+	constant CMD2 : std_ulogic_vector(39 downto 0)   := "01"&"000010"&"00000000"&"00000000"&"00000000"&"00000000";
+	constant CMD3 : std_ulogic_vector(39 downto 0)   := "01"&"000011"&"00000000"&"00000000"&"00000000"&"00000000";
+	constant CMD9 : std_ulogic_vector(7 downto 0)    := "01"&"001001";
+	constant CMD7 : std_ulogic_vector(7 downto 0)    := "01"&"000111";
+	constant CMD42 : std_ulogic_vector(7 downto 0)   := "01"&"101010";
+	constant CMD6 : std_ulogic_vector(7 downto 0)    := "01"&"000110";
+	constant CMD16 : std_ulogic_vector(39 downto 0)  := "01"&"010000"&"00000000"&"00000000"&"00000010"&"00000000";
+	constant CMD17 : std_ulogic_vector(7 downto 0)   := "01"&"010001";
 
-	type Tcardcommandstate is (card_command_idle, card_send_start, card_send_run, card_send_wait8, card_prep_response, card_await_response, card_get_response, card_get_response_long, card_response_error, card_command_finished);
-	signal cardcommandstate :Tcardcommandstate := card_command_idle;
+	type Tcardcommandstate is (CARD_COMMAND_IDLE, CARD_SEND_START, CARD_SEND_RUN, CARD_SEND_WAIT8,
+                               CARD_PREP_RESPONSE, CARD_AWAIT_RESPONSE, CARD_GET_RESPONSE,
+                               CARD_GET_RESPONSE_LONG, CARD_RESPONSE_ERROR, CARD_COMMAND_FINISHED);
+	signal cardcommandstate :Tcardcommandstate := CARD_COMMAND_IDLE;
 	
-	signal responsetype : std_logic_vector(1 downto 0) := "00";
-	signal sendcommand : std_logic := '0';
-	signal command : std_logic_vector(47 downto 0) := (others => '0');
-	signal nextcommand : std_logic_vector(47 downto 0) := (others => '0');
-	signal response : std_logic_vector(47 downto 0) := (others => '0');
-	signal responselong : std_logic_vector(135 downto 0) := (others => '0');
-	signal currentcommand : std_logic_vector(5 downto 0):= (others => '0');
+	signal responsetype : std_ulogic_vector(1 downto 0) := "00";
+	signal sendcommand : std_ulogic := '0';
+	signal command : std_ulogic_vector(47 downto 0) := (others => '0');
+	signal nextcommand : std_ulogic_vector(47 downto 0) := (others => '0');
+	signal response : std_ulogic_vector(47 downto 0) := (others => '0');
+	signal responselong : std_ulogic_vector(135 downto 0) := (others => '0');
+	signal currentcommand : std_ulogic_vector(5 downto 0):= (others => '0');
 	
 	type Tdatastate is (data_idle, data_await, data_timeout, data_readh, data_readl, data_avail, data_finished);
 	signal datastate : Tdatastate := data_idle;
 
-	signal data_byte : std_logic_vector(7 downto 0) := (others => '0');
-	signal data_hl : std_logic := '0';
+	signal data_byte : std_ulogic_vector(7 downto 0) := (others => '0');
+	signal data_hl : std_ulogic := '0';
 	
-	signal is_high_capacity : std_logic := '0';
-	signal rca :std_logic_vector(15 downto 0) := (others => '0');
+	signal is_high_capacity : std_ulogic := '0';
+	signal rca :std_ulogic_vector(15 downto 0) := (others => '0');
 -- at this point we fech CID from the card but we never use it....
-	signal cid :std_logic_vector(127 downto 0) := (others => '0');
+	signal cid :std_ulogic_vector(127 downto 0) := (others => '0');
 -- at this point we fech CSD from the card but we only need 1 or 2 bits of it...
-	signal csd :std_logic_vector(127 downto 0) := (others => '0');
+	signal csd :std_ulogic_vector(127 downto 0) := (others => '0');
 	
 begin
 -- sd card clock
@@ -129,13 +121,15 @@ begin
 --	);	
 
 -- CRC7 calculator for command and response
-	cmd_resp_crc7 : crc7 port map(
-		clk => clock,
-		reset => crc_reset,
-		enable => crc_enable,
-		input => crc_input,
-		crc => crc_output
-	);	
+	cmd_resp_crc7 : entity work.crc7
+        port map
+        (
+            clk     => clock,
+            reset   => crc_reset,
+            enable  => crc_enable,
+            input   => crc_input,
+            crc     => crc_output
+        );	
 	
 -- clock_proc	
 	clock_proc: process
@@ -194,7 +188,7 @@ begin
 			response <= (others => '0');
 			responselong <= (others => '0');
 			counter1 <= 0;
-			cardcommandstate <= card_command_idle;
+			cardcommandstate <= CARD_COMMAND_IDLE;
 			debug_cmd_timeout <= '0';
 			debug_crc_error <= '0';
 		else
@@ -202,7 +196,7 @@ begin
 --			crc_r_enable <= '0';
 			crc_enable <= '0';
 			case cardcommandstate is
-				when card_command_idle =>
+				when CARD_COMMAND_IDLE =>
 					if (sendcommand = '1') then
 						command <= nextcommand;
 						currentcommand <= nextcommand(45 downto 40);
@@ -213,19 +207,19 @@ begin
 --						crc_s_enable <= '1';
 						crc_input <= nextcommand(47);
 						crc_enable <= '1';
-						cardcommandstate <= card_send_start;
+						cardcommandstate <= CARD_SEND_START;
 					end if;
 					
-				when card_send_start =>
+				when CARD_SEND_START =>
 --					get second command bit into crc going						
 --					crc_s_input <= command(46);
 --					crc_s_enable <= '1';
 					crc_input <= command(46);
 					crc_enable <= '1';
 					counter1 <= 0;
-					cardcommandstate <= card_send_run;
+					cardcommandstate <= CARD_SEND_RUN;
 			
-				when card_send_run =>
+				when CARD_SEND_RUN =>
 --					when card_clock is low			
 					if (((clockstate = "10") and (clock_enable = "01")) or ((clockstate = "11") and (clock_enable = "10"))) then
 						cmd <= command(47);
@@ -247,33 +241,33 @@ begin
 						else
 							if (responsetype = "00") then
 								counter1 <= 0;
-								cardcommandstate <= card_send_wait8;
+								cardcommandstate <= CARD_SEND_WAIT8;
 							else
 --								crc_r_reset <= '0';
 								counter1 <= 0;
 								debug_cmd_timeout <= '0';
-								cardcommandstate <= card_prep_response;
+								cardcommandstate <= CARD_PREP_RESPONSE;
 							end if;
 						end if;
 					end if;
 --			wait 8 clocks before the next stage					
-				when card_send_wait8 =>
+				when CARD_SEND_WAIT8 =>
 					if (((clockstate = "10") and (clock_enable = "01")) or ((clockstate = "11") and (clock_enable = "10"))) then
 						if (counter1 < 7) then
 							counter1 <= counter1 + 1;
 						else
-							cardcommandstate <= card_command_finished;
+							cardcommandstate <= CARD_COMMAND_FINISHED;
 						end if;
 					end if;
 --			set cmd tri-state so we can read it in the next stage					
-				when card_prep_response =>
+				when CARD_PREP_RESPONSE =>
 					if (((clockstate = "10") and (clock_enable = "01")) or ((clockstate = "11") and (clock_enable = "10"))) then
 						crc_reset <= '1';
 						cmd <= 'Z';
-						cardcommandstate <= card_await_response;
+						cardcommandstate <= CARD_AWAIT_RESPONSE;
 					end if;
 --			check for startbit on cmd (low)					
-				when card_await_response =>
+				when CARD_AWAIT_RESPONSE =>
 --					when card_clock is low		
 					if (((clockstate = "10") and (clock_enable = "01")) or ((clockstate = "11") and (clock_enable = "10"))) then
 						if (cmd = '0') then
@@ -287,21 +281,21 @@ begin
 --								crc_r_enable <= '1';
 								crc_input <= '0';
 								crc_enable <= '1';
-								cardcommandstate <= card_get_response;
+								cardcommandstate <= CARD_GET_RESPONSE;
 							else
-								cardcommandstate <= card_get_response_long;
+								cardcommandstate <= CARD_GET_RESPONSE_LONG;
 							end if;
 						else
 							if (counter1 < 255) then
 								counter1 <= counter1 + 1;
 							else
 								debug_cmd_timeout <= '1';
-								cardcommandstate <= card_response_error;
+								cardcommandstate <= CARD_RESPONSE_ERROR;
 							end if;
 						end if;
 					end if;
 --			get the response bits of a normal response (48 bits)					
-				when card_get_response =>					
+				when CARD_GET_RESPONSE =>					
 --					when card_clock is low		
 					if (((clockstate = "10") and (clock_enable = "01")) or ((clockstate = "11") and (clock_enable = "10"))) then
 						response <= response(46 downto 0) & cmd;
@@ -318,14 +312,14 @@ begin
 --							if ((crc_r_output /= response(6 downto 0)) and (currentcommand /= "101001")) then
 							if ((crc_output /= response(6 downto 0)) and (currentcommand /= "101001")) then
 								debug_crc_error <= '1';
-								cardcommandstate <= card_response_error;
+								cardcommandstate <= CARD_RESPONSE_ERROR;
 							else
-								cardcommandstate <= card_command_finished;
+								cardcommandstate <= CARD_COMMAND_FINISHED;
 							end if;
 						end if;
 					end if;
 --			get the response bits of a long response (48 bits)					
-				when card_get_response_long =>
+				when CARD_GET_RESPONSE_LONG =>
 --					when card_clock is low			
 					if (((clockstate = "10") and (clock_enable = "01")) or ((clockstate = "11") and (clock_enable = "10"))) then
 						responselong <= responselong(134 downto 0) & cmd;
@@ -342,24 +336,24 @@ begin
 --							if ((crc_r_output /= responselong(6 downto 0)) and (currentcommand /= "101001")) then
 							if ((crc_output /= responselong(6 downto 0)) and (currentcommand /= "101001")) then
 								debug_crc_error <= '1';
-								cardcommandstate <= card_response_error;
+								cardcommandstate <= CARD_RESPONSE_ERROR;
 							else
-								cardcommandstate <= card_command_finished;
+								cardcommandstate <= CARD_COMMAND_FINISHED;
 							end if;
 						end if;
 					end if;
 -- 		we encountered an error during receiving the response				
-				when card_response_error =>
+				when CARD_RESPONSE_ERROR =>
 --			do nothing we need to be reset				
 					
-				when card_command_finished =>
+				when CARD_COMMAND_FINISHED =>
 --					crc_s_reset <= '1';
 --					crc_r_reset <= '1';
 					crc_reset <= '1';
-					cardcommandstate <= card_command_idle;
+					cardcommandstate <= CARD_COMMAND_IDLE;
 				
 				when others =>
-					cardcommandstate <= card_command_idle;
+					cardcommandstate <= CARD_COMMAND_IDLE;
 						
 			end case;
 		end if;
@@ -494,27 +488,27 @@ begin
 							
 						when card_init_sic =>
 --					send voltage range (3.3V)
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								responsetype <= "01";
 								nextcommand(47 downto 8) <= CMD8;
 								sendcommand <= '1';	
 								cardinitstate <= card_init_asc;							
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;
 --					send the next command is an Application Specific Command
 						when card_init_asc =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								responsetype <= "01";
 								nextcommand(47 downto 8) <= CMD55;
 								sendcommand <= '1';	
 								cardinitstate <= card_init_ini;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;
 --					send card enter init process
 						when card_init_ini =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if (response(47 downto 40) = RESP55) then
 									responsetype <= "01";
 									nextcommand(47 downto 8) <= CMD41;
@@ -523,12 +517,12 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;
 --					check if card is ready and request CID
 						when card_init_check_ready_cid =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if ((response(47 downto 39) = "001111111") and (response(7 downto 0) = "11111111")) then
 									is_high_capacity <= response(38);
 									if (response(28) = '1') then	-- card is ready
@@ -543,7 +537,7 @@ begin
 									counter0 <= 0;
 									cardinitstate <= card_init_wait8;
 								end if;	
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;							
 --					wait 8 clocks before we try next init run
@@ -560,7 +554,7 @@ begin
 							end if;
 --					get CID and send give me your Relative Card Address		
 						when card_init_cid_rca =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if (responselong(135 downto 128) = "00111111") then
 									cid <= responselong(127 downto 0);
 									responsetype <= "01";
@@ -570,12 +564,12 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;													
 --					get RCA and send give me CSD		
 						when card_init_rca_csd =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if ((response(47 downto 40) = "00000011") and (response(23 downto 21) = "000")) then
 									rca <= response(39 downto 24);
 									nextcommand(47 downto 40) <= CMD9; -- get CSD
@@ -586,12 +580,12 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;													
 --					get CSD and go to switch clock start	
 						when card_init_csd_switch_clock =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if (responselong(135 downto 128) = "00111111") then
 									csd <= responselong(127 downto 0);
 									if (responselong(127 downto 126) /= "01") then -- we only want csd structure version 2.0
@@ -603,7 +597,7 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;																			
 --					wait 80 clocks (I thought it might be a good idea to give the card some time before and after switching the clock speed) and switch clock to high speed	
@@ -632,7 +626,7 @@ begin
 							end if;						
 --					send the next command is an Application Specific Command + our previously received RCA					
 						when card_init_transfermode =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if ((response(47 downto 40) = "00000111") and (response(27) = '0')) then
 									responsetype <= "01";
 									nextcommand(47 downto 40) <= CMD55(39 downto 32); -- next command is an Application Specific Command
@@ -642,12 +636,12 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;																									
 --					send disable pullup on DAT3
 						when card_init_asc_with_rca =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if (response(47 downto 40) = RESP55) then
 									responsetype <= "01";
 									nextcommand(47 downto 40) <= CMD42; -- disable pullup on dat3
@@ -657,12 +651,12 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;																															
 --					send the next command is an Application Specific Command + our previously received RCA					
 						when card_init_disable_pullup =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if ((response(47 downto 40 ) = "00101010") and (response(27) = '0')) then
 									responsetype <= "01";
 									nextcommand(47 downto 40) <= CMD55(39 downto 32); -- next command is an Application Specific Command
@@ -672,12 +666,12 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;																																	
 --					send set bus width to 4 bit			
 						when card_init_buswidth =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if (response(47 downto 40) = RESP55) then
 									responsetype <= "01";
 									nextcommand(47 downto 40) <= CMD6; -- set bus width
@@ -687,12 +681,12 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;																														
 --					send set block length to 512 bytes				
 						when card_init_blocklength =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if ((response(47 downto 40 ) = "00000110") and (response(27) = '0')) then
 									responsetype <= "01";
 									nextcommand(47 downto 8) <= CMD16; -- set block length to 512 byte
@@ -701,18 +695,18 @@ begin
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 								controllerstate <= card_error;
 							end if;																											
 --					we are almost done...						
 						when card_init_finished =>
-							if (cardcommandstate = card_command_finished) then
+							if (cardcommandstate = CARD_COMMAND_FINISHED) then
 								if ((response(47 downto 40 ) = "00010000") and (response(27) = '0')) then
 									controllerstate <= card_ready;
 								else
 									controllerstate <= card_error;
 								end if;
-							elsif(cardcommandstate = card_response_error) then
+							elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 --								debug_response <= response;
 --								debug_response_ready <= '1';
 								controllerstate <= card_error;
@@ -739,13 +733,13 @@ begin
 					end if;
 				
 				when card_start_read_data =>
-					if (cardcommandstate = card_command_finished) then
+					if (cardcommandstate = CARD_COMMAND_FINISHED) then
 						if ((response(47 downto 40 ) = "00010001") and (response(27) = '0')) then
 							controllerstate <= card_read_data;
 						else
 							controllerstate <= card_error;
 						end if;
-					elsif(cardcommandstate = card_response_error) then
+					elsif(cardcommandstate = CARD_RESPONSE_ERROR) then
 --								debug_response <= response;
 --								debug_response_ready <= '1';
 						controllerstate <= card_error;

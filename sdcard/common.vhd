@@ -3,7 +3,6 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 package common is
-
 	constant UART_ACK : std_logic_vector(7 downto 0) := "00000110";
 	constant UART_NAK : std_logic_vector(7 downto 0) := "00010101";
 	constant UART_F : std_logic_vector(7 downto 0) := "01000110"; -- F
@@ -14,6 +13,4 @@ package common is
 	
 	constant CMD_PUTCHAR : std_logic_vector(2 downto 0) := "001";
 	constant CMD_FILLSCREEN : std_logic_vector(2 downto 0) := "010";
-	
-	
 end common;

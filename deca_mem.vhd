@@ -207,7 +207,7 @@ begin
     i_blinker : entity work.blinker
         generic map
         (
-            CLK_FREQUENCY       => 50_000_000,
+            CLK_FREQUENCY       => 150_000_000,
             BLINKS_PER_SECOND   => 5
         )
         port map
@@ -292,7 +292,7 @@ begin
     i_hdmi_tx : entity work.hdmi_tx
         generic map
         (
-            CLK_FREQUENCY       => 50_000_000,
+            CLK_FREQUENCY       => 150_000_000,
             I2C_FREQUENCY       =>    400_000
         )
         port map
@@ -322,8 +322,8 @@ begin
     i_hdmi_audio : entity work.hdmi_audio
         generic map
         (
-            clk_frequency       => 50_000_000,
-            sclk_frequency      => 50_000_000 / 16
+            clk_frequency       => 150_000_000,
+            sclk_frequency      => 150_000_000 / 16
         )
         port map
         (
