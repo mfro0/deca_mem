@@ -364,15 +364,15 @@ begin
         i_cpu : entity work.simple_m68k
             port map
             (
-                clk                 => clk,
-                reset_n             => reset_n,
+                clk                     => clk,
+                reset_n                 => reset_n,
     
-                uart_out_ready      => uart_out_ready,
-                uart_out_data       => uart_out_data,
-                uart_out_start      => uart_out_start,
+                uart_out_ready          => uart_out_ready,
+                uart_out_data           => uart_out_data,
+                uart_out_start          => uart_out_start,
     
                 uart_in_data_available  => uart_in_data_available,
-                uart_in_data        => uart_in_data
+                uart_in_data            => uart_in_data
             );
     end block b_cpu;
     
