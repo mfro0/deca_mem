@@ -207,12 +207,12 @@ begin
     i_blinker : entity work.blinker
         generic map
         (
-            CLK_FREQUENCY       => 150_000_000,
+            CLK_FREQUENCY       => 50_000_000,
             BLINKS_PER_SECOND   => 5
         )
         port map
         (
-            clk                 => clk,
+            clk                 => MAX10_CLK1_50,
             reset_n             => reset_n,
             led                 => blinker
         );
@@ -224,7 +224,7 @@ begin
         )
         port map
         (
-            clk                 => clk,
+            clk                 => MAX10_CLK1_50,
             reset_n             => reset_n,
             reset_button_n      => button_reset_n,
             lock_pll            => pll_locked
@@ -292,12 +292,12 @@ begin
     i_hdmi_tx : entity work.hdmi_tx
         generic map
         (
-            CLK_FREQUENCY       => 150_000_000,
+            CLK_FREQUENCY       => 50_000_000,
             I2C_FREQUENCY       =>    400_000
         )
         port map
         (
-            clk_50              => clk,
+            clk_50              => MAX10_CLK1_50,
             reset_n             => reset_n,
 
             hdmi_i2c_scl        => HDMI_I2C_SCL,
@@ -338,7 +338,7 @@ begin
     i_reset_button : entity work.sync_button
         port map
         (
-            clk                 => clk,
+            clk                 => MAX10_CLK1_50,
             button              => KEY(0),
             button_out_n        => button_reset_n
         );
@@ -347,7 +347,7 @@ begin
     i_i2c_verify_button : entity work.sync_button
         port map
         (
-            clk                 => clk,
+            clk                 => MAX10_CLK1_50,
             button              => KEY(1),
             button_out_n        => i2c_verify_button
         );
@@ -364,7 +364,7 @@ begin
         i_cpu : entity work.simple_m68k
             port map
             (
-                clk                     => clk,
+                clk                     => MAX10_CLK1_50,
                 reset_n                 => reset_n,
     
                 uart_out_ready          => uart_out_ready,
