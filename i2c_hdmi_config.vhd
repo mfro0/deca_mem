@@ -205,6 +205,7 @@ begin
                         if verify_start then
                             -- caller wants us to start verification process
                             config_verify_state <= S1;
+                            index <= 0;
                         end if;
                         
                     when S1 =>
@@ -226,7 +227,7 @@ begin
                         -- wait until i2c_busy becomes inactive again (to read the data)
                         if not i2c_busy then
                             i2c_read_data <= i2c_data_rd;
-                            config_verify_state <= S4;
+                            config_verify_state <= S6;
                             v_i2c_ena <= '0';               -- end command
                         end if;
                     
@@ -243,7 +244,8 @@ begin
                     when S6 =>
                         i2c_data_string(1 to 26) <= to_hstring(index) &
                                                    " => " &
-                                                   "reg(" & to_hstring(config_data(index).reg) & ") = " & to_hstring(i2c_read_data) & character'val(10) & character'val(0);
+                                                   "reg(" & to_hstring(config_data(index).reg) & ") = " & 
+                                                   to_hstring(i2c_read_data) & character'val(10) & character'val(0);
                         if not terminal_busy then
                             i2c_read_data_valid <= '1';
                             config_verify_state <= S7;
