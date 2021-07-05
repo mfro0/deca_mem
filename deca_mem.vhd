@@ -212,7 +212,7 @@ begin
         )
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             reset_n             => reset_n,
             led                 => blinker
         );
@@ -297,7 +297,7 @@ begin
         )
         port map
         (
-            clk_50              => MAX10_CLK1_50,
+            clk_50              => clk,
             reset_n             => reset_n,
 
             hdmi_i2c_scl        => HDMI_I2C_SCL,
@@ -323,7 +323,7 @@ begin
         generic map
         (
             clk_frequency       => 150_000_000,
-            sclk_frequency      => 150_000_000 / 16
+            sclk_frequency      => 44_100
         )
         port map
         (
@@ -338,7 +338,7 @@ begin
     i_reset_button : entity work.sync_button
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             button              => KEY(0),
             button_out_n        => button_reset_n
         );
@@ -347,7 +347,7 @@ begin
     i_i2c_verify_button : entity work.sync_button
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             button              => KEY(1),
             button_out_n        => i2c_verify_button
         );
@@ -364,7 +364,7 @@ begin
         i_cpu : entity work.simple_m68k
             port map
             (
-                clk                     => MAX10_CLK1_50,
+                clk                     => clk,
                 reset_n                 => reset_n,
     
                 uart_out_ready          => uart_out_ready,
