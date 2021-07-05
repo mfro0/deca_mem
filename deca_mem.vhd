@@ -224,7 +224,7 @@ begin
         )
         port map
         (
-            clk                 => MAX10_CLK1_50,
+            clk                 => clk,
             reset_n             => reset_n,
             reset_button_n      => button_reset_n,
             lock_pll            => pll_locked
