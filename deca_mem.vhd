@@ -70,7 +70,7 @@ entity deca_mem is
         -- HDMI TX
         HDMI_I2C_SCL        : inout std_ulogic;
         HDMI_I2C_SDA        : inout std_ulogic;
-        HDMI_I2S            : inout std_logic_vector(3 downto 0);
+        HDMI_I2S            : inout std_ulogic_vector(3 downto 0);
         HDMI_LRCLK          : inout std_ulogic;
         HDMI_MCLK           : inout std_ulogic;
         HDMI_SCLK           : inout std_ulogic;
@@ -251,21 +251,21 @@ begin
             afi_reset_n         => afi_reset_n,
             afi_reset_export_n  => afi_reset_export_n,
 
-            std_ulogic_vector(mem_a)               => DDR3_A,
-            std_ulogic_vector(mem_ba)              => DDR3_BA,
-            mem_ck(0)           => DDR3_CK_p,
-            mem_ck_n(0)         => DDR3_CK_n,
-            mem_cke(0)          => DDR3_CKE,
-            mem_cs_n(0)         => DDR3_CS_n,
-            std_ulogic_vector(mem_dm)              => DDR3_DM,
-            mem_ras_n(0)        => DDR3_RAS_n,
-            mem_cas_n(0)        => DDR3_CAS_n,
-            mem_we_n(0)         => DDR3_WE_n,
-            mem_reset_n         => DDR3_reset_n,
-            std_ulogic_vector(mem_dq)              => std_logic_vector(DDR3_DQ),
-            std_ulogic_vector(mem_dqs)             => std_logic_vector(DDR3_DQS_p),
-            std_ulogic_vector(mem_dqs_n)           => std_logic_vector(DDR3_DQS_n),
-            mem_odt(0)          => DDR3_ODT,
+            std_ulogic_vector(mem_a)        => DDR3_A,
+            std_ulogic_vector(mem_ba)       => DDR3_BA,
+            mem_ck(0)                       => DDR3_CK_p,
+            mem_ck_n(0)                     => DDR3_CK_n,
+            mem_cke(0)                      => DDR3_CKE,
+            mem_cs_n(0)                     => DDR3_CS_n,
+            std_ulogic_vector(mem_dm)       => DDR3_DM,
+            mem_ras_n(0)                    => DDR3_RAS_n,
+            mem_cas_n(0)                    => DDR3_CAS_n,
+            mem_we_n(0)                     => DDR3_WE_n,
+            mem_reset_n                     => DDR3_reset_n,
+            std_ulogic_vector(mem_dq)       => std_logic_vector(DDR3_DQ),
+            std_ulogic_vector(mem_dqs)      => std_logic_vector(DDR3_DQS_p),
+            std_ulogic_vector(mem_dqs_n)    => std_logic_vector(DDR3_DQS_n),
+            mem_odt(0)                      => DDR3_ODT,
 
             avl_ready           => avl_ready,
             avl_burstbegin      => avl_burstbegin,

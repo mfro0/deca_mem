@@ -5,17 +5,17 @@ use ieee.numeric_std.all;
 entity hdmi_audio is
     generic
     (
-        clk_frequency,
-        sclk_frequency  : natural
+        CLK_FREQUENCY,
+        SCLK_FREQUENCY  : natural
     );
     port
     (
-        clk             : in std_logic;
-        reset_n         : in std_logic;
+        clk             : in std_ulogic;
+        reset_n         : in std_ulogic;
         
         sclk,
-        lrclk           : out std_logic;
-        i2s             : out std_logic_vector(3 downto 0)
+        lrclk           : out std_ulogic;
+        i2s             : out std_ulogic_vector(3 downto 0)
     );
 end entity hdmi_audio;
 
@@ -34,7 +34,7 @@ architecture rtl of hdmi_audio is
 	signal bitcount,
            sclk_count,
            table_index          : integer;
-    signal lrclk_i              : std_logic;
+    signal lrclk_i              : std_ulogic;
     
 begin
     sclk <= clk;
@@ -46,7 +46,7 @@ begin
             lrclk_i <= '0';
             sclk_count <= 0;
         elsif falling_edge(clk) then
-            if sclk_count > clk_frequency / sclk_frequency - 1 then
+            if sclk_count > CLK_FREQUENCY / SCLK_FREQUENCY - 1 then
                 sclk_count <= 0;
                 lrclk_i <= not lrclk_i;
             else
