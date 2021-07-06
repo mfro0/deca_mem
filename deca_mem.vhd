@@ -204,6 +204,8 @@ architecture rtl of deca_mem is
     signal hdmi_configured          : std_ulogic := '0';
 
 begin
+    clk <= afi_clk;
+    
     i_blinker : entity work.blinker
         generic map
         (
@@ -236,7 +238,7 @@ begin
             clk                 => MAX10_CLK1_50,
             reset_n             => reset_n,
             clk_1536k           => clk_1536k,
-            clk_150             => clk,
+            clk_150             => open,
             locked              => pll_locked
         );
 
@@ -244,8 +246,8 @@ begin
 		port map
 		(
             pll_ref_clk         => DDR3_CLK_50,
-            global_reset_n      => reset_n,
-            soft_reset_n        => reset_n,
+            global_reset_n      => '1',
+            soft_reset_n        => '1',
             afi_clk             => afi_clk,
             afi_half_clk        => afi_half_clk,
             afi_reset_n         => afi_reset_n,

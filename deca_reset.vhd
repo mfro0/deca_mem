@@ -22,6 +22,7 @@ architecture rtl of deca_reset is
 begin
     p_reset_delay : process
     begin
+        reset_n <= '1';
         wait until rising_edge(clk);
         if counter /= 0 then
             counter <= counter - 1;
