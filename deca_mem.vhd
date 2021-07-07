@@ -238,7 +238,6 @@ begin
             clk                 => MAX10_CLK1_50,
             reset_n             => reset_n,
             clk_1536k           => clk_1536k,
-            clk_150             => open,
             locked              => pll_locked
         );
 
