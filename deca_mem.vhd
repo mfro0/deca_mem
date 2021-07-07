@@ -298,7 +298,7 @@ begin
         )
         port map
         (
-            clk_50              => clk,
+            clk                 => clk,
             reset_n             => reset_n,
 
             hdmi_i2c_scl        => HDMI_I2C_SCL,
