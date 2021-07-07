@@ -49,7 +49,7 @@ architecture rtl of i2c_hdmi_config is
     end record;
     
     type config_data_type is array(natural range <>) of register_type;
-    constant config_data       : config_data_type :=
+    constant config_data    : config_data_type :=
     (
         ( x"98", x"03" ),           -- must be set to 0x03 for proper operation
         ( x"01", x"00" ),           -- set 'n' value at 6144

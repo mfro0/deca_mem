@@ -9,7 +9,7 @@ entity hdmi_tx is
     );
     port
     (
-        clk_50              : in std_ulogic;
+        clk                 : in std_ulogic;
         reset_n             : in std_ulogic;
 
         -- HDMI chip config
@@ -46,7 +46,7 @@ begin
     i_video_pattern_generator : entity work.vpg
         port map
         (
-            clk_50                  => clk_50,
+            clk                     => clk,
             reset_n                 => reset_n,
 
             vpg_pclk_out            => hdmi_tx_clk,                 -- pixel clock
@@ -68,7 +68,7 @@ begin
         )
         port map
         (
-            clk                     => clk_50,
+            clk                     => clk,
             reset_n                 => reset_n,
 
             i2c_sclk                => hdmi_i2c_scl,

@@ -8,7 +8,7 @@ use altera_mf.all;
 entity vpg is
     port
     (
-        clk_50              : in std_ulogic;
+        clk                 : in std_ulogic;
         reset_n             : in std_ulogic;
 
         vpg_pclk_out        : out std_ulogic;
@@ -99,7 +99,7 @@ begin
     i_video_pll : entity work.video_pll
         port map
         (
-            inclk0          => clk_50,
+            inclk0          => clk,
             areset          => reset,
             c0              => vpg_pclk
         );
@@ -115,7 +115,7 @@ begin
     i_vga_generator : entity work.vga_generator
         port map
         (
-            clk             => clk_50,
+            clk             => clk,
             pixel_clk       => vpg_pclk,
             reset_n         => synced_reset(1),
             h_total         => v.h_total,
@@ -162,7 +162,7 @@ begin
             )   
             port map
             (
-                clock                       => clk_50,
+                clock                       => clk,
                 busy                        => reconfig_busy,
                 counter_param               => std_logic_vector(reconfig_counter_param),
                 counter_type                => std_logic_vector(reconfig_counter_type),
